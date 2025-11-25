@@ -31,6 +31,11 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   //for Choose your Rider
   TabController? tabController;
   LatLng center = const LatLng(41.4219057, -102.0840772);
+  var selectedDate = DateTime.now().obs;
+  var selectedTime = TimeOfDay.now().obs;
+
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
 
   final TextEditingController currentLocationController = TextEditingController();
   final TextEditingController departureController = TextEditingController();
@@ -351,11 +356,11 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     if (Constant.parcelActive.toString() == "yes") {
       tabController = TabController(length: 3, vsync: this);
     } else {
-      tabController = TabController(length: 2, vsync: this);
+      tabController = TabController(length: 4, vsync: this);
     }
     tabController?.addListener(() {
       if (tabController!.indexIsChanging) {
-        if (tabController?.index == 2) {
+        if (tabController?.index == 4) {
           Get.to(RentVehicleScreen())?.then((v) {
             tabController?.animateTo(0, duration: const Duration(milliseconds: 100));
           });

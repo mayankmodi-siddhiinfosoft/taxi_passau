@@ -129,11 +129,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             Get.to(const RouteViewScreen(), arguments: argumentData);
           }
         } else if (message.data['statut'] == "completed") {
-          Get.to(
-              TripHistoryScreen(
-                initialService: '',
-              ),
-              arguments: {"rideData": RideData.fromJson(message.data)});
+          Get.to(TripHistoryScreen(initialService: '',), arguments: {"rideData": RideData.fromJson(message.data)});
         }
       }
     });

@@ -215,7 +215,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 case 1:
                                                   dashboardController.selectedService.value = "Ride Booking";
                                                   break;
-                                                case 2:
+                                                  case 2:
+                                                  dashboardController.selectedService.value = "Schedule Ride";
+                                                  break;
+                                                case 3:
                                                   dashboardController.selectedService.value = "Parcel Service";
                                                   break;
                                               }
@@ -237,6 +240,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   height: 45,
                                                   fit: BoxFit.cover),
                                               text: 'Ride Booking'.tr,
+                                            ),Tab(
+                                              icon: SvgPicture.asset(
+                                                  'assets/icons/ic_booking_icon.svg',
+                                                  width: 45,
+                                                  height: 45,
+                                                  fit: BoxFit.cover),
+                                              text: 'Schedule Ride'.tr,
                                             ),
                                             // Tab(
                                             //   icon: SvgPicture.asset('assets/icons/ic_rental_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
@@ -1371,6 +1381,984 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ),
                                               ),
+                                              SizedBox(
+                                                child: SingleChildScrollView(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                      Constant.homeScreenType ==
+                                                          'OlaHome'
+                                                          ? 0
+                                                          : 16),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      const SizedBox(
+                                                          height: 20),
+                                                      Text(
+                                                        "Enter Destination".tr,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                          AppThemeData
+                                                              .semiBold,
+                                                          color: themeChange
+                                                              .getThem()
+                                                              ? AppThemeData
+                                                              .grey900Dark
+                                                              : AppThemeData
+                                                              .grey900,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 12),
+                                                      Column(
+                                                        children: [
+                                                          TextFieldWidget(
+                                                            onTap: () async {
+                                                              await Constant()
+                                                                  .placeSelectAPI(
+                                                                  context)
+                                                                  .then(
+                                                                      (value) {
+                                                                    if (value !=
+                                                                        null) {
+                                                                      controller
+                                                                          .departureController
+                                                                          .text =
+                                                                          value
+                                                                              .result
+                                                                              .formattedAddress
+                                                                              .toString();
+                                                                      controller.setDepartureMarker(LatLng(
+                                                                          value
+                                                                              .result
+                                                                              .geometry!
+                                                                              .location
+                                                                              .lat,
+                                                                          value
+                                                                              .result
+                                                                              .geometry!
+                                                                              .location
+                                                                              .lng));
+                                                                    }
+                                                                  });
+                                                            },
+                                                            isReadOnly: true,
+                                                            prefix: IconButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                LocationPermission
+                                                                permission =
+                                                                await Geolocator
+                                                                    .checkPermission();
+                                                                if (permission ==
+                                                                    LocationPermission
+                                                                        .denied ||
+                                                                    permission ==
+                                                                        LocationPermission
+                                                                            .deniedForever) {
+                                                                  permission =
+                                                                  await Geolocator
+                                                                      .requestPermission();
+                                                                }
+
+                                                                Position
+                                                                position =
+                                                                await Geolocator
+                                                                    .getCurrentPosition(
+                                                                  desiredAccuracy:
+                                                                  LocationAccuracy
+                                                                      .high,
+                                                                );
+
+                                                                List<Placemark>
+                                                                placemarks =
+                                                                await placemarkFromCoordinates(
+                                                                  position
+                                                                      .latitude,
+                                                                  position
+                                                                      .longitude,
+                                                                );
+                                                                Placemark
+                                                                place =
+                                                                    placemarks
+                                                                        .first;
+
+                                                                String address =
+                                                                    "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                controller
+                                                                    .departureController
+                                                                    .text = address;
+                                                                controller.setDepartureMarker(LatLng(
+                                                                    position
+                                                                        .latitude,
+                                                                    position
+                                                                        .longitude));
+                                                              },
+                                                              icon: SvgPicture
+                                                                  .asset(
+                                                                'assets/icons/ic_location.svg',
+                                                                colorFilter: ColorFilter.mode(
+                                                                    themeChange
+                                                                        .getThem()
+                                                                        ? AppThemeData
+                                                                        .grey500Dark
+                                                                        : AppThemeData
+                                                                        .grey300Dark,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                              ),
+                                                            ),
+                                                            controller: controller
+                                                                .departureController,
+                                                            hintText:
+                                                            'Pick Up Location'
+                                                                .tr,
+                                                            suffix: IconButton(
+                                                              onPressed: () {},
+                                                              icon: SvgPicture
+                                                                  .asset(
+                                                                'assets/icons/ic_right_arrow.svg',
+                                                                colorFilter: ColorFilter.mode(
+                                                                    themeChange
+                                                                        .getThem()
+                                                                        ? AppThemeData
+                                                                        .grey300Dark
+                                                                        : AppThemeData
+                                                                        .grey500Dark,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TextFieldWidget(
+                                                            onTap: () async {
+                                                              await Constant()
+                                                                  .placeSelectAPI(
+                                                                  context)
+                                                                  .then(
+                                                                      (value) {
+                                                                    if (value !=
+                                                                        null) {
+                                                                      controller
+                                                                          .destinationController
+                                                                          .text =
+                                                                          value
+                                                                              .result
+                                                                              .formattedAddress
+                                                                              .toString();
+                                                                      controller.setDestinationMarker(LatLng(
+                                                                          value
+                                                                              .result
+                                                                              .geometry!
+                                                                              .location
+                                                                              .lat,
+                                                                          value
+                                                                              .result
+                                                                              .geometry!
+                                                                              .location
+                                                                              .lng));
+                                                                    }
+                                                                  });
+                                                            },
+                                                            isReadOnly: true,
+                                                            prefix: IconButton(
+                                                              onPressed: () {},
+                                                              icon: SvgPicture
+                                                                  .asset(
+                                                                'assets/icons/ic_location.svg',
+                                                                colorFilter: ColorFilter.mode(
+                                                                    themeChange
+                                                                        .getThem()
+                                                                        ? AppThemeData
+                                                                        .grey500Dark
+                                                                        : AppThemeData
+                                                                        .grey300Dark,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                              ),
+                                                            ),
+                                                            controller: controller
+                                                                .destinationController,
+                                                            hintText:
+                                                            'Where you want to go?'
+                                                                .tr,
+                                                            suffix: IconButton(
+                                                              onPressed: () {},
+                                                              icon: SvgPicture
+                                                                  .asset(
+                                                                'assets/icons/ic_right_arrow.svg',
+                                                                colorFilter: ColorFilter.mode(
+                                                                    themeChange
+                                                                        .getThem()
+                                                                        ? AppThemeData
+                                                                        .grey300Dark
+                                                                        : AppThemeData
+                                                                        .grey500Dark,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TextFieldWidget(
+                                                            isReadOnly: true,
+                                                            controller: controller.dateController,
+                                                            hintText: "Select Date".tr,
+                                                            onTap: () async {
+                                                              DateTime? pickedDate = await showDatePicker(
+                                                                context: context,
+                                                                initialDate: DateTime.now(),
+                                                                firstDate: DateTime.now(),
+                                                                lastDate: DateTime.now().add(const Duration(days: 365)),
+                                                              );
+
+                                                              if (pickedDate != null) {
+                                                                controller.dateController.text =
+                                                                "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                                                                controller.selectedDate.value = pickedDate;
+                                                              }
+                                                            },
+                                                            prefix: const Icon(Icons.calendar_month),
+                                                          ),
+
+                                                          const SizedBox(height: 12),
+
+// TIME PICKER
+                                                          TextFieldWidget(
+                                                            isReadOnly: true,
+                                                            controller: controller.timeController,
+                                                            hintText: "Select Time".tr,
+                                                            onTap: () async {
+                                                              TimeOfDay? pickedTime = await showTimePicker(
+                                                                context: context,
+                                                                initialTime: TimeOfDay.now(),
+                                                              );
+
+                                                              if (pickedTime != null) {
+                                                                controller.timeController.text = pickedTime.format(context);
+                                                                controller.selectedTime.value = pickedTime;
+                                                              }
+                                                            },
+                                                            prefix: const Icon(Icons.access_time),
+                                                          ),
+                                                          ButtonThem
+                                                              .buildButton(
+                                                            context,
+                                                            title:
+                                                            'Search Destination'
+                                                                .tr,
+                                                            onPress: () async {
+                                                              FocusManager
+                                                                  .instance
+                                                                  .primaryFocus
+                                                                  ?.unfocus();
+                                                              log(controller
+                                                                  .departureLatLong
+                                                                  .value
+                                                                  .toString());
+                                                              if (controller
+                                                                  .departureLatLong
+                                                                  .value ==
+                                                                  LatLng(0.0,
+                                                                      0.0)) {
+                                                                ShowToastDialog
+                                                                    .showToast(
+                                                                    "Please Enter PickUp Adreess"
+                                                                        .tr);
+                                                              } else if (controller
+                                                                  .destinationLatLong
+                                                                  .value ==
+                                                                  LatLng(0.0,
+                                                                      0.0)) {
+                                                                ShowToastDialog
+                                                                    .showToast(
+                                                                    "Please Enter PickUp Adreess"
+                                                                        .tr);
+                                                              } else {
+                                                                await controller
+                                                                    .getDurationDistance(
+                                                                    controller
+                                                                        .departureLatLong
+                                                                        .value,
+                                                                    controller
+                                                                        .destinationLatLong
+                                                                        .value)
+                                                                    .then((
+                                                                    durationValue,
+                                                                    ) async {
+                                                                  if (durationValue !=
+                                                                      null) {
+                                                                    await controller
+                                                                        .getUserPendingPayment()
+                                                                        .then(
+                                                                            (value) async {
+                                                                          if (value !=
+                                                                              null) {
+                                                                            if (value['success'] ==
+                                                                                "success") {
+                                                                              if (value['data']['amount'] !=
+                                                                                  0) {
+                                                                                _pendingPaymentDialog(context);
+                                                                              } else {
+                                                                                if (Constant.distanceUnit ==
+                                                                                    "KM") {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                } else {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                }
+
+                                                                                controller.duration.value =
+                                                                                durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                // Get.back();
+                                                                                controller.confirmWidgetVisible.value =
+                                                                                false;
+                                                                                var dataMulti =
+                                                                                controller.multiStopListNew.where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty).toList();
+
+                                                                                controller.multiStopListNew =
+                                                                                    dataMulti;
+                                                                                controller.multiStopList =
+                                                                                    List.from(dataMulti);
+                                                                                setState(() {});
+
+                                                                                await controller.getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}').then((value) {
+                                                                                  if (value != null) {
+                                                                                    if (value.success == "Success") {
+                                                                                      if (value.data?.isNotEmpty == true) {
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride', driverData: value.data?.first,selectedDate: controller.selectedDate.value,selectedTime: controller.selectedTime.value);
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                });
+                                                                              }
+                                                                            } else {
+                                                                              if (Constant.distanceUnit ==
+                                                                                  "KM") {
+                                                                                controller.distance.value =
+                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                              } else {
+                                                                                controller.distance.value =
+                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                              }
+                                                                              controller
+                                                                                  .duration
+                                                                                  .value = durationValue[
+                                                                              'rows']
+                                                                                  .first['elements']
+                                                                                  .first['duration']['text'];
+                                                                              controller
+                                                                                  .confirmWidgetVisible
+                                                                                  .value = false;
+                                                                              var dataMulti = controller
+                                                                                  .multiStopListNew
+                                                                                  .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                  .toList();
+
+                                                                              controller.multiStopListNew =
+                                                                                  dataMulti;
+                                                                              controller.multiStopList =
+                                                                                  List.from(dataMulti);
+                                                                              setState(
+                                                                                      () {});
+                                                                              await controller
+                                                                                  .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
+                                                                                  .then((value) {
+                                                                                if (value !=
+                                                                                    null) {
+                                                                                  if (value.success == "Success") {
+                                                                                    if (value.data?.isNotEmpty == true) {
+                                                                                      tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride', driverData: value.data?.first,selectedDate: controller.selectedDate.value,selectedTime: controller.selectedTime.value);
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              });
+                                                                            }
+                                                                          }
+                                                                        });
+                                                                  }
+                                                                });
+                                                              }
+                                                            },
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 20),
+                                                          ListView.builder(
+                                                            padding:
+                                                            EdgeInsets.zero,
+                                                            primary: false,
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                            controller
+                                                                .bannerModel
+                                                                .value
+                                                                .data
+                                                                ?.length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                            context,
+                                                                int i) {
+                                                              return Padding(
+                                                                padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    bottom:
+                                                                    20),
+                                                                child: Center(
+                                                                  child: Stack(
+                                                                    alignment:
+                                                                    Alignment
+                                                                        .bottomLeft,
+                                                                    children: [
+                                                                      CachedNetworkImage(
+                                                                        filterQuality:
+                                                                        FilterQuality.high,
+                                                                        width: Responsive.width(
+                                                                            100,
+                                                                            context),
+                                                                        height:
+                                                                        180,
+                                                                        imageUrl: controller
+                                                                            .bannerModel
+                                                                            .value
+                                                                            .data![i]
+                                                                            .image
+                                                                            .toString(),
+                                                                        fit: BoxFit
+                                                                            .fill,
+                                                                        placeholder:
+                                                                            (context, url) =>
+                                                                            Constant.loader(context),
+                                                                        errorWidget: (context, url, error) => Image.asset(
+                                                                            "assets/images/appIcon.png",
+                                                                            fit:
+                                                                            BoxFit.cover),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                            16,
+                                                                            vertical:
+                                                                            12),
+                                                                        child:
+                                                                        Column(
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              controller.bannerModel.value.data?[i].title ?? '',
+                                                                              maxLines: 1,
+                                                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                            ),
+                                                                            const SizedBox(height: 2),
+                                                                            Text(
+                                                                              controller.bannerModel.value.data?[i].description ?? '',
+                                                                              maxLines: 2,
+                                                                              style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+//                                               SizedBox(
+//                                                 child: SingleChildScrollView(
+//                                                   padding: EdgeInsets.symmetric(
+//                                                       horizontal:
+//                                                       Constant.homeScreenType ==
+//                                                           'OlaHome'
+//                                                           ? 0
+//                                                           : 16),
+//                                                   child: Column(
+//                                                     crossAxisAlignment:
+//                                                     CrossAxisAlignment
+//                                                         .start,
+//                                                     children: [
+//                                                       const SizedBox(
+//                                                           height: 20),
+//                                                       Text(
+//                                                         "Enter Destination".tr,
+//                                                         style: TextStyle(
+//                                                           fontSize: 18,
+//                                                           fontFamily:
+//                                                           AppThemeData
+//                                                               .semiBold,
+//                                                           color: themeChange
+//                                                               .getThem()
+//                                                               ? AppThemeData
+//                                                               .grey900Dark
+//                                                               : AppThemeData
+//                                                               .grey900,
+//                                                         ),
+//                                                       ),
+//                                                       const SizedBox(
+//                                                           height: 12),
+//                                                       Column(
+//                                                         children: [
+//                                                           TextFieldWidget(
+//                                                             onTap: () async {
+//                                                               await Constant()
+//                                                                   .placeSelectAPI(
+//                                                                   context)
+//                                                                   .then(
+//                                                                       (value) {
+//                                                                     if (value !=
+//                                                                         null) {
+//                                                                       controller
+//                                                                           .departureController
+//                                                                           .text =
+//                                                                           value
+//                                                                               .result
+//                                                                               .formattedAddress
+//                                                                               .toString();
+//                                                                       controller.setDepartureMarker(LatLng(
+//                                                                           value
+//                                                                               .result
+//                                                                               .geometry!
+//                                                                               .location
+//                                                                               .lat,
+//                                                                           value
+//                                                                               .result
+//                                                                               .geometry!
+//                                                                               .location
+//                                                                               .lng));
+//                                                                     }
+//                                                                   });
+//                                                             },
+//                                                             isReadOnly: true,
+//                                                             prefix: IconButton(
+//                                                               onPressed:
+//                                                                   () async {
+//                                                                 LocationPermission
+//                                                                 permission =
+//                                                                 await Geolocator
+//                                                                     .checkPermission();
+//                                                                 if (permission ==
+//                                                                     LocationPermission
+//                                                                         .denied ||
+//                                                                     permission ==
+//                                                                         LocationPermission
+//                                                                             .deniedForever) {
+//                                                                   permission =
+//                                                                   await Geolocator
+//                                                                       .requestPermission();
+//                                                                 }
+//
+//                                                                 Position
+//                                                                 position =
+//                                                                 await Geolocator
+//                                                                     .getCurrentPosition(
+//                                                                   desiredAccuracy:
+//                                                                   LocationAccuracy
+//                                                                       .high,
+//                                                                 );
+//
+//                                                                 List<Placemark>
+//                                                                 placemarks =
+//                                                                 await placemarkFromCoordinates(
+//                                                                   position
+//                                                                       .latitude,
+//                                                                   position
+//                                                                       .longitude,
+//                                                                 );
+//                                                                 Placemark
+//                                                                 place =
+//                                                                     placemarks
+//                                                                         .first;
+//
+//                                                                 String address =
+//                                                                     "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+//
+//                                                                 controller
+//                                                                     .departureController
+//                                                                     .text = address;
+//                                                                 controller.setDepartureMarker(LatLng(
+//                                                                     position
+//                                                                         .latitude,
+//                                                                     position
+//                                                                         .longitude));
+//                                                               },
+//                                                               icon: SvgPicture
+//                                                                   .asset(
+//                                                                 'assets/icons/ic_location.svg',
+//                                                                 colorFilter: ColorFilter.mode(
+//                                                                     themeChange
+//                                                                         .getThem()
+//                                                                         ? AppThemeData
+//                                                                         .grey500Dark
+//                                                                         : AppThemeData
+//                                                                         .grey300Dark,
+//                                                                     BlendMode
+//                                                                         .srcIn),
+//                                                               ),
+//                                                             ),
+//                                                             controller: controller
+//                                                                 .departureController,
+//                                                             hintText:
+//                                                             'Pick Up Location'
+//                                                                 .tr,
+//                                                             suffix: IconButton(
+//                                                               onPressed: () {},
+//                                                               icon: SvgPicture
+//                                                                   .asset(
+//                                                                 'assets/icons/ic_right_arrow.svg',
+//                                                                 colorFilter: ColorFilter.mode(
+//                                                                     themeChange
+//                                                                         .getThem()
+//                                                                         ? AppThemeData
+//                                                                         .grey300Dark
+//                                                                         : AppThemeData
+//                                                                         .grey500Dark,
+//                                                                     BlendMode
+//                                                                         .srcIn),
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//                                                           TextFieldWidget(
+//                                                             onTap: () async {
+//                                                               await Constant()
+//                                                                   .placeSelectAPI(
+//                                                                   context)
+//                                                                   .then(
+//                                                                       (value) {
+//                                                                     if (value !=
+//                                                                         null) {
+//                                                                       controller
+//                                                                           .destinationController
+//                                                                           .text =
+//                                                                           value
+//                                                                               .result
+//                                                                               .formattedAddress
+//                                                                               .toString();
+//                                                                       controller.setDestinationMarker(LatLng(
+//                                                                           value
+//                                                                               .result
+//                                                                               .geometry!
+//                                                                               .location
+//                                                                               .lat,
+//                                                                           value
+//                                                                               .result
+//                                                                               .geometry!
+//                                                                               .location
+//                                                                               .lng));
+//                                                                     }
+//                                                                   });
+//                                                             },
+//                                                             isReadOnly: true,
+//                                                             prefix: IconButton(
+//                                                               onPressed: () {},
+//                                                               icon: SvgPicture
+//                                                                   .asset(
+//                                                                 'assets/icons/ic_location.svg',
+//                                                                 colorFilter: ColorFilter.mode(
+//                                                                     themeChange
+//                                                                         .getThem()
+//                                                                         ? AppThemeData
+//                                                                         .grey500Dark
+//                                                                         : AppThemeData
+//                                                                         .grey300Dark,
+//                                                                     BlendMode
+//                                                                         .srcIn),
+//                                                               ),
+//                                                             ),
+//                                                             controller: controller
+//                                                                 .destinationController,
+//                                                             hintText:
+//                                                             'Where you want to go?'
+//                                                                 .tr,
+//                                                             suffix: IconButton(
+//                                                               onPressed: () {},
+//                                                               icon: SvgPicture
+//                                                                   .asset(
+//                                                                 'assets/icons/ic_right_arrow.svg',
+//                                                                 colorFilter: ColorFilter.mode(
+//                                                                     themeChange
+//                                                                         .getThem()
+//                                                                         ? AppThemeData
+//                                                                         .grey300Dark
+//                                                                         : AppThemeData
+//                                                                         .grey500Dark,
+//                                                                     BlendMode
+//                                                                         .srcIn),
+//                                                               ),
+//                                                             ),
+//                                                           ),
+//
+//
+//                                                           // DATE PICKER
+//                                                           TextFieldWidget(
+//                                                             isReadOnly: true,
+//                                                             controller: controller.dateController,
+//                                                             hintText: "Select Date".tr,
+//                                                             onTap: () async {
+//                                                               DateTime? pickedDate = await showDatePicker(
+//                                                                 context: context,
+//                                                                 initialDate: DateTime.now(),
+//                                                                 firstDate: DateTime.now(),
+//                                                                 lastDate: DateTime.now().add(const Duration(days: 365)),
+//                                                               );
+//
+//                                                               if (pickedDate != null) {
+//                                                                 controller.dateController.text =
+//                                                                 "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+//                                                                 controller.selectedDate.value = pickedDate;
+//                                                               }
+//                                                             },
+//                                                             prefix: const Icon(Icons.calendar_month),
+//                                                           ),
+//
+//                                                           const SizedBox(height: 12),
+//
+// // TIME PICKER
+//                                                           TextFieldWidget(
+//                                                             isReadOnly: true,
+//                                                             controller: controller.timeController,
+//                                                             hintText: "Select Time".tr,
+//                                                             onTap: () async {
+//                                                               TimeOfDay? pickedTime = await showTimePicker(
+//                                                                 context: context,
+//                                                                 initialTime: TimeOfDay.now(),
+//                                                               );
+//
+//                                                               if (pickedTime != null) {
+//                                                                 controller.timeController.text = pickedTime.format(context);
+//                                                                 controller.selectedTime.value = pickedTime;
+//                                                               }
+//                                                             },
+//                                                             prefix: const Icon(Icons.access_time),
+//                                                           ),
+//
+//                                                           ButtonThem
+//                                                               .buildButton(
+//                                                             context,
+//                                                             title:
+//                                                             'Search Destination'
+//                                                                 .tr,
+//                                                             onPress: () async {
+//                                                               FocusManager
+//                                                                   .instance
+//                                                                   .primaryFocus
+//                                                                   ?.unfocus();
+//                                                               log(controller
+//                                                                   .departureLatLong
+//                                                                   .value
+//                                                                   .toString());
+//                                                               if (controller
+//                                                                   .departureLatLong
+//                                                                   .value ==
+//                                                                   LatLng(0.0,
+//                                                                       0.0)) {
+//                                                                 ShowToastDialog
+//                                                                     .showToast(
+//                                                                     "Please Enter PickUp Adreess"
+//                                                                         .tr);
+//                                                               } else if (controller
+//                                                                   .destinationLatLong
+//                                                                   .value ==
+//                                                                   LatLng(0.0,
+//                                                                       0.0)) {
+//                                                                 ShowToastDialog
+//                                                                     .showToast(
+//                                                                     "Please Enter PickUp Adreess"
+//                                                                         .tr);
+//                                                               } else {
+//                                                                 await controller
+//                                                                     .getDurationDistance(
+//                                                                     controller
+//                                                                         .departureLatLong
+//                                                                         .value,
+//                                                                     controller
+//                                                                         .destinationLatLong
+//                                                                         .value)
+//                                                                     .then((
+//                                                                     durationValue,
+//                                                                     ) async {
+//                                                                   if (durationValue !=
+//                                                                       null) {
+//                                                                     await controller
+//                                                                         .getUserPendingPayment()
+//                                                                         .then(
+//                                                                             (value) async {
+//                                                                           if (value !=
+//                                                                               null) {
+//                                                                             if (value['success'] ==
+//                                                                                 "success") {
+//                                                                               if (value['data']['amount'] !=
+//                                                                                   0) {
+//                                                                                 _pendingPaymentDialog(context);
+//                                                                               } else {
+//                                                                                 if (Constant.distanceUnit ==
+//                                                                                     "KM") {
+//                                                                                   controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+//                                                                                 } else {
+//                                                                                   controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+//                                                                                 }
+//
+//                                                                                 controller.duration.value =
+//                                                                                 durationValue['rows'].first['elements'].first['duration']['text'];
+//                                                                                 // Get.back();
+//                                                                                 controller.confirmWidgetVisible.value =
+//                                                                                 false;
+//                                                                                 var dataMulti =
+//                                                                                 controller.multiStopListNew.where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty).toList();
+//
+//                                                                                 controller.multiStopListNew =
+//                                                                                     dataMulti;
+//                                                                                 controller.multiStopList =
+//                                                                                     List.from(dataMulti);
+//                                                                                 setState(() {});
+//                                                                                 tripOptionBottomSheet(
+//                                                                                     context,
+//                                                                                     themeChange.getThem(),
+//                                                                                     controller,
+//                                                                                     'other');
+//                                                                               }
+//                                                                             } else {
+//                                                                               if (Constant.distanceUnit ==
+//                                                                                   "KM") {
+//                                                                                 controller.distance.value =
+//                                                                                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+//                                                                               } else {
+//                                                                                 controller.distance.value =
+//                                                                                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+//                                                                               }
+//                                                                               controller
+//                                                                                   .duration
+//                                                                                   .value = durationValue[
+//                                                                               'rows']
+//                                                                                   .first['elements']
+//                                                                                   .first['duration']['text'];
+//                                                                               controller
+//                                                                                   .confirmWidgetVisible
+//                                                                                   .value = false;
+//                                                                               var dataMulti = controller
+//                                                                                   .multiStopListNew
+//                                                                                   .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+//                                                                                   .toList();
+//
+//                                                                               controller.multiStopListNew =
+//                                                                                   dataMulti;
+//                                                                               controller.multiStopList =
+//                                                                                   List.from(dataMulti);
+//                                                                               setState(
+//                                                                                       () {});
+//                                                                               tripOptionBottomSheet(
+//                                                                                   context,
+//                                                                                   themeChange.getThem(),
+//                                                                                   controller,
+//                                                                                   'other');
+//                                                                             }
+//                                                                           }
+//                                                                         });
+//                                                                   }
+//                                                                 });
+//                                                               }
+//                                                             },
+//                                                           ),
+//                                                           const SizedBox(
+//                                                               height: 20),
+//                                                           ListView.builder(
+//                                                             padding:
+//                                                             EdgeInsets.zero,
+//                                                             primary: false,
+//                                                             shrinkWrap: true,
+//                                                             itemCount:
+//                                                             controller
+//                                                                 .bannerModel
+//                                                                 .value
+//                                                                 .data
+//                                                                 ?.length,
+//                                                             itemBuilder:
+//                                                                 (BuildContext
+//                                                             context,
+//                                                                 int i) {
+//                                                               return Padding(
+//                                                                 padding:
+//                                                                 const EdgeInsets
+//                                                                     .only(
+//                                                                     bottom:
+//                                                                     20),
+//                                                                 child: Center(
+//                                                                   child: Stack(
+//                                                                     alignment:
+//                                                                     Alignment
+//                                                                         .bottomLeft,
+//                                                                     children: [
+//                                                                       CachedNetworkImage(
+//                                                                         filterQuality:
+//                                                                         FilterQuality.high,
+//                                                                         width: Responsive.width(
+//                                                                             100,
+//                                                                             context),
+//                                                                         height:
+//                                                                         180,
+//                                                                         imageUrl: controller
+//                                                                             .bannerModel
+//                                                                             .value
+//                                                                             .data![i]
+//                                                                             .image
+//                                                                             .toString(),
+//                                                                         fit: BoxFit
+//                                                                             .fill,
+//                                                                         placeholder:
+//                                                                             (context, url) =>
+//                                                                             Constant.loader(context),
+//                                                                         errorWidget: (context, url, error) => Image.asset(
+//                                                                             "assets/images/appIcon.png",
+//                                                                             fit:
+//                                                                             BoxFit.cover),
+//                                                                       ),
+//                                                                       Padding(
+//                                                                         padding: const EdgeInsets
+//                                                                             .symmetric(
+//                                                                             horizontal:
+//                                                                             16,
+//                                                                             vertical:
+//                                                                             12),
+//                                                                         child:
+//                                                                         Column(
+//                                                                           crossAxisAlignment:
+//                                                                           CrossAxisAlignment.start,
+//                                                                           children: [
+//                                                                             Text(
+//                                                                               controller.bannerModel.value.data?[i].title ?? '',
+//                                                                               maxLines: 1,
+//                                                                               style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+//                                                                             ),
+//                                                                             const SizedBox(height: 2),
+//                                                                             Text(
+//                                                                               controller.bannerModel.value.data?[i].description ?? '',
+//                                                                               maxLines: 2,
+//                                                                               style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+//                                                                             ),
+//                                                                           ],
+//                                                                         ),
+//                                                                       ),
+//                                                                     ],
+//                                                                   ),
+//                                                                 ),
+//                                                               );
+//                                                             },
+//                                                           ),
+//                                                         ],
+//                                                       ),
+//                                                     ],
+//                                                   ),
+//                                                 ),
+//                                               ),
                                               // const SizedBox(),
                                               if (Constant.parcelActive
                                                       .toString() ==
@@ -1682,7 +2670,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   tripOptionBottomSheet(BuildContext context, bool isDarkMode,
       HomeController controller, String type,
-      {DriverData? driverData}) {
+      {DriverData? driverData,DateTime? selectedDate,
+        TimeOfDay? selectedTime} ) {
     return showModalBottomSheet(
       barrierColor:
           isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
@@ -1766,6 +2755,125 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller: controller.destinationController,
                                 hintText: 'Where you want to go?'.tr,
                               ),
+                              if (type == 'schedule_ride')
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: isDarkMode
+                                              ? AppThemeData.grey300Dark
+                                              : AppThemeData.grey300,
+                                          width: 1)),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 14),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/icons/ic_map.svg',
+                                                    colorFilter:
+                                                    ColorFilter.mode(
+                                                        AppThemeData
+                                                            .success300,
+                                                        BlendMode.srcIn)),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  'Selected Date'.tr,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                      AppThemeData.regular,
+                                                      color: isDarkMode
+                                                          ? AppThemeData
+                                                          .grey900Dark
+                                                          : AppThemeData
+                                                          .grey900),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              '${selectedDate}',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                  AppThemeData.medium,
+                                                  color: isDarkMode
+                                                      ? AppThemeData.grey900Dark
+                                                      : AppThemeData.grey900),
+                                            ),
+
+
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ), if (type == 'schedule_ride')
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: isDarkMode
+                                              ? AppThemeData.grey300Dark
+                                              : AppThemeData.grey300,
+                                          width: 1)),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 14),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/icons/ic_map.svg',
+                                                    colorFilter:
+                                                    ColorFilter.mode(
+                                                        AppThemeData
+                                                            .success300,
+                                                        BlendMode.srcIn)),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  'Selected Time'.tr,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                      AppThemeData.regular,
+                                                      color: isDarkMode
+                                                          ? AppThemeData
+                                                          .grey900Dark
+                                                          : AppThemeData
+                                                          .grey900),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              '${selectedTime}',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                  AppThemeData.medium,
+                                                  color: isDarkMode
+                                                      ? AppThemeData.grey900Dark
+                                                      : AppThemeData.grey900),
+                                            ),
+
+
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+
                               ReorderableListView(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -1837,7 +2945,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          if (type == 'taxi')
+                          if (type == 'taxi' ||type ==  "schedule_ride")
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -1913,7 +3021,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 10),
                               ],
                             ),
-                          if (type != 'taxi')
+                          if (type != 'taxi'  && type != 'schedule_ride')
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
