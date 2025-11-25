@@ -36,7 +36,7 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
 
   void startTimer() {
     timer?.cancel();
-    timer = Timer.periodic(const Duration(seconds: 20), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       getNewRide();
     });
   }
@@ -141,7 +141,9 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
             rejectedRideList.add(ride);
           }
         }
-
+        newRideList.refresh();
+        completedRideList.refresh();
+        rejectedRideList.refresh();
 
         update();
         ShowToastDialog.closeLoader();

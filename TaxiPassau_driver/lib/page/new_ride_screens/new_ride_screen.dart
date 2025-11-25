@@ -242,7 +242,7 @@ class NewRideScreen extends StatelessWidget {
             //   ),
             // ),
             drawer: buildAppDrawer(context, controllerDashBoard),
-            body: Stack(
+            body:Stack(
               children: [
                 Column(
                   children: [
@@ -294,31 +294,33 @@ class NewRideScreen extends StatelessWidget {
                                   Tab(text: 'Rejected'.tr),
                                 ],
                               ),
-                              Expanded(
-                                child: TabBarView(
-                                  children: [
-                                    buildRideTab(
-                                      isLoading: controller.isLoading.value,
-                                      list: controller.newRideList,
-                                      emptyText: "You don't have any ride booked.",
-                                      controller: controller,
-                                      theme: themeChange.getThem(),
-                                    ),
-                                    buildRideTab(
-                                      isLoading: controller.isLoading.value,
-                                      list: controller.completedRideList,
-                                      emptyText: "You have not completed any trip.",
-                                      controller: controller,
-                                      theme: themeChange.getThem(),
-                                    ),
-                                    buildRideTab(
-                                      isLoading: controller.isLoading.value,
-                                      list: controller.rejectedRideList,
-                                      emptyText: "You have not rejected any trip.",
-                                      controller: controller,
-                                      theme: themeChange.getThem(),
-                                    ),
-                                  ],
+                              Obx(()=>
+                                 Expanded(
+                                  child: TabBarView(
+                                    children: [
+                                      buildRideTab(
+                                        isLoading: controller.isLoading.value,
+                                        list: controller.newRideList,
+                                        emptyText: "You don't have any ride booked.",
+                                        controller: controller,
+                                        theme: themeChange.getThem(),
+                                      ),
+                                      buildRideTab(
+                                        isLoading: controller.isLoading.value,
+                                        list: controller.completedRideList,
+                                        emptyText: "You have not completed any trip.",
+                                        controller: controller,
+                                        theme: themeChange.getThem(),
+                                      ),
+                                      buildRideTab(
+                                        isLoading: controller.isLoading.value,
+                                        list: controller.rejectedRideList,
+                                        emptyText: "You have not rejected any trip.",
+                                        controller: controller,
+                                        theme: themeChange.getThem(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -349,7 +351,7 @@ class NewRideScreen extends StatelessWidget {
           : list.isEmpty
               ? Constant.emptyView(emptyText)
               : ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 50),
+                  padding: const EdgeInsets.only(bottom: 50,left: 10,right: 10,top: 10),
                   itemCount: list.length,
                   itemBuilder: (context, index) {
                     return newRideWidgets(
@@ -395,8 +397,18 @@ class NewRideScreen extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 10),
         child: Container(
           decoration: BoxDecoration(
-              color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
-              borderRadius: const BorderRadius.all(Radius.circular(15.0))),
+            color: themeChange.getThem()
+                ? AppThemeData.surface50Dark
+                : AppThemeData.surface50,
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+            border: Border.all(
+              color: themeChange.getThem()
+                  ? AppThemeData.grey300Dark
+                  : AppThemeData.grey400,   // ← आपकी पसंद का color
+              width: 1.2,                  // ← border thickness
+            ),
+          ),
+
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Column(
