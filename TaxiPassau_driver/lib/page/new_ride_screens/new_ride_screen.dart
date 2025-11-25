@@ -32,6 +32,8 @@ import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../chats_screen/conversation_screen.dart';
+
 class NewRideScreen extends StatelessWidget {
   NewRideScreen({super.key});
 
@@ -249,20 +251,131 @@ class NewRideScreen extends StatelessWidget {
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppThemeData.primary200),
                       child: Text("${"Your wallet balance must be".tr} ${Constant().amountShow(amount: Constant.minimumWalletBalance!.toString())} ${"to get ride.".tr}"),
                     ),
-                  Expanded(
-                    child: controller.isLoading.value
-                        ? SizedBox()
-                        : controller.rideList.isEmpty
-                            ? Constant.emptyView("Your don't have any ride booked.")
-                            : ListView.builder(
-                                padding: EdgeInsets.only(bottom: 50),
-                                itemCount: controller.rideList.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return newRideWidgets(context, controller.rideList[index], controller, themeChange.getThem());
-                                },
+
+                  SafeArea(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            height: Responsive.height(70, context),
+                            color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
+                            child: Theme(
+                              data: ThemeData(
+                                useMaterial3: true, // Optional: use this only if you're using Material 3
+                                tabBarTheme: TabBarThemeData(
+                                  indicatorColor: AppThemeData.primary200,
+                                ),
                               ),
+                              child: DefaultTabController(
+                                length: 3,
+                                child: Column(children: [
+                                  TabBar(
+                                    isScrollable: false,
+                                    indicatorSize: TabBarIndicatorSize.tab,
+                                    indicatorColor: AppThemeData.primary200,
+                                    indicatorWeight: 0.1,
+                                    labelPadding: const EdgeInsets.symmetric(vertical: 8),
+                                    dividerColor: Colors.transparent,
+                                    labelColor: AppThemeData.primary200,
+                                    automaticIndicatorColorAdjustment: true,
+                                    labelStyle: TextStyle(fontFamily: AppThemeData.medium, fontSize: 16, color: AppThemeData.primary200),
+                                    unselectedLabelStyle: TextStyle(fontFamily: AppThemeData.regular, fontSize: 16, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey400),
+                                    tabs: [
+                                      Tab(
+                                        text: 'New'.tr,
+                                      ),
+                                      Tab(
+                                        text: 'Completed'.tr,
+                                      ),
+                                      Tab(
+                                        text: 'Rejected'.tr,
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: TabBarView(children: [
+                                      SizedBox(
+                                        child: RefreshIndicator(
+                                          backgroundColor: AppThemeData.primary200,
+                                          onRefresh: () => controller.getNewRide(),
+                                          child: controller.isLoading.value
+                                              ? SizedBox() //Constant.loader(context)
+                                              : controller.newRideList.isEmpty
+                                              ? Constant.emptyView("Your don't have any ride booked.",)
+                                              : ListView.builder(
+                                            padding: EdgeInsets.only(bottom: 50),
+                                            itemCount: controller.completedRideList.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return newRideWidgets(context, controller.completedRideList[index], controller, themeChange.getThem());
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: RefreshIndicator(
+                                          backgroundColor: AppThemeData.primary200,
+                                          color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                          onRefresh: () => controller.getNewRide(),
+                                          child: controller.isLoading.value
+                                              ? SizedBox()
+                                              : controller.completedRideList.isEmpty
+                                              ? Constant.emptyView( "You have not completed any trip.")
+                                              : ListView.builder(
+                                            padding: EdgeInsets.only(bottom: 50),
+                                            itemCount: controller.completedRideList.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return newRideWidgets(context, controller.completedRideList[index], controller, themeChange.getThem());
+                                            },
+                                          ),
+
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: RefreshIndicator(
+                                          backgroundColor: AppThemeData.primary200,
+                                          onRefresh: () => controller.getNewRide(),
+                                          child: controller.isLoading.value
+                                              ? SizedBox()
+                                              : controller.rejectedRideList.isEmpty
+                                              ? Constant.emptyView( "You have not rejected any trip.",)
+                                              : ListView.builder(
+                                            padding: EdgeInsets.only(bottom: 50),
+                                            itemCount: controller.completedRideList.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              return newRideWidgets(context, controller.rejectedRideList[index], controller, themeChange.getThem());
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                  )
+                                ]),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  // Expanded(
+                  //   child: controller.isLoading.value
+                  //       ? SizedBox()
+                  //       : controller.rideList.isEmpty
+                  //           ? Constant.emptyView("Your don't have any ride booked.")
+                  //           : ListView.builder(
+                  //               padding: EdgeInsets.only(bottom: 50),
+                  //               itemCount: controller.rideList.length,
+                  //               shrinkWrap: true,
+                  //               itemBuilder: (context, index) {
+                  //                 return newRideWidgets(context, controller.rideList[index], controller, themeChange.getThem());
+                  //               },
+                  //             ),
+                  // ),
                 ],
               ),
             ),
@@ -274,6 +387,8 @@ class NewRideScreen extends StatelessWidget {
 
   Widget newRideWidgets(BuildContext context, RideData data, NewRideController controller, bool isDarkMode) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+
+
     return InkWell(
       onTap: () async {
         if (data.statut == "completed") {
@@ -515,26 +630,48 @@ class NewRideScreen extends StatelessWidget {
                                 ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      Row(
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              if (data.rideType! == 'driver' && data.existingUserId.toString() == "null") {
-                                Constant.makePhoneCall(data.userInfo!.phone.toString());
-                              } else {
-                                Constant.makePhoneCall(data.phone.toString());
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.blue,
-                              shape: const CircleBorder(),
-                              backgroundColor: Colors.blue,
-                              padding: const EdgeInsets.all(6), // <-- Splash color
-                            ),
-                            child: const Icon(Icons.call, color: Colors.white, size: 18),
+                          Visibility(
+                            visible: data.statut == "new" ||data.statut == "pending" ||  data.statut == "on ride" || data.statut == "confirmed",
+                            child: InkWell(
+                                onTap: () {
+                                  Get.to(ConversationScreen(), arguments: {
+                                    'receiverId': int.parse(data.idUserApp.toString()),
+                                    'orderId': int.parse(data.id.toString()),
+                                    'receiverName': '${data.prenom} ${data.nom}',
+                                    'receiverPhoto': data.photoPath
+                                  });
+                                },
+                                child: Image.asset(
+                                  'assets/icons/chat_icon.png',
+                                  height: 40,
+                                  width: 40,
+                                  fit: BoxFit.cover,
+                                )),
                           ),
-                          Text(data.dateRetour.toString()),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (data.rideType! == 'driver' && data.existingUserId.toString() == "null") {
+                                    Constant.makePhoneCall(data.userInfo!.phone.toString());
+                                  } else {
+                                    Constant.makePhoneCall(data.phone.toString());
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.blue,
+                                  shape: const CircleBorder(),
+                                  backgroundColor: Colors.blue,
+                                  padding: const EdgeInsets.all(6), // <-- Splash color
+                                ),
+                                child: const Icon(Icons.call, color: Colors.white, size: 18),
+                              ),
+                              Text(data.dateRetour.toString()),
+                            ],
+                          ),
                         ],
                       ),
                     ],

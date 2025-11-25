@@ -89,6 +89,7 @@ class ConversationController extends GetxController {
       'id': id,
       'senderId': senderId.value,
       'receiverId': receiverId.value,
+
       'message': message,
       'orderId': orderId.value,
       'created': DateTime.now(),

@@ -38,7 +38,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -113,10 +115,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     getCurrentAppTheme();
     setupInteractedMessage(context);
     Future.delayed(const Duration(seconds: 3), () {
-      if (Preferences.getString(Preferences.languageCodeKey).toString().isNotEmpty) {
-        LocalizationService().changeLocale(Preferences.getString(Preferences.languageCodeKey).toString());
+      if (Preferences.getString(Preferences.languageCodeKey)
+          .toString()
+          .isNotEmpty) {
+        LocalizationService().changeLocale(
+            Preferences.getString(Preferences.languageCodeKey).toString());
       }
-      API.header['accesstoken'] = Preferences.getString(Preferences.accesstoken);
+      API.header['accesstoken'] =
+          Preferences.getString(Preferences.accesstoken);
     });
     super.initState();
   }
@@ -129,14 +135,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme = await themeChangeProvider.darkThemePreference.getTheme();
+    themeChangeProvider.darkTheme =
+        await themeChangeProvider.darkThemePreference.getTheme();
   }
 
   Future<void> setupInteractedMessage(BuildContext context) async {
     initialize(context);
     await FirebaseMessaging.instance.subscribeToTopic("driver");
 
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
 
     if (initialMessage != null) {}
 
@@ -152,16 +160,23 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           await Get.to(
             ConversationScreen(),
             arguments: {
-              'receiverId': int.parse(json.decode(message.data['message'])['senderId'].toString()),
-              'orderId': int.parse(json.decode(message.data['message'])['orderId'].toString()),
-              'receiverName': json.decode(message.data['message'])['senderName'].toString(),
-              'receiverPhoto': json.decode(message.data['message'])['senderPhoto'].toString(),
+              'receiverId': int.parse(
+                  json.decode(message.data['message'])['senderId'].toString()),
+              'orderId': int.parse(
+                  json.decode(message.data['message'])['orderId'].toString()),
+              'receiverName':
+                  json.decode(message.data['message'])['senderName'].toString(),
+              'receiverPhoto': json
+                  .decode(message.data['message'])['senderPhoto']
+                  .toString(),
             },
           );
-        } else if (message.data['statut'] == "new" && message.data['statut'] == "rejected") {
+        } else if (message.data['statut'] == "new" &&
+            message.data['statut'] == "rejected") {
           await Get.to(DashBoard());
         } else if (message.data['type'] == "payment received") {
-          DashBoardController dashBoardController = Get.put(DashBoardController(), permanent: true);
+          DashBoardController dashBoardController =
+              Get.put(DashBoardController(), permanent: true);
           dashBoardController.selectedDrawerIndex.value = 4;
           await Get.to(DashBoard());
         }
@@ -176,9 +191,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       importance: Importance.high,
     );
 
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: iosInitializationSettings,
     );
@@ -187,7 +204,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       onDidReceiveNotificationResponse: (payload) async {},
     );
 
-    await FlutterLocalNotificationsPlugin().resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
+    await FlutterLocalNotificationsPlugin()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
   }
 
   void display(RemoteMessage message) async {
@@ -202,7 +222,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           importance: Importance.max,
           priority: Priority.high,
           playSound: true,
-          sound: isNew ? const RawResourceAndroidNotificationSound('notification_sound') : null,
+          sound: isNew
+              ? const RawResourceAndroidNotificationSound('notification_sound')
+              : null,
         ),
         iOS: DarwinNotificationDetails(
           presentSound: true,
@@ -254,15 +276,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   final themeChange = Provider.of<DarkThemeProvider>(context);
                   return controller.isLoading.value == true
                       ? Container(
-                          child: Constant.loader(context, isDarkMode: themeChange.getThem()),
+                          child: Constant.loader(context,
+                              isDarkMode: themeChange.getThem()),
                         )
-                      : Preferences.getString(Preferences.languageCodeKey).toString().isEmpty
+                      : Preferences.getString(Preferences.languageCodeKey)
+                              .toString()
+                              .isEmpty
                           ? const LocalizationScreens(intentType: "main")
-                          : Preferences.getBoolean(Preferences.isFinishOnBoardingKey)
+                          : Preferences.getBoolean(
+                                  Preferences.isFinishOnBoardingKey)
                               ? Preferences.getBoolean(Preferences.isLogin)
                                   ? controller.checkStatus()
                                       ? DashBoard()
-                                      : SubscriptionPlanScreen(isbackButton: false, isSplashScreen: true)
+                                      : SubscriptionPlanScreen(
+                                          isbackButton: false,
+                                          isSplashScreen: true)
                                   : const LoginScreen()
                               : const OnBoardingScreen();
                 },

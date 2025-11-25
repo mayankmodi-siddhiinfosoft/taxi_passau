@@ -139,8 +139,8 @@ class Constant {
   }
 
   static Color statusColor(RideData data) {
-    return data.statut == "new"
-        ? AppThemeData.primary50
+    return data.statut == "new" ||  data.statut == "pending"
+    ? AppThemeData.primary50
         : data.statut == "confirmed"
             ? AppThemeData.info50
             : data.statut == "on ride"
@@ -400,7 +400,9 @@ class Constant {
 
   String capitalizeWords(String input) {
     if (input.isEmpty) return input;
-    if (input == 'onride') {
+    if (input == 'pending') {
+      return 'Pending';
+    } else if (input == 'onride') {
       return 'On Ride';
     } else if (input == 'driver_rejected') {
       return 'Rejected';

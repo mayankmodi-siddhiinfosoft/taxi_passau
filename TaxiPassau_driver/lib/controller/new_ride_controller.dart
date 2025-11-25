@@ -17,6 +17,9 @@ import 'package:http/http.dart' as http;
 class NewRideController extends GetxController with WidgetsBindingObserver {
   var isLoading = true.obs;
   var rideList = <RideData>[].obs;
+  var newRideList = <RideData>[].obs;
+  var completedRideList = <RideData>[].obs;
+  var rejectedRideList = <RideData>[].obs;
 
   var ridepriceText = TextEditingController().obs;
 
@@ -104,9 +107,25 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
       if (response.statusCode == 200 && responseBody['success'] == "success") {
         isLoading.value = false;
         RideModel model = RideModel.fromJson(responseBody);
-        rideList.value = model.data!;
-        ShowToastDialog.closeLoader();
+        newRideList.clear();
+        completedRideList.clear();
+        rejectedRideList.clear();
+        log("newRideList :: ${model.data}");
+        for (var ride in model.data!) {
+          if (ride.statut == "pending" || ride.statut == "new" || ride.statut == "on ride" || ride.statut == "confirmed") {
+            log("newRideList :: ${ride.statut} :: ${ride.id}");
+            newRideList.add(ride);
+          } else if (ride.statut == "completed") {
+            completedRideList.add(ride);
+          } else if (ride.statut == "rejected") {
+            rejectedRideList.add(ride);
+          }
+        }
         update();
+        ShowToastDialog.closeLoader();
+        // rideList.value = model.data!;
+        // ShowToastDialog.closeLoader();
+        // update();
       } else if (response.statusCode == 401) {
         Preferences.clearKeyData(Preferences.isLogin);
         Preferences.clearKeyData(Preferences.user);
