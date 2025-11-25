@@ -1,0 +1,2 @@
+D:/TaxiPassau/TaxiPassau/TaxiPassau_driver/android/app/.cxx/Debug/223jw2z2/x86_64/CMakeFiles/edit_cache.dir
+D:/TaxiPassau/TaxiPassau/TaxiPassau_driver/android/app/.cxx/Debug/223jw2z2/x86_64/CMakeFiles/rebuild_cache.dir

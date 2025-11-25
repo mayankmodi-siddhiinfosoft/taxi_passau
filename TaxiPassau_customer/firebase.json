@@ -1,0 +1,29 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "taxi-passau-c2741",
+          "appId": "1:401365494048:android:bbc5cd12fc16da86674f45",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "taxipassau-1b117",
+          "appId": "1:527452785533:ios:1fa7770da55ff32ff95a14",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "taxi-passau-c2741",
+          "configurations": {
+            "android": "1:401365494048:android:bbc5cd12fc16da86674f45"
+          }
+        }
+      }
+    }
+  }
+}

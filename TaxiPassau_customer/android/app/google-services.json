@@ -1,0 +1,179 @@
+{
+  "project_info": {
+    "project_number": "401365494048",
+    "firebase_url": "https://taxi-passau-c2741-default-rtdb.firebaseio.com",
+    "project_id": "taxi-passau-c2741",
+    "storage_bucket": "taxi-passau-c2741.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401365494048:android:bbc5cd12fc16da86674f45",
+        "android_client_info": {
+          "package_name": "com.taxipassau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401365494048-160cmtob66blds3h98ff605ha3l12c39.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau",
+            "certificate_hash": "a457865426bba3bd7c7153c5518785bcc83411db"
+          }
+        },
+        {
+          "client_id": "401365494048-5q3k5get0kkm4i1ob356904o5lb4b6vs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau",
+            "certificate_hash": "2705cd8dc96f27a69730cf3165c5c84d2c79422f"
+          }
+        },
+        {
+          "client_id": "401365494048-776v6g9mjc7mihugbe4olok41tn7ipc9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau",
+            "certificate_hash": "d9eec73484751ccdb30046e6bc48131d534fe740"
+          }
+        },
+        {
+          "client_id": "401365494048-hco5khb8b4ihj64bl50br172erdhlfff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau",
+            "certificate_hash": "b618a6d7dc967a5da0f17836f1599d7348df5788"
+          }
+        },
+        {
+          "client_id": "401365494048-jl6u5kbir6q9som9or64m1ld3bvsjg9p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau",
+            "certificate_hash": "fac44db53fbd359528d072a82a2e520e9e962c6f"
+          }
+        },
+        {
+          "client_id": "401365494048-oq8dnlpg1njc8hs274ma4ned4bokrr18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau",
+            "certificate_hash": "452a6c3282e830c909b1e6f101d5437936ed8740"
+          }
+        },
+        {
+          "client_id": "401365494048-tf0jb7uqe2a3h2lcfijk42eh47sf1laq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp6cOhbeIoHJYnb0D9p_Mq-UDXrQgmGOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401365494048-tf0jb7uqe2a3h2lcfijk42eh47sf1laq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "401365494048-e0de0bbabfolhaq0ucf3747cnslk8qol.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.taxipassau.ios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401365494048:android:9a9614a3ad2ef11b674f45",
+        "android_client_info": {
+          "package_name": "com.taxipassau.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401365494048-9a99qgtona4mjhnfo0dtme3p7kngg707.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau.driver",
+            "certificate_hash": "2705cd8dc96f27a69730cf3165c5c84d2c79422f"
+          }
+        },
+        {
+          "client_id": "401365494048-gdee7nkm4n2qpeecb2ih12fa8o9fem90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau.driver",
+            "certificate_hash": "fac44db53fbd359528d072a82a2e520e9e962c6f"
+          }
+        },
+        {
+          "client_id": "401365494048-j7hh1s6fqavifbqdb38mtd5te6n106o5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau.driver",
+            "certificate_hash": "d9eec73484751ccdb30046e6bc48131d534fe740"
+          }
+        },
+        {
+          "client_id": "401365494048-mf4t21oi1ve5j3cggcafrqfe3p5fn599.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau.driver",
+            "certificate_hash": "0068ee317a8085dd6812ebeeb7392fc9296fdf99"
+          }
+        },
+        {
+          "client_id": "401365494048-o8omsstm07dg1p32h40sg3ckbnp0ivi8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau.driver",
+            "certificate_hash": "88c1c00e302d84eda0b897949c2032c4e46827d8"
+          }
+        },
+        {
+          "client_id": "401365494048-qpp6231nmo4s9gsdgi6btocm73fdb2i9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.taxipassau.driver",
+            "certificate_hash": "b618a6d7dc967a5da0f17836f1599d7348df5788"
+          }
+        },
+        {
+          "client_id": "401365494048-tf0jb7uqe2a3h2lcfijk42eh47sf1laq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp6cOhbeIoHJYnb0D9p_Mq-UDXrQgmGOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401365494048-tf0jb7uqe2a3h2lcfijk42eh47sf1laq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "401365494048-e0de0bbabfolhaq0ucf3747cnslk8qol.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.taxipassau.ios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

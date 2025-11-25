@@ -1,0 +1,2 @@
+D:/TaxiPassau/TaxiPassau/TaxiPassau_customer/android/app/.cxx/Debug/2u4k5d2w/x86_64/CMakeFiles/edit_cache.dir
+D:/TaxiPassau/TaxiPassau/TaxiPassau_customer/android/app/.cxx/Debug/2u4k5d2w/x86_64/CMakeFiles/rebuild_cache.dir
