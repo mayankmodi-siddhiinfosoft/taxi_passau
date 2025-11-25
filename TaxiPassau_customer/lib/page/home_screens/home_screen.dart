@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     tabBarTheme: TabBarThemeData(indicatorColor: AppThemeData.primary200),
                                   ),
                                   child: DefaultTabController(
-                                    length: Constant.parcelActive.toString() == "yes" ? 3 : 2,
+                                    length: Constant.parcelActive.toString() == "yes" ? 4 : 3,
                                     child: Column(
                                       children: [
                                         TabBar(
@@ -1922,10 +1922,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   },
                                                                   prefix: const Icon(Icons.calendar_month),
                                                                 ),
-
                                                                 const SizedBox(height: 12),
-
-// TIME PICKER
                                                                 TextFieldWidget(
                                                                   isReadOnly: true,
                                                                   controller: controller.timeController,
@@ -1957,12 +1954,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
                                                                         durationValue,
                                                                       ) async {
+                                                                        log("getDurationDistance :: 11 :: $durationValue");
                                                                         if (durationValue != null) {
                                                                           await controller.getUserPendingPayment().then((value) async {
                                                                             if (value != null) {
                                                                               if (value['success'] == "success") {
                                                                                 if (value['data']['amount'] != 0) {
-                                                                                  _pendingPaymentDialog(context);
+                                                                                  // _pendingPaymentDialog(context);
                                                                                 } else {
                                                                                   if (Constant.distanceUnit == "KM") {
                                                                                     controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
@@ -1980,11 +1978,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   controller.multiStopListNew = dataMulti;
                                                                                   controller.multiStopList = List.from(dataMulti);
                                                                                   setState(() {});
-
+                                                                                  log("getDurationDistance :: 33 :: $value}");
                                                                                   await controller
                                                                                       .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
                                                                                           '${controller.departureLatLong.value.longitude}')
                                                                                       .then((value) {
+                                                                                    log("getDurationDistance :: 33 :: $value}");
                                                                                     if (value != null) {
                                                                                       if (value.success == "Success") {
                                                                                         if (value.data?.isNotEmpty == true) {

@@ -174,9 +174,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
       bool hasPermission = await _checkLocationPermission();
       if (!hasPermission) return;
 
-      LocationData location = await currentLocation.value
-          .getLocation()
-          .timeout(const Duration(seconds: 10));
+      LocationData location = await currentLocation.value.getLocation().timeout(const Duration(seconds: 10));
 
       double lat = location.latitude ?? 0.0;
       double lng = location.longitude ?? 0.0;
@@ -184,25 +182,21 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
         return;
       }
 
-      List<get_cord_address.Placemark> placeMarks = await get_cord_address
-          .placemarkFromCoordinates(lat, lng)
-          .timeout(const Duration(seconds: 10));
+      List<get_cord_address.Placemark> placeMarks = await get_cord_address.placemarkFromCoordinates(lat, lng).timeout(const Duration(seconds: 10));
 
       for (var i = 0; i < Constant.allTaxList.length; i++) {
-        if (placeMarks.first.country.toString().toUpperCase() ==
-            Constant.allTaxList[i].country!.toUpperCase()) {
+        if (placeMarks.first.country.toString().toUpperCase() == Constant.allTaxList[i].country!.toUpperCase()) {
           Constant.taxList.add(Constant.allTaxList[i]);
         }
       }
 
-      final address =
-          (placeMarks.first.subLocality!.isEmpty ? '' : "${placeMarks.first.subLocality}, ") +
-              (placeMarks.first.street!.isEmpty ? '' : "${placeMarks.first.street}, ") +
-              (placeMarks.first.name!.isEmpty ? '' : "${placeMarks.first.name}, ") +
-              (placeMarks.first.subAdministrativeArea!.isEmpty ? '' : "${placeMarks.first.subAdministrativeArea}, ") +
-              (placeMarks.first.administrativeArea!.isEmpty ? '' : "${placeMarks.first.administrativeArea}, ") +
-              (placeMarks.first.country!.isEmpty ? '' : "${placeMarks.first.country}, ") +
-              (placeMarks.first.postalCode!.isEmpty ? '' : "${placeMarks.first.postalCode}, ");
+      final address = (placeMarks.first.subLocality!.isEmpty ? '' : "${placeMarks.first.subLocality}, ") +
+          (placeMarks.first.street!.isEmpty ? '' : "${placeMarks.first.street}, ") +
+          (placeMarks.first.name!.isEmpty ? '' : "${placeMarks.first.name}, ") +
+          (placeMarks.first.subAdministrativeArea!.isEmpty ? '' : "${placeMarks.first.subAdministrativeArea}, ") +
+          (placeMarks.first.administrativeArea!.isEmpty ? '' : "${placeMarks.first.administrativeArea}, ") +
+          (placeMarks.first.country!.isEmpty ? '' : "${placeMarks.first.country}, ") +
+          (placeMarks.first.postalCode!.isEmpty ? '' : "${placeMarks.first.postalCode}, ");
 
       currentLocationController.text = address;
       departureController.text = address;
@@ -354,13 +348,13 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
 
   setTabr() {
     if (Constant.parcelActive.toString() == "yes") {
-      tabController = TabController(length: 3, vsync: this);
-    } else {
       tabController = TabController(length: 4, vsync: this);
+    } else {
+      tabController = TabController(length: 3, vsync: this);
     }
     tabController?.addListener(() {
       if (tabController!.indexIsChanging) {
-        if (tabController?.index == 4) {
+        if (tabController?.index == 3) {
           Get.to(RentVehicleScreen())?.then((v) {
             tabController?.animateTo(0, duration: const Duration(milliseconds: 100));
           });
