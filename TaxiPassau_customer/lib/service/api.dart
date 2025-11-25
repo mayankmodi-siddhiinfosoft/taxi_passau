@@ -5,7 +5,7 @@ import 'package:taxipassau/utils/Preferences.dart';
 class API {
   // static const baseUrl = "https://taxipassau.siswebapp.com/api/v1/"; // live
   static const baseUrl = "https://www.taxi-passau.com/admin/api/v1/"; // live
-  static const apiKey = "base64:FaIzdZuj9oH+4tI0voIqqdnnR5Pok5if3F7Gfef/AL0=";
+  static const apiKey = "";
 
   static Map<String, String> authheader = {
     HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
