@@ -63,12 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Expanded(flex: 3, child: SizedBox()),
-                      Expanded(
-                          flex: 13,
-                          child: Container(
-                              color: themeChange.getThem()
-                                  ? AppThemeData.surface50Dark
-                                  : AppThemeData.surface50)),
+                      Expanded(flex: 13, child: Container(color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50)),
                     ],
                   ),
                 ),
@@ -77,9 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   : setRouteWidget(
                       Column(
                         children: [
-                          Constant.homeScreenType == 'OlaHome'
-                              ? SafeArea(child: SizedBox(height: 30))
-                              : SizedBox(),
+                          Constant.homeScreenType == 'OlaHome' ? SafeArea(child: SizedBox(height: 30)) : SizedBox(),
                           if (Constant.homeScreenType != 'OlaHome')
                             Expanded(
                               flex: 1,
@@ -90,36 +83,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                     myLocationButtonEnabled: false,
                                     padding: const EdgeInsets.only(top: 8.0),
                                     compassEnabled: false,
-                                    initialCameraPosition: CameraPosition(
-                                        target: controller.center, zoom: 14.0),
-                                    minMaxZoomPreference:
-                                        const MinMaxZoomPreference(8.0, 20.0),
+                                    initialCameraPosition: CameraPosition(target: controller.center, zoom: 14.0),
+                                    minMaxZoomPreference: const MinMaxZoomPreference(8.0, 20.0),
                                     buildingsEnabled: false,
-                                    onMapCreated: (GoogleMapController
-                                        mapcontrollerdata) async {
-                                      controller.mapController =
-                                          mapcontrollerdata;
-                                      LocationData location = await controller
-                                          .currentLocation.value
-                                          .getLocation();
-                                      controller.mapController!.moveCamera(
-                                          CameraUpdate.newLatLngZoom(
-                                              LatLng(location.latitude ?? 0.0,
-                                                  location.longitude ?? 0.0),
-                                              14));
+                                    onMapCreated: (GoogleMapController mapcontrollerdata) async {
+                                      controller.mapController = mapcontrollerdata;
+                                      LocationData location = await controller.currentLocation.value.getLocation();
+                                      controller.mapController!.moveCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0), 14));
                                     },
-                                    polylines: Set<Polyline>.of(
-                                        controller.polyLines.values),
+                                    polylines: Set<Polyline>.of(controller.polyLines.values),
                                     myLocationEnabled: true,
                                     markers: controller.markers.values.toSet(),
                                   ),
                                   SafeArea(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: appBarHome(
-                                          controller: controller,
-                                          isDarkMode: themeChange.getThem()),
+                                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                                      child: appBarHome(controller: controller, isDarkMode: themeChange.getThem()),
                                     ),
                                   ),
                                 ],
@@ -127,61 +106,35 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           Column(
                             children: [
-                              if (Constant.homeScreenType == 'OlaHome')
-                                appBarHome(
-                                    controller: controller,
-                                    isDarkMode: themeChange.getThem()),
+                              if (Constant.homeScreenType == 'OlaHome') appBarHome(controller: controller, isDarkMode: themeChange.getThem()),
                               Container(
-                                padding: EdgeInsets.only(
-                                    top: Constant.homeScreenType == 'OlaHome'
-                                        ? 10
-                                        : 0),
-                                height: Responsive.height(
-                                    Constant.homeScreenType != 'OlaHome'
-                                        ? 44
-                                        : 86,
-                                    context),
-                                color: themeChange.getThem()
-                                    ? AppThemeData.surface50Dark
-                                    : AppThemeData.surface50,
+                                padding: EdgeInsets.only(top: Constant.homeScreenType == 'OlaHome' ? 10 : 0),
+                                height: Responsive.height(Constant.homeScreenType != 'OlaHome' ? 44 : 86, context),
+                                color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
                                 child: Theme(
                                   data: ThemeData(
                                     useMaterial3: true,
                                     // Optional: use this only if you're using Material 3
-                                    tabBarTheme: TabBarThemeData(
-                                        indicatorColor:
-                                            AppThemeData.primary200),
+                                    tabBarTheme: TabBarThemeData(indicatorColor: AppThemeData.primary200),
                                   ),
                                   child: DefaultTabController(
-                                    length: 3,
+                                    length: Constant.parcelActive.toString() == "yes" ? 3 : 2,
                                     child: Column(
                                       children: [
                                         TabBar(
                                           controller: controller.tabController,
                                           isScrollable: false,
-                                          indicatorSize:
-                                              TabBarIndicatorSize.tab,
-                                          indicatorColor:
-                                              AppThemeData.primary200,
+                                          indicatorSize: TabBarIndicatorSize.tab,
+                                          indicatorColor: AppThemeData.primary200,
                                           indicatorWeight: 0.1,
                                           dividerColor: Colors.transparent,
-                                          labelColor: themeChange.getThem()
-                                              ? AppThemeData.grey900Dark
-                                              : AppThemeData.grey900,
-                                          automaticIndicatorColorAdjustment:
-                                              true,
-                                          labelStyle: TextStyle(
-                                              fontFamily: AppThemeData.medium,
-                                              fontSize: 13,
-                                              color: themeChange.getThem()
-                                                  ? AppThemeData.grey900Dark
-                                                  : AppThemeData.grey900),
+                                          labelColor: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                          automaticIndicatorColorAdjustment: true,
+                                          labelStyle: TextStyle(fontFamily: AppThemeData.medium, fontSize: 13, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                           unselectedLabelStyle: TextStyle(
                                             fontFamily: AppThemeData.regular,
                                             fontSize: 13,
-                                            color: themeChange.getThem()
-                                                ? AppThemeData.grey500Dark
-                                                : AppThemeData.grey500,
+                                            color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
                                           ),
                                           // onTap: (index) {
                                           //   if (index == 0 || index == 1) {
@@ -215,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 case 1:
                                                   dashboardController.selectedService.value = "Ride Booking";
                                                   break;
-                                                  case 2:
+                                                case 2:
                                                   dashboardController.selectedService.value = "Schedule Ride";
                                                   break;
                                                 case 3:
@@ -224,2374 +177,1918 @@ class _HomeScreenState extends State<HomeScreen> {
                                               }
                                             });
                                           },
-                                          tabs: [
-                                            Tab(
-                                              icon: SvgPicture.asset(
-                                                  'assets/icons/ic_booking_icon.svg',
-                                                  width: 45,
-                                                  height: 45,
-                                                  fit: BoxFit.cover),
-                                              text: 'Taxi'.tr,
-                                            ),
-                                            Tab(
-                                              icon: SvgPicture.asset(
-                                                  'assets/icons/ic_booking_icon.svg',
-                                                  width: 45,
-                                                  height: 45,
-                                                  fit: BoxFit.cover),
-                                              text: 'Ride Booking'.tr,
-                                            ),Tab(
-                                              icon: SvgPicture.asset(
-                                                  'assets/icons/ic_booking_icon.svg',
-                                                  width: 45,
-                                                  height: 45,
-                                                  fit: BoxFit.cover),
-                                              text: 'Schedule Ride'.tr,
-                                            ),
-                                            // Tab(
-                                            //   icon: SvgPicture.asset('assets/icons/ic_rental_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                            //   text: 'Rent Vehicle'.tr,
-                                            // ),
-                                            if (Constant.parcelActive
-                                                    .toString() ==
-                                                "yes")
-                                              Tab(
-                                                icon: SvgPicture.asset(
-                                                    'assets/icons/ic_parcel_icon.svg',
-                                                    width: 45,
-                                                    height: 45,
-                                                    fit: BoxFit.cover),
-                                                text: 'Parcel Service'.tr,
-                                              ),
-                                          ],
+                                          tabs: Constant.parcelActive.toString() == "yes"
+                                              ? [
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Taxi'.tr,
+                                                  ),
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Ride Booking'.tr,
+                                                  ),
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Schedule Ride'.tr,
+                                                  ),
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_parcel_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Parcel Service'.tr,
+                                                  ),
+                                                ]
+                                              : [
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Taxi'.tr,
+                                                  ),
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Ride Booking'.tr,
+                                                  ),
+                                                  Tab(
+                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                                    text: 'Schedule Ride'.tr,
+                                                  ),
+                                                ],
                                         ),
                                         Expanded(
                                           child: TabBarView(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            controller:
-                                                controller.tabController,
-                                            children: [
-                                              SizedBox(
-                                                child: SingleChildScrollView(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          Constant.homeScreenType ==
-                                                                  'OlaHome'
-                                                              ? 0
-                                                              : 16),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      Text(
-                                                        "Enter Destination".tr,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontFamily:
-                                                              AppThemeData
-                                                                  .semiBold,
-                                                          color: themeChange
-                                                                  .getThem()
-                                                              ? AppThemeData
-                                                                  .grey900Dark
-                                                              : AppThemeData
-                                                                  .grey900,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 12),
-                                                      Column(
-                                                        children: [
-                                                          TextFieldWidget(
-                                                            onTap: () async {
-                                                              await Constant()
-                                                                  .placeSelectAPI(
-                                                                      context)
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value !=
-                                                                    null) {
-                                                                  controller
-                                                                          .departureController
-                                                                          .text =
-                                                                      value
-                                                                          .result
-                                                                          .formattedAddress
-                                                                          .toString();
-                                                                  controller.setDepartureMarker(LatLng(
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lat,
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lng));
-                                                                }
-                                                              });
-                                                            },
-                                                            isReadOnly: true,
-                                                            prefix: IconButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                LocationPermission
-                                                                    permission =
-                                                                    await Geolocator
-                                                                        .checkPermission();
-                                                                if (permission ==
-                                                                        LocationPermission
-                                                                            .denied ||
-                                                                    permission ==
-                                                                        LocationPermission
-                                                                            .deniedForever) {
-                                                                  permission =
-                                                                      await Geolocator
-                                                                          .requestPermission();
-                                                                }
-
-                                                                Position
-                                                                    position =
-                                                                    await Geolocator
-                                                                        .getCurrentPosition(
-                                                                  desiredAccuracy:
-                                                                      LocationAccuracy
-                                                                          .high,
-                                                                );
-
-                                                                List<Placemark>
-                                                                    placemarks =
-                                                                    await placemarkFromCoordinates(
-                                                                  position
-                                                                      .latitude,
-                                                                  position
-                                                                      .longitude,
-                                                                );
-                                                                Placemark
-                                                                    place =
-                                                                    placemarks
-                                                                        .first;
-
-                                                                String address =
-                                                                    "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                controller
-                                                                    .departureController
-                                                                    .text = address;
-                                                                controller.setDepartureMarker(LatLng(
-                                                                    position
-                                                                        .latitude,
-                                                                    position
-                                                                        .longitude));
-                                                              },
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_location.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey500Dark
-                                                                        : AppThemeData
-                                                                            .grey300Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            controller: controller.tabController,
+                                            children: Constant.parcelActive.toString() == "yes"
+                                                ? [
+                                                    SizedBox(
+                                                      child: SingleChildScrollView(
+                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const SizedBox(height: 20),
+                                                            Text(
+                                                              "Enter Destination".tr,
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontFamily: AppThemeData.semiBold,
+                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
                                                               ),
                                                             ),
-                                                            controller: controller
-                                                                .departureController,
-                                                            hintText:
-                                                                'Pick Up Location'
-                                                                    .tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey300Dark
-                                                                        : AppThemeData
-                                                                            .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          TextFieldWidget(
-                                                            onTap: () async {
-                                                              await Constant()
-                                                                  .placeSelectAPI(
-                                                                      context)
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value !=
-                                                                    null) {
-                                                                  controller
-                                                                          .destinationController
-                                                                          .text =
-                                                                      value
-                                                                          .result
-                                                                          .formattedAddress
-                                                                          .toString();
-                                                                  controller.setDestinationMarker(LatLng(
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lat,
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lng));
-                                                                }
-                                                              });
-                                                            },
-                                                            isReadOnly: true,
-                                                            prefix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_location.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey500Dark
-                                                                        : AppThemeData
-                                                                            .grey300Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                            controller: controller
-                                                                .destinationController,
-                                                            hintText:
-                                                                'Where you want to go?'
-                                                                    .tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey300Dark
-                                                                        : AppThemeData
-                                                                            .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ReorderableListView(
-                                                            shrinkWrap: true,
-                                                            physics:
-                                                                const NeverScrollableScrollPhysics(),
-                                                            children: <Widget>[
-                                                              for (int index =
-                                                                      0;
-                                                                  index <
-                                                                      controller
-                                                                          .multiStopListNew
-                                                                          .length;
-                                                                  index += 1)
-                                                                Container(
-                                                                  key: ValueKey(
-                                                                      controller
-                                                                              .multiStopListNew[
-                                                                          index]),
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Row(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child:
-                                                                                TextFieldWidget(
-                                                                              onTap: () async {
-                                                                                await Constant().placeSelectAPI(context).then((value) {
-                                                                                  if (value != null) {
-                                                                                    controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
-                                                                                    controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
-                                                                                    controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
-                                                                                    controller.setStopMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
-                                                                                  }
-                                                                                });
-                                                                              },
-                                                                              isReadOnly: true,
-                                                                              suffix: InkWell(
-                                                                                onTap: () {
-                                                                                  controller.removeStops(index);
-                                                                                  controller.markers.remove("Stop $index");
-                                                                                  controller.getDirections();
-                                                                                },
-                                                                                child: Icon(Icons.close, size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
-                                                                              ),
-                                                                              prefix: IconButton(
-                                                                                onPressed: () {},
-                                                                                icon: Text(
-                                                                                  String.fromCharCode(index + 65),
-                                                                                  style: TextStyle(
-                                                                                    fontSize: 16,
-                                                                                    fontFamily: AppThemeData.regular,
-                                                                                    color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              hintText: "Where do you want to stop?".tr,
-                                                                              controller: controller.multiStopListNew[index].editingController,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                            ],
-                                                            onReorder: (int
-                                                                    oldIndex,
-                                                                int newIndex) {
-                                                              if (oldIndex <
-                                                                  newIndex) {
-                                                                newIndex -= 1;
-                                                              }
-                                                              final AddStopModel
-                                                                  item =
-                                                                  controller
-                                                                      .multiStopListNew
-                                                                      .removeAt(
-                                                                          oldIndex);
-                                                              controller
-                                                                  .multiStopListNew
-                                                                  .insert(
-                                                                      newIndex,
-                                                                      item);
-                                                            },
-                                                          ),
-                                                          ButtonThem
-                                                              .buildButton(
-                                                            context,
-                                                            title:
-                                                                'Search Destination'
-                                                                    .tr,
-                                                            onPress: () async {
-                                                              FocusManager
-                                                                  .instance
-                                                                  .primaryFocus
-                                                                  ?.unfocus();
-                                                              log(controller
-                                                                  .departureLatLong
-                                                                  .value
-                                                                  .toString());
-                                                              if (controller
-                                                                      .departureLatLong
-                                                                      .value ==
-                                                                  LatLng(0.0,
-                                                                      0.0)) {
-                                                                ShowToastDialog
-                                                                    .showToast(
-                                                                        "Please Enter PickUp Adreess"
-                                                                            .tr);
-                                                              } else if (controller
-                                                                      .destinationLatLong
-                                                                      .value ==
-                                                                  LatLng(0.0,
-                                                                      0.0)) {
-                                                                ShowToastDialog
-                                                                    .showToast(
-                                                                        "Please Enter PickUp Adreess"
-                                                                            .tr);
-                                                              } else {
-                                                                await controller
-                                                                    .getDurationDistance(
-                                                                        controller
-                                                                            .departureLatLong
-                                                                            .value,
-                                                                        controller
-                                                                            .destinationLatLong
-                                                                            .value)
-                                                                    .then((
-                                                                  durationValue,
-                                                                ) async {
-                                                                  if (durationValue !=
-                                                                      null) {
-                                                                    await controller
-                                                                        .getUserPendingPayment()
-                                                                        .then(
-                                                                            (value) async {
-                                                                      if (value !=
-                                                                          null) {
-                                                                        if (value['success'] ==
-                                                                            "success") {
-                                                                          if (value['data']['amount'] !=
-                                                                              0) {
-                                                                            _pendingPaymentDialog(context);
-                                                                          } else {
-                                                                            if (Constant.distanceUnit ==
-                                                                                "KM") {
-                                                                              controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                            } else {
-                                                                              controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                            }
-
-                                                                            controller.duration.value =
-                                                                                durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                            // Get.back();
-                                                                            controller.confirmWidgetVisible.value =
-                                                                                false;
-                                                                            var dataMulti =
-                                                                                controller.multiStopListNew.where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty).toList();
-
-                                                                            controller.multiStopListNew =
-                                                                                dataMulti;
-                                                                            controller.multiStopList =
-                                                                                List.from(dataMulti);
-                                                                            setState(() {});
-
-                                                                            await controller.getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}').then((value) {
-                                                                              if (value != null) {
-                                                                                if (value.success == "Success") {
-                                                                                  if (value.data?.isNotEmpty == true) {
-                                                                                    tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
-                                                                                  }
-                                                                                }
-                                                                              }
-                                                                            });
-                                                                          }
-                                                                        } else {
-                                                                          if (Constant.distanceUnit ==
-                                                                              "KM") {
-                                                                            controller.distance.value =
-                                                                                durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                          } else {
-                                                                            controller.distance.value =
-                                                                                durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                          }
-                                                                          controller
-                                                                              .duration
-                                                                              .value = durationValue[
-                                                                                  'rows']
-                                                                              .first['elements']
-                                                                              .first['duration']['text'];
-                                                                          controller
-                                                                              .confirmWidgetVisible
-                                                                              .value = false;
-                                                                          var dataMulti = controller
-                                                                              .multiStopListNew
-                                                                              .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                              .toList();
-
-                                                                          controller.multiStopListNew =
-                                                                              dataMulti;
-                                                                          controller.multiStopList =
-                                                                              List.from(dataMulti);
-                                                                          setState(
-                                                                              () {});
-                                                                          await controller
-                                                                              .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
-                                                                              .then((value) {
-                                                                            if (value !=
-                                                                                null) {
-                                                                              if (value.success == "Success") {
-                                                                                if (value.data?.isNotEmpty == true) {
-                                                                                  tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
-                                                                                }
-                                                                              }
-                                                                            }
-                                                                          });
-                                                                        }
+                                                            const SizedBox(height: 12),
+                                                            Column(
+                                                              children: [
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.departureController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
-                                                                  }
-                                                                });
-                                                              }
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 20),
-                                                          ListView.builder(
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            primary: false,
-                                                            shrinkWrap: true,
-                                                            itemCount:
-                                                                controller
-                                                                    .bannerModel
-                                                                    .value
-                                                                    .data
-                                                                    ?.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int i) {
-                                                              return Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: Stack(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .bottomLeft,
-                                                                    children: [
-                                                                      CachedNetworkImage(
-                                                                        filterQuality:
-                                                                            FilterQuality.high,
-                                                                        width: Responsive.width(
-                                                                            100,
-                                                                            context),
-                                                                        height:
-                                                                            180,
-                                                                        imageUrl: controller
-                                                                            .bannerModel
-                                                                            .value
-                                                                            .data![i]
-                                                                            .image
-                                                                            .toString(),
-                                                                        fit: BoxFit
-                                                                            .fill,
-                                                                        placeholder:
-                                                                            (context, url) =>
-                                                                                Constant.loader(context),
-                                                                        errorWidget: (context, url, error) => Image.asset(
-                                                                            "assets/images/appIcon.png",
-                                                                            fit:
-                                                                                BoxFit.cover),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                16,
-                                                                            vertical:
-                                                                                12),
-                                                                        child:
-                                                                            Column(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () async {
+                                                                      LocationPermission permission = await Geolocator.checkPermission();
+                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                                        permission = await Geolocator.requestPermission();
+                                                                      }
+
+                                                                      Position position = await Geolocator.getCurrentPosition(
+                                                                        desiredAccuracy: LocationAccuracy.high,
+                                                                      );
+
+                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                                        position.latitude,
+                                                                        position.longitude,
+                                                                      );
+                                                                      Placemark place = placemarks.first;
+
+                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                      controller.departureController.text = address;
+                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                                    },
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.departureController,
+                                                                  hintText: 'Pick Up Location'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.destinationController,
+                                                                  hintText: 'Where you want to go?'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                ReorderableListView(
+                                                                  shrinkWrap: true,
+                                                                  physics: const NeverScrollableScrollPhysics(),
+                                                                  children: <Widget>[
+                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                                      Container(
+                                                                        key: ValueKey(controller.multiStopListNew[index]),
+                                                                        child: Column(
                                                                           children: [
-                                                                            Text(
-                                                                              controller.bannerModel.value.data?[i].title ?? '',
-                                                                              maxLines: 1,
-                                                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                            ),
-                                                                            const SizedBox(height: 2),
-                                                                            Text(
-                                                                              controller.bannerModel.value.data?[i].description ?? '',
-                                                                              maxLines: 2,
-                                                                              style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                            Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: TextFieldWidget(
+                                                                                    onTap: () async {
+                                                                                      await Constant().placeSelectAPI(context).then((value) {
+                                                                                        if (value != null) {
+                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.setStopMarker(
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                        }
+                                                                                      });
+                                                                                    },
+                                                                                    isReadOnly: true,
+                                                                                    suffix: InkWell(
+                                                                                      onTap: () {
+                                                                                        controller.removeStops(index);
+                                                                                        controller.markers.remove("Stop $index");
+                                                                                        controller.getDirections();
+                                                                                      },
+                                                                                      child: Icon(Icons.close,
+                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                    ),
+                                                                                    prefix: IconButton(
+                                                                                      onPressed: () {},
+                                                                                      icon: Text(
+                                                                                        String.fromCharCode(index + 65),
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 16,
+                                                                                          fontFamily: AppThemeData.regular,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    hintText: "Where do you want to stop?".tr,
+                                                                                    controller: controller.multiStopListNew[index].editingController,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
                                                                             ),
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                    ],
-                                                                  ),
+                                                                  ],
+                                                                  onReorder: (int oldIndex, int newIndex) {
+                                                                    if (oldIndex < newIndex) {
+                                                                      newIndex -= 1;
+                                                                    }
+                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                                    controller.multiStopListNew.insert(newIndex, item);
+                                                                  },
                                                                 ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                child: SingleChildScrollView(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          Constant.homeScreenType ==
-                                                                  'OlaHome'
-                                                              ? 0
-                                                              : 16),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      Text(
-                                                        "Enter Destination".tr,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontFamily:
-                                                              AppThemeData
-                                                                  .semiBold,
-                                                          color: themeChange
-                                                                  .getThem()
-                                                              ? AppThemeData
-                                                                  .grey900Dark
-                                                              : AppThemeData
-                                                                  .grey900,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 12),
-                                                      Column(
-                                                        children: [
-                                                          TextFieldWidget(
-                                                            onTap: () async {
-                                                              await Constant()
-                                                                  .placeSelectAPI(
-                                                                      context)
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value !=
-                                                                    null) {
-                                                                  controller
-                                                                          .departureController
-                                                                          .text =
-                                                                      value
-                                                                          .result
-                                                                          .formattedAddress
-                                                                          .toString();
-                                                                  controller.setDepartureMarker(LatLng(
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lat,
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lng));
-                                                                }
-                                                              });
-                                                            },
-                                                            isReadOnly: true,
-                                                            prefix: IconButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                LocationPermission
-                                                                permission =
-                                                                await Geolocator
-                                                                    .checkPermission();
-                                                                if (permission ==
-                                                                    LocationPermission
-                                                                        .denied ||
-                                                                    permission ==
-                                                                        LocationPermission
-                                                                            .deniedForever) {
-                                                                  permission =
-                                                                  await Geolocator
-                                                                      .requestPermission();
-                                                                }
-
-                                                                Position
-                                                                position =
-                                                                await Geolocator
-                                                                    .getCurrentPosition(
-                                                                  desiredAccuracy:
-                                                                  LocationAccuracy
-                                                                      .high,
-                                                                );
-
-                                                                List<Placemark>
-                                                                placemarks =
-                                                                await placemarkFromCoordinates(
-                                                                  position
-                                                                      .latitude,
-                                                                  position
-                                                                      .longitude,
-                                                                );
-                                                                Placemark
-                                                                place =
-                                                                    placemarks
-                                                                        .first;
-
-                                                                String address =
-                                                                    "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                controller
-                                                                    .departureController
-                                                                    .text = address;
-                                                                controller.setDepartureMarker(LatLng(
-                                                                    position
-                                                                        .latitude,
-                                                                    position
-                                                                        .longitude));
-                                                              },
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_location.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey500Dark
-                                                                        : AppThemeData
-                                                                            .grey300Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                            controller: controller
-                                                                .departureController,
-                                                            hintText:
-                                                                'Pick Up Location'
-                                                                    .tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey300Dark
-                                                                        : AppThemeData
-                                                                            .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          TextFieldWidget(
-                                                            onTap: () async {
-                                                              await Constant()
-                                                                  .placeSelectAPI(
-                                                                      context)
-                                                                  .then(
-                                                                      (value) {
-                                                                if (value !=
-                                                                    null) {
-                                                                  controller
-                                                                          .destinationController
-                                                                          .text =
-                                                                      value
-                                                                          .result
-                                                                          .formattedAddress
-                                                                          .toString();
-                                                                  controller.setDestinationMarker(LatLng(
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lat,
-                                                                      value
-                                                                          .result
-                                                                          .geometry!
-                                                                          .location
-                                                                          .lng));
-                                                                }
-                                                              });
-                                                            },
-                                                            isReadOnly: true,
-                                                            prefix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_location.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey500Dark
-                                                                        : AppThemeData
-                                                                            .grey300Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                            controller: controller
-                                                                .destinationController,
-                                                            hintText:
-                                                                'Where you want to go?'
-                                                                    .tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey300Dark
-                                                                        : AppThemeData
-                                                                            .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ReorderableListView(
-                                                            shrinkWrap: true,
-                                                            physics:
-                                                                const NeverScrollableScrollPhysics(),
-                                                            children: <Widget>[
-                                                              for (int index =
-                                                                      0;
-                                                                  index <
-                                                                      controller
-                                                                          .multiStopListNew
-                                                                          .length;
-                                                                  index += 1)
-                                                                Container(
-                                                                  key: ValueKey(
-                                                                      controller
-                                                                              .multiStopListNew[
-                                                                          index]),
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Row(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child:
-                                                                                TextFieldWidget(
-                                                                              onTap: () async {
-                                                                                await Constant().placeSelectAPI(context).then((value) {
-                                                                                  if (value != null) {
-                                                                                    controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
-                                                                                    controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
-                                                                                    controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
-                                                                                    controller.setStopMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                ButtonThem.buildButton(
+                                                                  context,
+                                                                  title: 'Search Destination'.tr,
+                                                                  onPress: () async {
+                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                    log(controller.departureLatLong.value.toString());
+                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else {
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                if (value['data']['amount'] != 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                } else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
-                                                                                });
-                                                                              },
-                                                                              isReadOnly: true,
-                                                                              suffix: InkWell(
-                                                                                onTap: () {
-                                                                                  controller.removeStops(index);
-                                                                                  controller.markers.remove("Stop $index");
-                                                                                  controller.getDirections();
-                                                                                },
-                                                                                child: Icon(Icons.close, size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
-                                                                              ),
-                                                                              prefix: IconButton(
-                                                                                onPressed: () {},
-                                                                                icon: Text(
-                                                                                  String.fromCharCode(index + 65),
-                                                                                  style: TextStyle(
-                                                                                    fontSize: 16,
-                                                                                    fontFamily: AppThemeData.regular,
-                                                                                    color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              hintText: "Where do you want to stop?".tr,
-                                                                              controller: controller.multiStopListNew[index].editingController,
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                            ],
-                                                            onReorder: (int
-                                                                    oldIndex,
-                                                                int newIndex) {
-                                                              if (oldIndex <
-                                                                  newIndex) {
-                                                                newIndex -= 1;
-                                                              }
-                                                              final AddStopModel
-                                                                  item =
-                                                                  controller
-                                                                      .multiStopListNew
-                                                                      .removeAt(
-                                                                          oldIndex);
-                                                              controller
-                                                                  .multiStopListNew
-                                                                  .insert(
-                                                                      newIndex,
-                                                                      item);
-                                                            },
-                                                          ),
-                                                          TextFieldWidget(
-                                                            textColor:
-                                                                AppThemeData
-                                                                    .warning200,
-                                                            hintColor:
-                                                                AppThemeData
-                                                                    .warning200,
-                                                            isReadOnly: true,
-                                                            onTap: () {
-                                                              controller
-                                                                  .addStops();
-                                                              setState(() {});
-                                                            },
-                                                            prefix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: Container(
-                                                                  height: 14,
-                                                                  width: 14,
-                                                                  color: AppThemeData
-                                                                      .warning200),
-                                                            ),
-                                                            controller:
-                                                                TextEditingController(
-                                                                    text:
-                                                                        'Add Stop'
-                                                                            .tr),
-                                                            hintText:
-                                                                'Add Stop'.tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                            .getThem()
-                                                                        ? AppThemeData
-                                                                            .grey300Dark
-                                                                        : AppThemeData
-                                                                            .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ButtonThem
-                                                              .buildButton(
-                                                            context,
-                                                            title:
-                                                                'Search Destination'
-                                                                    .tr,
-                                                            onPress: () async {
-                                                              FocusManager
-                                                                  .instance
-                                                                  .primaryFocus
-                                                                  ?.unfocus();
-                                                              log(controller
-                                                                  .departureLatLong
-                                                                  .value
-                                                                  .toString());
-                                                              if (controller
-                                                                      .departureLatLong
-                                                                      .value ==
-                                                                  LatLng(0.0,
-                                                                      0.0)) {
-                                                                ShowToastDialog
-                                                                    .showToast(
-                                                                        "Please Enter PickUp Adreess"
-                                                                            .tr);
-                                                              } else if (controller
-                                                                      .destinationLatLong
-                                                                      .value ==
-                                                                  LatLng(0.0,
-                                                                      0.0)) {
-                                                                ShowToastDialog
-                                                                    .showToast(
-                                                                        "Please Enter PickUp Adreess"
-                                                                            .tr);
-                                                              } else {
-                                                                await controller
-                                                                    .getDurationDistance(
-                                                                        controller
-                                                                            .departureLatLong
-                                                                            .value,
-                                                                        controller
-                                                                            .destinationLatLong
-                                                                            .value)
-                                                                    .then((
-                                                                  durationValue,
-                                                                ) async {
-                                                                  if (durationValue !=
-                                                                      null) {
-                                                                    await controller
-                                                                        .getUserPendingPayment()
-                                                                        .then(
-                                                                            (value) async {
-                                                                      if (value !=
-                                                                          null) {
-                                                                        if (value['success'] ==
-                                                                            "success") {
-                                                                          if (value['data']['amount'] !=
-                                                                              0) {
-                                                                            _pendingPaymentDialog(context);
-                                                                          } else {
-                                                                            if (Constant.distanceUnit ==
-                                                                                "KM") {
-                                                                              controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                            } else {
-                                                                              controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                            }
 
-                                                                            controller.duration.value =
-                                                                                durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                            // Get.back();
-                                                                            controller.confirmWidgetVisible.value =
-                                                                                false;
-                                                                            var dataMulti =
-                                                                                controller.multiStopListNew.where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty).toList();
+                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                  // Get.back();
+                                                                                  controller.confirmWidgetVisible.value = false;
+                                                                                  var dataMulti = controller.multiStopListNew
+                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .toList();
 
-                                                                            controller.multiStopListNew =
-                                                                                dataMulti;
-                                                                            controller.multiStopList =
-                                                                                List.from(dataMulti);
-                                                                            setState(() {});
-                                                                            tripOptionBottomSheet(
-                                                                                context,
-                                                                                themeChange.getThem(),
-                                                                                controller,
-                                                                                'other');
-                                                                          }
-                                                                        } else {
-                                                                          if (Constant.distanceUnit ==
-                                                                              "KM") {
-                                                                            controller.distance.value =
-                                                                                durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                          } else {
-                                                                            controller.distance.value =
-                                                                                durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                          }
-                                                                          controller
-                                                                              .duration
-                                                                              .value = durationValue[
-                                                                                  'rows']
-                                                                              .first['elements']
-                                                                              .first['duration']['text'];
-                                                                          controller
-                                                                              .confirmWidgetVisible
-                                                                              .value = false;
-                                                                          var dataMulti = controller
-                                                                              .multiStopListNew
-                                                                              .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                              .toList();
+                                                                                  controller.multiStopListNew = dataMulti;
+                                                                                  controller.multiStopList = List.from(dataMulti);
+                                                                                  setState(() {});
 
-                                                                          controller.multiStopListNew =
-                                                                              dataMulti;
-                                                                          controller.multiStopList =
-                                                                              List.from(dataMulti);
-                                                                          setState(
-                                                                              () {});
-                                                                          tripOptionBottomSheet(
-                                                                              context,
-                                                                              themeChange.getThem(),
-                                                                              controller,
-                                                                              'other');
-                                                                        }
-                                                                      }
-                                                                    });
-                                                                  }
-                                                                });
-                                                              }
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 20),
-                                                          ListView.builder(
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            primary: false,
-                                                            shrinkWrap: true,
-                                                            itemCount:
-                                                                controller
-                                                                    .bannerModel
-                                                                    .value
-                                                                    .data
-                                                                    ?.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int i) {
-                                                              return Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            20),
-                                                                child: Center(
-                                                                  child: Stack(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .bottomLeft,
-                                                                    children: [
-                                                                      CachedNetworkImage(
-                                                                        filterQuality:
-                                                                            FilterQuality.high,
-                                                                        width: Responsive.width(
-                                                                            100,
-                                                                            context),
-                                                                        height:
-                                                                            180,
-                                                                        imageUrl: controller
-                                                                            .bannerModel
-                                                                            .value
-                                                                            .data![i]
-                                                                            .image
-                                                                            .toString(),
-                                                                        fit: BoxFit
-                                                                            .fill,
-                                                                        placeholder:
-                                                                            (context, url) =>
-                                                                                Constant.loader(context),
-                                                                        errorWidget: (context, url, error) => Image.asset(
-                                                                            "assets/images/appIcon.png",
-                                                                            fit:
-                                                                                BoxFit.cover),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                16,
-                                                                            vertical:
-                                                                                12),
-                                                                        child:
-                                                                            Column(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(
-                                                                              controller.bannerModel.value.data?[i].title ?? '',
-                                                                              maxLines: 1,
-                                                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                            ),
-                                                                            const SizedBox(height: 2),
-                                                                            Text(
-                                                                              controller.bannerModel.value.data?[i].description ?? '',
-                                                                              maxLines: 2,
-                                                                              style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                child: SingleChildScrollView(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal:
-                                                      Constant.homeScreenType ==
-                                                          'OlaHome'
-                                                          ? 0
-                                                          : 16),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      Text(
-                                                        "Enter Destination".tr,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontFamily:
-                                                          AppThemeData
-                                                              .semiBold,
-                                                          color: themeChange
-                                                              .getThem()
-                                                              ? AppThemeData
-                                                              .grey900Dark
-                                                              : AppThemeData
-                                                              .grey900,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 12),
-                                                      Column(
-                                                        children: [
-                                                          TextFieldWidget(
-                                                            onTap: () async {
-                                                              await Constant()
-                                                                  .placeSelectAPI(
-                                                                  context)
-                                                                  .then(
-                                                                      (value) {
-                                                                    if (value !=
-                                                                        null) {
-                                                                      controller
-                                                                          .departureController
-                                                                          .text =
-                                                                          value
-                                                                              .result
-                                                                              .formattedAddress
-                                                                              .toString();
-                                                                      controller.setDepartureMarker(LatLng(
-                                                                          value
-                                                                              .result
-                                                                              .geometry!
-                                                                              .location
-                                                                              .lat,
-                                                                          value
-                                                                              .result
-                                                                              .geometry!
-                                                                              .location
-                                                                              .lng));
-                                                                    }
-                                                                  });
-                                                            },
-                                                            isReadOnly: true,
-                                                            prefix: IconButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                LocationPermission
-                                                                permission =
-                                                                await Geolocator
-                                                                    .checkPermission();
-                                                                if (permission ==
-                                                                    LocationPermission
-                                                                        .denied ||
-                                                                    permission ==
-                                                                        LocationPermission
-                                                                            .deniedForever) {
-                                                                  permission =
-                                                                  await Geolocator
-                                                                      .requestPermission();
-                                                                }
-
-                                                                Position
-                                                                position =
-                                                                await Geolocator
-                                                                    .getCurrentPosition(
-                                                                  desiredAccuracy:
-                                                                  LocationAccuracy
-                                                                      .high,
-                                                                );
-
-                                                                List<Placemark>
-                                                                placemarks =
-                                                                await placemarkFromCoordinates(
-                                                                  position
-                                                                      .latitude,
-                                                                  position
-                                                                      .longitude,
-                                                                );
-                                                                Placemark
-                                                                place =
-                                                                    placemarks
-                                                                        .first;
-
-                                                                String address =
-                                                                    "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                controller
-                                                                    .departureController
-                                                                    .text = address;
-                                                                controller.setDepartureMarker(LatLng(
-                                                                    position
-                                                                        .latitude,
-                                                                    position
-                                                                        .longitude));
-                                                              },
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_location.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                        .getThem()
-                                                                        ? AppThemeData
-                                                                        .grey500Dark
-                                                                        : AppThemeData
-                                                                        .grey300Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                            controller: controller
-                                                                .departureController,
-                                                            hintText:
-                                                            'Pick Up Location'
-                                                                .tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                        .getThem()
-                                                                        ? AppThemeData
-                                                                        .grey300Dark
-                                                                        : AppThemeData
-                                                                        .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          TextFieldWidget(
-                                                            onTap: () async {
-                                                              await Constant()
-                                                                  .placeSelectAPI(
-                                                                  context)
-                                                                  .then(
-                                                                      (value) {
-                                                                    if (value !=
-                                                                        null) {
-                                                                      controller
-                                                                          .destinationController
-                                                                          .text =
-                                                                          value
-                                                                              .result
-                                                                              .formattedAddress
-                                                                              .toString();
-                                                                      controller.setDestinationMarker(LatLng(
-                                                                          value
-                                                                              .result
-                                                                              .geometry!
-                                                                              .location
-                                                                              .lat,
-                                                                          value
-                                                                              .result
-                                                                              .geometry!
-                                                                              .location
-                                                                              .lng));
-                                                                    }
-                                                                  });
-                                                            },
-                                                            isReadOnly: true,
-                                                            prefix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_location.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                        .getThem()
-                                                                        ? AppThemeData
-                                                                        .grey500Dark
-                                                                        : AppThemeData
-                                                                        .grey300Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                            controller: controller
-                                                                .destinationController,
-                                                            hintText:
-                                                            'Where you want to go?'
-                                                                .tr,
-                                                            suffix: IconButton(
-                                                              onPressed: () {},
-                                                              icon: SvgPicture
-                                                                  .asset(
-                                                                'assets/icons/ic_right_arrow.svg',
-                                                                colorFilter: ColorFilter.mode(
-                                                                    themeChange
-                                                                        .getThem()
-                                                                        ? AppThemeData
-                                                                        .grey300Dark
-                                                                        : AppThemeData
-                                                                        .grey500Dark,
-                                                                    BlendMode
-                                                                        .srcIn),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          TextFieldWidget(
-                                                            isReadOnly: true,
-                                                            controller: controller.dateController,
-                                                            hintText: "Select Date".tr,
-                                                            onTap: () async {
-                                                              DateTime? pickedDate = await showDatePicker(
-                                                                context: context,
-                                                                initialDate: DateTime.now(),
-                                                                firstDate: DateTime.now(),
-                                                                lastDate: DateTime.now().add(const Duration(days: 365)),
-                                                              );
-
-                                                              if (pickedDate != null) {
-                                                                controller.dateController.text =
-                                                                "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-                                                                controller.selectedDate.value = pickedDate;
-                                                              }
-                                                            },
-                                                            prefix: const Icon(Icons.calendar_month),
-                                                          ),
-
-                                                          const SizedBox(height: 12),
-
-// TIME PICKER
-                                                          TextFieldWidget(
-                                                            isReadOnly: true,
-                                                            controller: controller.timeController,
-                                                            hintText: "Select Time".tr,
-                                                            onTap: () async {
-                                                              TimeOfDay? pickedTime = await showTimePicker(
-                                                                context: context,
-                                                                initialTime: TimeOfDay.now(),
-                                                              );
-
-                                                              if (pickedTime != null) {
-                                                                controller.timeController.text = pickedTime.format(context);
-                                                                controller.selectedTime.value = pickedTime;
-                                                              }
-                                                            },
-                                                            prefix: const Icon(Icons.access_time),
-                                                          ),
-                                                          ButtonThem
-                                                              .buildButton(
-                                                            context,
-                                                            title:
-                                                            'Search Destination'
-                                                                .tr,
-                                                            onPress: () async {
-                                                              FocusManager
-                                                                  .instance
-                                                                  .primaryFocus
-                                                                  ?.unfocus();
-                                                              log(controller
-                                                                  .departureLatLong
-                                                                  .value
-                                                                  .toString());
-                                                              if (controller
-                                                                  .departureLatLong
-                                                                  .value ==
-                                                                  LatLng(0.0,
-                                                                      0.0)) {
-                                                                ShowToastDialog
-                                                                    .showToast(
-                                                                    "Please Enter PickUp Adreess"
-                                                                        .tr);
-                                                              } else if (controller
-                                                                  .destinationLatLong
-                                                                  .value ==
-                                                                  LatLng(0.0,
-                                                                      0.0)) {
-                                                                ShowToastDialog
-                                                                    .showToast(
-                                                                    "Please Enter PickUp Adreess"
-                                                                        .tr);
-                                                              } else {
-                                                                await controller
-                                                                    .getDurationDistance(
-                                                                    controller
-                                                                        .departureLatLong
-                                                                        .value,
-                                                                    controller
-                                                                        .destinationLatLong
-                                                                        .value)
-                                                                    .then((
-                                                                    durationValue,
-                                                                    ) async {
-                                                                  if (durationValue !=
-                                                                      null) {
-                                                                    await controller
-                                                                        .getUserPendingPayment()
-                                                                        .then(
-                                                                            (value) async {
-                                                                          if (value !=
-                                                                              null) {
-                                                                            if (value['success'] ==
-                                                                                "success") {
-                                                                              if (value['data']['amount'] !=
-                                                                                  0) {
-                                                                                _pendingPaymentDialog(context);
+                                                                                  await controller
+                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                                      .then((value) {
+                                                                                    if (value != null) {
+                                                                                      if (value.success == "Success") {
+                                                                                        if (value.data?.isNotEmpty == true) {
+                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  });
+                                                                                }
                                                                               } else {
-                                                                                if (Constant.distanceUnit ==
-                                                                                    "KM") {
+                                                                                if (Constant.distanceUnit == "KM") {
                                                                                   controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                 } else {
                                                                                   controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                 }
+                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                controller.confirmWidgetVisible.value = false;
+                                                                                var dataMulti = controller.multiStopListNew
+                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .toList();
 
-                                                                                controller.duration.value =
-                                                                                durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                // Get.back();
-                                                                                controller.confirmWidgetVisible.value =
-                                                                                false;
-                                                                                var dataMulti =
-                                                                                controller.multiStopListNew.where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty).toList();
-
-                                                                                controller.multiStopListNew =
-                                                                                    dataMulti;
-                                                                                controller.multiStopList =
-                                                                                    List.from(dataMulti);
+                                                                                controller.multiStopListNew = dataMulti;
+                                                                                controller.multiStopList = List.from(dataMulti);
                                                                                 setState(() {});
-
-                                                                                await controller.getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}').then((value) {
+                                                                                await controller
+                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                                    .then((value) {
                                                                                   if (value != null) {
                                                                                     if (value.success == "Success") {
                                                                                       if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride', driverData: value.data?.first,selectedDate: controller.selectedDate.value,selectedTime: controller.selectedTime.value);
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
                                                                                       }
                                                                                     }
                                                                                   }
                                                                                 });
                                                                               }
-                                                                            } else {
-                                                                              if (Constant.distanceUnit ==
-                                                                                  "KM") {
-                                                                                controller.distance.value =
-                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                              } else {
-                                                                                controller.distance.value =
-                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                              }
-                                                                              controller
-                                                                                  .duration
-                                                                                  .value = durationValue[
-                                                                              'rows']
-                                                                                  .first['elements']
-                                                                                  .first['duration']['text'];
-                                                                              controller
-                                                                                  .confirmWidgetVisible
-                                                                                  .value = false;
-                                                                              var dataMulti = controller
-                                                                                  .multiStopListNew
-                                                                                  .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                                  .toList();
-
-                                                                              controller.multiStopListNew =
-                                                                                  dataMulti;
-                                                                              controller.multiStopList =
-                                                                                  List.from(dataMulti);
-                                                                              setState(
-                                                                                      () {});
-                                                                              await controller
-                                                                                  .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
-                                                                                  .then((value) {
-                                                                                if (value !=
-                                                                                    null) {
-                                                                                  if (value.success == "Success") {
-                                                                                    if (value.data?.isNotEmpty == true) {
-                                                                                      tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride', driverData: value.data?.first,selectedDate: controller.selectedDate.value,selectedTime: controller.selectedTime.value);
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              });
                                                                             }
-                                                                          }
-                                                                        });
-                                                                  }
-                                                                });
-                                                              }
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 20),
-                                                          ListView.builder(
-                                                            padding:
-                                                            EdgeInsets.zero,
-                                                            primary: false,
-                                                            shrinkWrap: true,
-                                                            itemCount:
-                                                            controller
-                                                                .bannerModel
-                                                                .value
-                                                                .data
-                                                                ?.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                            context,
-                                                                int i) {
-                                                              return Padding(
-                                                                padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    bottom:
-                                                                    20),
-                                                                child: Center(
-                                                                  child: Stack(
-                                                                    alignment:
-                                                                    Alignment
-                                                                        .bottomLeft,
-                                                                    children: [
-                                                                      CachedNetworkImage(
-                                                                        filterQuality:
-                                                                        FilterQuality.high,
-                                                                        width: Responsive.width(
-                                                                            100,
-                                                                            context),
-                                                                        height:
-                                                                        180,
-                                                                        imageUrl: controller
-                                                                            .bannerModel
-                                                                            .value
-                                                                            .data![i]
-                                                                            .image
-                                                                            .toString(),
-                                                                        fit: BoxFit
-                                                                            .fill,
-                                                                        placeholder:
-                                                                            (context, url) =>
-                                                                            Constant.loader(context),
-                                                                        errorWidget: (context, url, error) => Image.asset(
-                                                                            "assets/images/appIcon.png",
-                                                                            fit:
-                                                                            BoxFit.cover),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                            16,
-                                                                            vertical:
-                                                                            12),
-                                                                        child:
-                                                                        Column(
-                                                                          crossAxisAlignment:
-                                                                          CrossAxisAlignment.start,
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
                                                                           children: [
-                                                                            Text(
-                                                                              controller.bannerModel.value.data?[i].title ?? '',
-                                                                              maxLines: 1,
-                                                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
                                                                             ),
-                                                                            const SizedBox(height: 2),
-                                                                            Text(
-                                                                              controller.bannerModel.value.data?[i].description ?? '',
-                                                                              maxLines: 2,
-                                                                              style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
                                                                             ),
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                    ],
-                                                                  ),
+                                                                    );
+                                                                  },
                                                                 ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-//                                               SizedBox(
-//                                                 child: SingleChildScrollView(
-//                                                   padding: EdgeInsets.symmetric(
-//                                                       horizontal:
-//                                                       Constant.homeScreenType ==
-//                                                           'OlaHome'
-//                                                           ? 0
-//                                                           : 16),
-//                                                   child: Column(
-//                                                     crossAxisAlignment:
-//                                                     CrossAxisAlignment
-//                                                         .start,
-//                                                     children: [
-//                                                       const SizedBox(
-//                                                           height: 20),
-//                                                       Text(
-//                                                         "Enter Destination".tr,
-//                                                         style: TextStyle(
-//                                                           fontSize: 18,
-//                                                           fontFamily:
-//                                                           AppThemeData
-//                                                               .semiBold,
-//                                                           color: themeChange
-//                                                               .getThem()
-//                                                               ? AppThemeData
-//                                                               .grey900Dark
-//                                                               : AppThemeData
-//                                                               .grey900,
-//                                                         ),
-//                                                       ),
-//                                                       const SizedBox(
-//                                                           height: 12),
-//                                                       Column(
-//                                                         children: [
-//                                                           TextFieldWidget(
-//                                                             onTap: () async {
-//                                                               await Constant()
-//                                                                   .placeSelectAPI(
-//                                                                   context)
-//                                                                   .then(
-//                                                                       (value) {
-//                                                                     if (value !=
-//                                                                         null) {
-//                                                                       controller
-//                                                                           .departureController
-//                                                                           .text =
-//                                                                           value
-//                                                                               .result
-//                                                                               .formattedAddress
-//                                                                               .toString();
-//                                                                       controller.setDepartureMarker(LatLng(
-//                                                                           value
-//                                                                               .result
-//                                                                               .geometry!
-//                                                                               .location
-//                                                                               .lat,
-//                                                                           value
-//                                                                               .result
-//                                                                               .geometry!
-//                                                                               .location
-//                                                                               .lng));
-//                                                                     }
-//                                                                   });
-//                                                             },
-//                                                             isReadOnly: true,
-//                                                             prefix: IconButton(
-//                                                               onPressed:
-//                                                                   () async {
-//                                                                 LocationPermission
-//                                                                 permission =
-//                                                                 await Geolocator
-//                                                                     .checkPermission();
-//                                                                 if (permission ==
-//                                                                     LocationPermission
-//                                                                         .denied ||
-//                                                                     permission ==
-//                                                                         LocationPermission
-//                                                                             .deniedForever) {
-//                                                                   permission =
-//                                                                   await Geolocator
-//                                                                       .requestPermission();
-//                                                                 }
-//
-//                                                                 Position
-//                                                                 position =
-//                                                                 await Geolocator
-//                                                                     .getCurrentPosition(
-//                                                                   desiredAccuracy:
-//                                                                   LocationAccuracy
-//                                                                       .high,
-//                                                                 );
-//
-//                                                                 List<Placemark>
-//                                                                 placemarks =
-//                                                                 await placemarkFromCoordinates(
-//                                                                   position
-//                                                                       .latitude,
-//                                                                   position
-//                                                                       .longitude,
-//                                                                 );
-//                                                                 Placemark
-//                                                                 place =
-//                                                                     placemarks
-//                                                                         .first;
-//
-//                                                                 String address =
-//                                                                     "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-//
-//                                                                 controller
-//                                                                     .departureController
-//                                                                     .text = address;
-//                                                                 controller.setDepartureMarker(LatLng(
-//                                                                     position
-//                                                                         .latitude,
-//                                                                     position
-//                                                                         .longitude));
-//                                                               },
-//                                                               icon: SvgPicture
-//                                                                   .asset(
-//                                                                 'assets/icons/ic_location.svg',
-//                                                                 colorFilter: ColorFilter.mode(
-//                                                                     themeChange
-//                                                                         .getThem()
-//                                                                         ? AppThemeData
-//                                                                         .grey500Dark
-//                                                                         : AppThemeData
-//                                                                         .grey300Dark,
-//                                                                     BlendMode
-//                                                                         .srcIn),
-//                                                               ),
-//                                                             ),
-//                                                             controller: controller
-//                                                                 .departureController,
-//                                                             hintText:
-//                                                             'Pick Up Location'
-//                                                                 .tr,
-//                                                             suffix: IconButton(
-//                                                               onPressed: () {},
-//                                                               icon: SvgPicture
-//                                                                   .asset(
-//                                                                 'assets/icons/ic_right_arrow.svg',
-//                                                                 colorFilter: ColorFilter.mode(
-//                                                                     themeChange
-//                                                                         .getThem()
-//                                                                         ? AppThemeData
-//                                                                         .grey300Dark
-//                                                                         : AppThemeData
-//                                                                         .grey500Dark,
-//                                                                     BlendMode
-//                                                                         .srcIn),
-//                                                               ),
-//                                                             ),
-//                                                           ),
-//                                                           TextFieldWidget(
-//                                                             onTap: () async {
-//                                                               await Constant()
-//                                                                   .placeSelectAPI(
-//                                                                   context)
-//                                                                   .then(
-//                                                                       (value) {
-//                                                                     if (value !=
-//                                                                         null) {
-//                                                                       controller
-//                                                                           .destinationController
-//                                                                           .text =
-//                                                                           value
-//                                                                               .result
-//                                                                               .formattedAddress
-//                                                                               .toString();
-//                                                                       controller.setDestinationMarker(LatLng(
-//                                                                           value
-//                                                                               .result
-//                                                                               .geometry!
-//                                                                               .location
-//                                                                               .lat,
-//                                                                           value
-//                                                                               .result
-//                                                                               .geometry!
-//                                                                               .location
-//                                                                               .lng));
-//                                                                     }
-//                                                                   });
-//                                                             },
-//                                                             isReadOnly: true,
-//                                                             prefix: IconButton(
-//                                                               onPressed: () {},
-//                                                               icon: SvgPicture
-//                                                                   .asset(
-//                                                                 'assets/icons/ic_location.svg',
-//                                                                 colorFilter: ColorFilter.mode(
-//                                                                     themeChange
-//                                                                         .getThem()
-//                                                                         ? AppThemeData
-//                                                                         .grey500Dark
-//                                                                         : AppThemeData
-//                                                                         .grey300Dark,
-//                                                                     BlendMode
-//                                                                         .srcIn),
-//                                                               ),
-//                                                             ),
-//                                                             controller: controller
-//                                                                 .destinationController,
-//                                                             hintText:
-//                                                             'Where you want to go?'
-//                                                                 .tr,
-//                                                             suffix: IconButton(
-//                                                               onPressed: () {},
-//                                                               icon: SvgPicture
-//                                                                   .asset(
-//                                                                 'assets/icons/ic_right_arrow.svg',
-//                                                                 colorFilter: ColorFilter.mode(
-//                                                                     themeChange
-//                                                                         .getThem()
-//                                                                         ? AppThemeData
-//                                                                         .grey300Dark
-//                                                                         : AppThemeData
-//                                                                         .grey500Dark,
-//                                                                     BlendMode
-//                                                                         .srcIn),
-//                                                               ),
-//                                                             ),
-//                                                           ),
-//
-//
-//                                                           // DATE PICKER
-//                                                           TextFieldWidget(
-//                                                             isReadOnly: true,
-//                                                             controller: controller.dateController,
-//                                                             hintText: "Select Date".tr,
-//                                                             onTap: () async {
-//                                                               DateTime? pickedDate = await showDatePicker(
-//                                                                 context: context,
-//                                                                 initialDate: DateTime.now(),
-//                                                                 firstDate: DateTime.now(),
-//                                                                 lastDate: DateTime.now().add(const Duration(days: 365)),
-//                                                               );
-//
-//                                                               if (pickedDate != null) {
-//                                                                 controller.dateController.text =
-//                                                                 "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-//                                                                 controller.selectedDate.value = pickedDate;
-//                                                               }
-//                                                             },
-//                                                             prefix: const Icon(Icons.calendar_month),
-//                                                           ),
-//
-//                                                           const SizedBox(height: 12),
-//
-// // TIME PICKER
-//                                                           TextFieldWidget(
-//                                                             isReadOnly: true,
-//                                                             controller: controller.timeController,
-//                                                             hintText: "Select Time".tr,
-//                                                             onTap: () async {
-//                                                               TimeOfDay? pickedTime = await showTimePicker(
-//                                                                 context: context,
-//                                                                 initialTime: TimeOfDay.now(),
-//                                                               );
-//
-//                                                               if (pickedTime != null) {
-//                                                                 controller.timeController.text = pickedTime.format(context);
-//                                                                 controller.selectedTime.value = pickedTime;
-//                                                               }
-//                                                             },
-//                                                             prefix: const Icon(Icons.access_time),
-//                                                           ),
-//
-//                                                           ButtonThem
-//                                                               .buildButton(
-//                                                             context,
-//                                                             title:
-//                                                             'Search Destination'
-//                                                                 .tr,
-//                                                             onPress: () async {
-//                                                               FocusManager
-//                                                                   .instance
-//                                                                   .primaryFocus
-//                                                                   ?.unfocus();
-//                                                               log(controller
-//                                                                   .departureLatLong
-//                                                                   .value
-//                                                                   .toString());
-//                                                               if (controller
-//                                                                   .departureLatLong
-//                                                                   .value ==
-//                                                                   LatLng(0.0,
-//                                                                       0.0)) {
-//                                                                 ShowToastDialog
-//                                                                     .showToast(
-//                                                                     "Please Enter PickUp Adreess"
-//                                                                         .tr);
-//                                                               } else if (controller
-//                                                                   .destinationLatLong
-//                                                                   .value ==
-//                                                                   LatLng(0.0,
-//                                                                       0.0)) {
-//                                                                 ShowToastDialog
-//                                                                     .showToast(
-//                                                                     "Please Enter PickUp Adreess"
-//                                                                         .tr);
-//                                                               } else {
-//                                                                 await controller
-//                                                                     .getDurationDistance(
-//                                                                     controller
-//                                                                         .departureLatLong
-//                                                                         .value,
-//                                                                     controller
-//                                                                         .destinationLatLong
-//                                                                         .value)
-//                                                                     .then((
-//                                                                     durationValue,
-//                                                                     ) async {
-//                                                                   if (durationValue !=
-//                                                                       null) {
-//                                                                     await controller
-//                                                                         .getUserPendingPayment()
-//                                                                         .then(
-//                                                                             (value) async {
-//                                                                           if (value !=
-//                                                                               null) {
-//                                                                             if (value['success'] ==
-//                                                                                 "success") {
-//                                                                               if (value['data']['amount'] !=
-//                                                                                   0) {
-//                                                                                 _pendingPaymentDialog(context);
-//                                                                               } else {
-//                                                                                 if (Constant.distanceUnit ==
-//                                                                                     "KM") {
-//                                                                                   controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-//                                                                                 } else {
-//                                                                                   controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-//                                                                                 }
-//
-//                                                                                 controller.duration.value =
-//                                                                                 durationValue['rows'].first['elements'].first['duration']['text'];
-//                                                                                 // Get.back();
-//                                                                                 controller.confirmWidgetVisible.value =
-//                                                                                 false;
-//                                                                                 var dataMulti =
-//                                                                                 controller.multiStopListNew.where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty).toList();
-//
-//                                                                                 controller.multiStopListNew =
-//                                                                                     dataMulti;
-//                                                                                 controller.multiStopList =
-//                                                                                     List.from(dataMulti);
-//                                                                                 setState(() {});
-//                                                                                 tripOptionBottomSheet(
-//                                                                                     context,
-//                                                                                     themeChange.getThem(),
-//                                                                                     controller,
-//                                                                                     'other');
-//                                                                               }
-//                                                                             } else {
-//                                                                               if (Constant.distanceUnit ==
-//                                                                                   "KM") {
-//                                                                                 controller.distance.value =
-//                                                                                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-//                                                                               } else {
-//                                                                                 controller.distance.value =
-//                                                                                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-//                                                                               }
-//                                                                               controller
-//                                                                                   .duration
-//                                                                                   .value = durationValue[
-//                                                                               'rows']
-//                                                                                   .first['elements']
-//                                                                                   .first['duration']['text'];
-//                                                                               controller
-//                                                                                   .confirmWidgetVisible
-//                                                                                   .value = false;
-//                                                                               var dataMulti = controller
-//                                                                                   .multiStopListNew
-//                                                                                   .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-//                                                                                   .toList();
-//
-//                                                                               controller.multiStopListNew =
-//                                                                                   dataMulti;
-//                                                                               controller.multiStopList =
-//                                                                                   List.from(dataMulti);
-//                                                                               setState(
-//                                                                                       () {});
-//                                                                               tripOptionBottomSheet(
-//                                                                                   context,
-//                                                                                   themeChange.getThem(),
-//                                                                                   controller,
-//                                                                                   'other');
-//                                                                             }
-//                                                                           }
-//                                                                         });
-//                                                                   }
-//                                                                 });
-//                                                               }
-//                                                             },
-//                                                           ),
-//                                                           const SizedBox(
-//                                                               height: 20),
-//                                                           ListView.builder(
-//                                                             padding:
-//                                                             EdgeInsets.zero,
-//                                                             primary: false,
-//                                                             shrinkWrap: true,
-//                                                             itemCount:
-//                                                             controller
-//                                                                 .bannerModel
-//                                                                 .value
-//                                                                 .data
-//                                                                 ?.length,
-//                                                             itemBuilder:
-//                                                                 (BuildContext
-//                                                             context,
-//                                                                 int i) {
-//                                                               return Padding(
-//                                                                 padding:
-//                                                                 const EdgeInsets
-//                                                                     .only(
-//                                                                     bottom:
-//                                                                     20),
-//                                                                 child: Center(
-//                                                                   child: Stack(
-//                                                                     alignment:
-//                                                                     Alignment
-//                                                                         .bottomLeft,
-//                                                                     children: [
-//                                                                       CachedNetworkImage(
-//                                                                         filterQuality:
-//                                                                         FilterQuality.high,
-//                                                                         width: Responsive.width(
-//                                                                             100,
-//                                                                             context),
-//                                                                         height:
-//                                                                         180,
-//                                                                         imageUrl: controller
-//                                                                             .bannerModel
-//                                                                             .value
-//                                                                             .data![i]
-//                                                                             .image
-//                                                                             .toString(),
-//                                                                         fit: BoxFit
-//                                                                             .fill,
-//                                                                         placeholder:
-//                                                                             (context, url) =>
-//                                                                             Constant.loader(context),
-//                                                                         errorWidget: (context, url, error) => Image.asset(
-//                                                                             "assets/images/appIcon.png",
-//                                                                             fit:
-//                                                                             BoxFit.cover),
-//                                                                       ),
-//                                                                       Padding(
-//                                                                         padding: const EdgeInsets
-//                                                                             .symmetric(
-//                                                                             horizontal:
-//                                                                             16,
-//                                                                             vertical:
-//                                                                             12),
-//                                                                         child:
-//                                                                         Column(
-//                                                                           crossAxisAlignment:
-//                                                                           CrossAxisAlignment.start,
-//                                                                           children: [
-//                                                                             Text(
-//                                                                               controller.bannerModel.value.data?[i].title ?? '',
-//                                                                               maxLines: 1,
-//                                                                               style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-//                                                                             ),
-//                                                                             const SizedBox(height: 2),
-//                                                                             Text(
-//                                                                               controller.bannerModel.value.data?[i].description ?? '',
-//                                                                               maxLines: 2,
-//                                                                               style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-//                                                                             ),
-//                                                                           ],
-//                                                                         ),
-//                                                                       ),
-//                                                                     ],
-//                                                                   ),
-//                                                                 ),
-//                                                               );
-//                                                             },
-//                                                           ),
-//                                                         ],
-//                                                       ),
-//                                                     ],
-//                                                   ),
-//                                                 ),
-//                                               ),
-                                              // const SizedBox(),
-                                              if (Constant.parcelActive
-                                                      .toString() ==
-                                                  "yes")
-                                                SizedBox(
-                                                  child: GetX<
-                                                      ParcelServiceController>(
-                                                    init:
-                                                        ParcelServiceController(),
-                                                    builder:
-                                                        (parcelServiceController) {
-                                                      return SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(
-                                                            horizontal: Constant
-                                                                        .homeScreenType ==
-                                                                    'OlaHome'
-                                                                ? 0
-                                                                : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            const SizedBox(
-                                                                height: 20),
-                                                            Text(
-                                                              "Select what are you sending?"
-                                                                  .tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily:
-                                                                    AppThemeData
-                                                                        .semiBold,
-                                                                color: themeChange.getThem()
-                                                                    ? AppThemeData
-                                                                        .grey900Dark
-                                                                    : AppThemeData
-                                                                        .grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 12),
-                                                            Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                      color: themeChange.getThem()
-                                                                          ? AppThemeData
-                                                                              .grey300Dark
-                                                                          : AppThemeData
-                                                                              .grey300,
-                                                                      width:
-                                                                          1)),
-                                                              child: ListView
-                                                                  .separated(
-                                                                primary: false,
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                                separatorBuilder: (context, index) => Container(
-                                                                    height: 1,
-                                                                    color: themeChange.getThem()
-                                                                        ? AppThemeData
-                                                                            .grey300Dark
-                                                                        : AppThemeData
-                                                                            .grey300),
-                                                                shrinkWrap:
-                                                                    true,
-                                                                itemCount:
-                                                                    parcelServiceController
-                                                                        .parcelCategoryList
-                                                                        .length,
-                                                                itemBuilder:
-                                                                    (BuildContext
-                                                                            context,
-                                                                        int index) {
-                                                                  return InkWell(
-                                                                    splashColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    onTap: () {
-                                                                      parcelServiceController
-                                                                          .selectedParcelCategory
-                                                                          .value = parcelServiceController
-                                                                              .parcelCategoryList[
-                                                                          index];
-                                                                      Get.to(() =>
-                                                                          const BookParcelScreen());
-                                                                    },
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          vertical:
-                                                                              16,
-                                                                          horizontal:
-                                                                              16),
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Row(
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                                                child: CachedNetworkImage(
-                                                                                  imageUrl: parcelServiceController.parcelCategoryList[index].image.toString(),
-                                                                                  height: 25,
-                                                                                  width: 25,
-                                                                                  imageBuilder: (context, imageProvider) => Container(
-                                                                                    decoration: BoxDecoration(
-                                                                                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                                                                                    ),
-                                                                                  ),
-                                                                                  placeholder: (context, url) => Constant.loader(context),
-                                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", height: 25, width: 25, fit: BoxFit.cover),
-                                                                                  fit: BoxFit.cover,
-                                                                                ),
-                                                                              ),
-                                                                              const SizedBox(width: 6),
-                                                                              Text(
-                                                                                parcelServiceController.parcelCategoryList[index].title.toString(),
-                                                                                style: TextStyle(
-                                                                                  fontSize: 16,
-                                                                                  fontFamily: AppThemeData.medium,
-                                                                                  color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                          SvgPicture
-                                                                              .asset(
-                                                                            'assets/icons/ic_right_arrow.svg',
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                            colorFilter:
-                                                                                ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, BlendMode.srcIn),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 20),
-                                                            ListView.builder(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .zero,
-                                                              primary: false,
-                                                              shrinkWrap: true,
-                                                              itemCount:
-                                                                  controller
-                                                                      .bannerModel
-                                                                      .value
-                                                                      .data
-                                                                      ?.length,
-                                                              itemBuilder:
-                                                                  (BuildContext
-                                                                          context,
-                                                                      int i) {
-                                                                return Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          bottom:
-                                                                              20),
-                                                                  child: Center(
-                                                                    child:
-                                                                        Stack(
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .bottomLeft,
-                                                                      children: [
-                                                                        CachedNetworkImage(
-                                                                          filterQuality:
-                                                                              FilterQuality.high,
-                                                                          width: Responsive.width(
-                                                                              100,
-                                                                              context),
-                                                                          height:
-                                                                              180,
-                                                                          imageUrl:
-                                                                              controller.bannerModel.value.data?[i].image ?? '',
-                                                                          fit: BoxFit
-                                                                              .fill,
-                                                                          placeholder: (context, url) =>
-                                                                              Constant.loader(context),
-                                                                          errorWidget: (context, url, error) => Image.asset(
-                                                                              "assets/images/appIcon.png",
-                                                                              fit: BoxFit.cover),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .symmetric(
-                                                                              horizontal: 16,
-                                                                              vertical: 12),
-                                                                          child:
-                                                                              Column(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Text(
-                                                                                controller.bannerModel.value.data?[i].title ?? '',
-                                                                                maxLines: 1,
-                                                                                style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                              ),
-                                                                              const SizedBox(height: 2),
-                                                                              Text(
-                                                                                controller.bannerModel.value.data?[i].description ?? '',
-                                                                                maxLines: 2,
-                                                                                style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
+                                                              ],
                                                             ),
                                                           ],
                                                         ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                            ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      child: SingleChildScrollView(
+                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const SizedBox(height: 20),
+                                                            Text(
+                                                              "Enter Destination".tr,
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontFamily: AppThemeData.semiBold,
+                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 12),
+                                                            Column(
+                                                              children: [
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.departureController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () async {
+                                                                      LocationPermission permission = await Geolocator.checkPermission();
+                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                                        permission = await Geolocator.requestPermission();
+                                                                      }
+
+                                                                      Position position = await Geolocator.getCurrentPosition(
+                                                                        desiredAccuracy: LocationAccuracy.high,
+                                                                      );
+
+                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                                        position.latitude,
+                                                                        position.longitude,
+                                                                      );
+                                                                      Placemark place = placemarks.first;
+
+                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                      controller.departureController.text = address;
+                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                                    },
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.departureController,
+                                                                  hintText: 'Pick Up Location'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.destinationController,
+                                                                  hintText: 'Where you want to go?'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                ReorderableListView(
+                                                                  shrinkWrap: true,
+                                                                  physics: const NeverScrollableScrollPhysics(),
+                                                                  children: <Widget>[
+                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                                      Container(
+                                                                        key: ValueKey(controller.multiStopListNew[index]),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: TextFieldWidget(
+                                                                                    onTap: () async {
+                                                                                      await Constant().placeSelectAPI(context).then((value) {
+                                                                                        if (value != null) {
+                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.setStopMarker(
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                        }
+                                                                                      });
+                                                                                    },
+                                                                                    isReadOnly: true,
+                                                                                    suffix: InkWell(
+                                                                                      onTap: () {
+                                                                                        controller.removeStops(index);
+                                                                                        controller.markers.remove("Stop $index");
+                                                                                        controller.getDirections();
+                                                                                      },
+                                                                                      child: Icon(Icons.close,
+                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                    ),
+                                                                                    prefix: IconButton(
+                                                                                      onPressed: () {},
+                                                                                      icon: Text(
+                                                                                        String.fromCharCode(index + 65),
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 16,
+                                                                                          fontFamily: AppThemeData.regular,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    hintText: "Where do you want to stop?".tr,
+                                                                                    controller: controller.multiStopListNew[index].editingController,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                  ],
+                                                                  onReorder: (int oldIndex, int newIndex) {
+                                                                    if (oldIndex < newIndex) {
+                                                                      newIndex -= 1;
+                                                                    }
+                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                                    controller.multiStopListNew.insert(newIndex, item);
+                                                                  },
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  textColor: AppThemeData.warning200,
+                                                                  hintColor: AppThemeData.warning200,
+                                                                  isReadOnly: true,
+                                                                  onTap: () {
+                                                                    controller.addStops();
+                                                                    setState(() {});
+                                                                  },
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: Container(height: 14, width: 14, color: AppThemeData.warning200),
+                                                                  ),
+                                                                  controller: TextEditingController(text: 'Add Stop'.tr),
+                                                                  hintText: 'Add Stop'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                ButtonThem.buildButton(
+                                                                  context,
+                                                                  title: 'Search Destination'.tr,
+                                                                  onPress: () async {
+                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                    log(controller.departureLatLong.value.toString());
+                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else {
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                if (value['data']['amount'] != 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                } else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+
+                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                  // Get.back();
+                                                                                  controller.confirmWidgetVisible.value = false;
+                                                                                  var dataMulti = controller.multiStopListNew
+                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .toList();
+
+                                                                                  controller.multiStopListNew = dataMulti;
+                                                                                  controller.multiStopList = List.from(dataMulti);
+                                                                                  setState(() {});
+                                                                                  tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                                }
+                                                                              } else {
+                                                                                if (Constant.distanceUnit == "KM") {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                } else {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                }
+                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                controller.confirmWidgetVisible.value = false;
+                                                                                var dataMulti = controller.multiStopListNew
+                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .toList();
+
+                                                                                controller.multiStopListNew = dataMulti;
+                                                                                controller.multiStopList = List.from(dataMulti);
+                                                                                setState(() {});
+                                                                                tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
+                                                                          children: [
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      child: SingleChildScrollView(
+                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const SizedBox(height: 20),
+                                                            Text(
+                                                              "Enter Destination".tr,
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontFamily: AppThemeData.semiBold,
+                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 12),
+                                                            Column(
+                                                              children: [
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.departureController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () async {
+                                                                      LocationPermission permission = await Geolocator.checkPermission();
+                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                                        permission = await Geolocator.requestPermission();
+                                                                      }
+
+                                                                      Position position = await Geolocator.getCurrentPosition(
+                                                                        desiredAccuracy: LocationAccuracy.high,
+                                                                      );
+
+                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                                        position.latitude,
+                                                                        position.longitude,
+                                                                      );
+                                                                      Placemark place = placemarks.first;
+
+                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                      controller.departureController.text = address;
+                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                                    },
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.departureController,
+                                                                  hintText: 'Pick Up Location'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.destinationController,
+                                                                  hintText: 'Where you want to go?'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  isReadOnly: true,
+                                                                  controller: controller.dateController,
+                                                                  hintText: "Select Date".tr,
+                                                                  onTap: () async {
+                                                                    DateTime? pickedDate = await showDatePicker(
+                                                                      context: context,
+                                                                      initialDate: DateTime.now(),
+                                                                      firstDate: DateTime.now(),
+                                                                      lastDate: DateTime.now().add(const Duration(days: 365)),
+                                                                    );
+
+                                                                    if (pickedDate != null) {
+                                                                      controller.dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                                                                      controller.selectedDate.value = pickedDate;
+                                                                    }
+                                                                  },
+                                                                  prefix: const Icon(Icons.calendar_month),
+                                                                ),
+
+                                                                const SizedBox(height: 12),
+
+// TIME PICKER
+                                                                TextFieldWidget(
+                                                                  isReadOnly: true,
+                                                                  controller: controller.timeController,
+                                                                  hintText: "Select Time".tr,
+                                                                  onTap: () async {
+                                                                    TimeOfDay? pickedTime = await showTimePicker(
+                                                                      context: context,
+                                                                      initialTime: TimeOfDay.now(),
+                                                                    );
+
+                                                                    if (pickedTime != null) {
+                                                                      controller.timeController.text = pickedTime.format(context);
+                                                                      controller.selectedTime.value = pickedTime;
+                                                                    }
+                                                                  },
+                                                                  prefix: const Icon(Icons.access_time),
+                                                                ),
+                                                                ButtonThem.buildButton(
+                                                                  context,
+                                                                  title: 'Search Destination'.tr,
+                                                                  onPress: () async {
+                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                    log(controller.departureLatLong.value.toString());
+                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else {
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                if (value['data']['amount'] != 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                } else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+
+                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                  // Get.back();
+                                                                                  controller.confirmWidgetVisible.value = false;
+                                                                                  var dataMulti = controller.multiStopListNew
+                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .toList();
+
+                                                                                  controller.multiStopListNew = dataMulti;
+                                                                                  controller.multiStopList = List.from(dataMulti);
+                                                                                  setState(() {});
+
+                                                                                  await controller
+                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                                      .then((value) {
+                                                                                    if (value != null) {
+                                                                                      if (value.success == "Success") {
+                                                                                        if (value.data?.isNotEmpty == true) {
+                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                                              driverData: value.data?.first,
+                                                                                              selectedDate: controller.selectedDate.value,
+                                                                                              selectedTime: controller.selectedTime.value);
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  });
+                                                                                }
+                                                                              } else {
+                                                                                if (Constant.distanceUnit == "KM") {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                } else {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                }
+                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                controller.confirmWidgetVisible.value = false;
+                                                                                var dataMulti = controller.multiStopListNew
+                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .toList();
+
+                                                                                controller.multiStopListNew = dataMulti;
+                                                                                controller.multiStopList = List.from(dataMulti);
+                                                                                setState(() {});
+                                                                                await controller
+                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                                    .then((value) {
+                                                                                  if (value != null) {
+                                                                                    if (value.success == "Success") {
+                                                                                      if (value.data?.isNotEmpty == true) {
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                                            driverData: value.data?.first,
+                                                                                            selectedDate: controller.selectedDate.value,
+                                                                                            selectedTime: controller.selectedTime.value);
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
+                                                                          children: [
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      child: GetX<ParcelServiceController>(
+                                                        init: ParcelServiceController(),
+                                                        builder: (parcelServiceController) {
+                                                          return SingleChildScrollView(
+                                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                const SizedBox(height: 20),
+                                                                Text(
+                                                                  "Select what are you sending?".tr,
+                                                                  style: TextStyle(
+                                                                    fontSize: 18,
+                                                                    fontFamily: AppThemeData.semiBold,
+                                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(height: 12),
+                                                                Container(
+                                                                  width: double.infinity,
+                                                                  decoration:
+                                                                      BoxDecoration(border: Border.all(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
+                                                                  child: ListView.separated(
+                                                                    primary: false,
+                                                                    padding: EdgeInsets.zero,
+                                                                    separatorBuilder: (context, index) =>
+                                                                        Container(height: 1, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300),
+                                                                    shrinkWrap: true,
+                                                                    itemCount: parcelServiceController.parcelCategoryList.length,
+                                                                    itemBuilder: (BuildContext context, int index) {
+                                                                      return InkWell(
+                                                                        splashColor: Colors.transparent,
+                                                                        onTap: () {
+                                                                          parcelServiceController.selectedParcelCategory.value = parcelServiceController.parcelCategoryList[index];
+                                                                          Get.to(() => const BookParcelScreen());
+                                                                        },
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                                                                          child: Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Row(
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                                                    child: CachedNetworkImage(
+                                                                                      imageUrl: parcelServiceController.parcelCategoryList[index].image.toString(),
+                                                                                      height: 25,
+                                                                                      width: 25,
+                                                                                      imageBuilder: (context, imageProvider) => Container(
+                                                                                        decoration: BoxDecoration(
+                                                                                          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                                                                        ),
+                                                                                      ),
+                                                                                      placeholder: (context, url) => Constant.loader(context),
+                                                                                      errorWidget: (context, url, error) =>
+                                                                                          Image.asset("assets/images/appIcon.png", height: 25, width: 25, fit: BoxFit.cover),
+                                                                                      fit: BoxFit.cover,
+                                                                                    ),
+                                                                                  ),
+                                                                                  const SizedBox(width: 6),
+                                                                                  Text(
+                                                                                    parcelServiceController.parcelCategoryList[index].title.toString(),
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 16,
+                                                                                      fontFamily: AppThemeData.medium,
+                                                                                      color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              SvgPicture.asset(
+                                                                                'assets/icons/ic_right_arrow.svg',
+                                                                                fit: BoxFit.cover,
+                                                                                colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, BlendMode.srcIn),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
+                                                                          children: [
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data?[i].image ?? '',
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    )
+                                                  ]
+                                                : [
+                                                    SizedBox(
+                                                      child: SingleChildScrollView(
+                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const SizedBox(height: 20),
+                                                            Text(
+                                                              "Enter Destination".tr,
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontFamily: AppThemeData.semiBold,
+                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 12),
+                                                            Column(
+                                                              children: [
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.departureController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () async {
+                                                                      LocationPermission permission = await Geolocator.checkPermission();
+                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                                        permission = await Geolocator.requestPermission();
+                                                                      }
+
+                                                                      Position position = await Geolocator.getCurrentPosition(
+                                                                        desiredAccuracy: LocationAccuracy.high,
+                                                                      );
+
+                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                                        position.latitude,
+                                                                        position.longitude,
+                                                                      );
+                                                                      Placemark place = placemarks.first;
+
+                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                      controller.departureController.text = address;
+                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                                    },
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.departureController,
+                                                                  hintText: 'Pick Up Location'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.destinationController,
+                                                                  hintText: 'Where you want to go?'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                ReorderableListView(
+                                                                  shrinkWrap: true,
+                                                                  physics: const NeverScrollableScrollPhysics(),
+                                                                  children: <Widget>[
+                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                                      Container(
+                                                                        key: ValueKey(controller.multiStopListNew[index]),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: TextFieldWidget(
+                                                                                    onTap: () async {
+                                                                                      await Constant().placeSelectAPI(context).then((value) {
+                                                                                        if (value != null) {
+                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.setStopMarker(
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                        }
+                                                                                      });
+                                                                                    },
+                                                                                    isReadOnly: true,
+                                                                                    suffix: InkWell(
+                                                                                      onTap: () {
+                                                                                        controller.removeStops(index);
+                                                                                        controller.markers.remove("Stop $index");
+                                                                                        controller.getDirections();
+                                                                                      },
+                                                                                      child: Icon(Icons.close,
+                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                    ),
+                                                                                    prefix: IconButton(
+                                                                                      onPressed: () {},
+                                                                                      icon: Text(
+                                                                                        String.fromCharCode(index + 65),
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 16,
+                                                                                          fontFamily: AppThemeData.regular,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    hintText: "Where do you want to stop?".tr,
+                                                                                    controller: controller.multiStopListNew[index].editingController,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                  ],
+                                                                  onReorder: (int oldIndex, int newIndex) {
+                                                                    if (oldIndex < newIndex) {
+                                                                      newIndex -= 1;
+                                                                    }
+                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                                    controller.multiStopListNew.insert(newIndex, item);
+                                                                  },
+                                                                ),
+                                                                ButtonThem.buildButton(
+                                                                  context,
+                                                                  title: 'Search Destination'.tr,
+                                                                  onPress: () async {
+                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                    log(controller.departureLatLong.value.toString());
+                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else {
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                if (value['data']['amount'] != 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                } else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+
+                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                  // Get.back();
+                                                                                  controller.confirmWidgetVisible.value = false;
+                                                                                  var dataMulti = controller.multiStopListNew
+                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .toList();
+
+                                                                                  controller.multiStopListNew = dataMulti;
+                                                                                  controller.multiStopList = List.from(dataMulti);
+                                                                                  setState(() {});
+
+                                                                                  await controller
+                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                                      .then((value) {
+                                                                                    if (value != null) {
+                                                                                      if (value.success == "Success") {
+                                                                                        if (value.data?.isNotEmpty == true) {
+                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  });
+                                                                                }
+                                                                              } else {
+                                                                                if (Constant.distanceUnit == "KM") {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                } else {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                }
+                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                controller.confirmWidgetVisible.value = false;
+                                                                                var dataMulti = controller.multiStopListNew
+                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .toList();
+
+                                                                                controller.multiStopListNew = dataMulti;
+                                                                                controller.multiStopList = List.from(dataMulti);
+                                                                                setState(() {});
+                                                                                await controller
+                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                                    .then((value) {
+                                                                                  if (value != null) {
+                                                                                    if (value.success == "Success") {
+                                                                                      if (value.data?.isNotEmpty == true) {
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
+                                                                          children: [
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      child: SingleChildScrollView(
+                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const SizedBox(height: 20),
+                                                            Text(
+                                                              "Enter Destination".tr,
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontFamily: AppThemeData.semiBold,
+                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 12),
+                                                            Column(
+                                                              children: [
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.departureController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () async {
+                                                                      LocationPermission permission = await Geolocator.checkPermission();
+                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                                        permission = await Geolocator.requestPermission();
+                                                                      }
+
+                                                                      Position position = await Geolocator.getCurrentPosition(
+                                                                        desiredAccuracy: LocationAccuracy.high,
+                                                                      );
+
+                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                                        position.latitude,
+                                                                        position.longitude,
+                                                                      );
+                                                                      Placemark place = placemarks.first;
+
+                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                      controller.departureController.text = address;
+                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                                    },
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.departureController,
+                                                                  hintText: 'Pick Up Location'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.destinationController,
+                                                                  hintText: 'Where you want to go?'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                ReorderableListView(
+                                                                  shrinkWrap: true,
+                                                                  physics: const NeverScrollableScrollPhysics(),
+                                                                  children: <Widget>[
+                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                                      Container(
+                                                                        key: ValueKey(controller.multiStopListNew[index]),
+                                                                        child: Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  child: TextFieldWidget(
+                                                                                    onTap: () async {
+                                                                                      await Constant().placeSelectAPI(context).then((value) {
+                                                                                        if (value != null) {
+                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.setStopMarker(
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                        }
+                                                                                      });
+                                                                                    },
+                                                                                    isReadOnly: true,
+                                                                                    suffix: InkWell(
+                                                                                      onTap: () {
+                                                                                        controller.removeStops(index);
+                                                                                        controller.markers.remove("Stop $index");
+                                                                                        controller.getDirections();
+                                                                                      },
+                                                                                      child: Icon(Icons.close,
+                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                    ),
+                                                                                    prefix: IconButton(
+                                                                                      onPressed: () {},
+                                                                                      icon: Text(
+                                                                                        String.fromCharCode(index + 65),
+                                                                                        style: TextStyle(
+                                                                                          fontSize: 16,
+                                                                                          fontFamily: AppThemeData.regular,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    hintText: "Where do you want to stop?".tr,
+                                                                                    controller: controller.multiStopListNew[index].editingController,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                  ],
+                                                                  onReorder: (int oldIndex, int newIndex) {
+                                                                    if (oldIndex < newIndex) {
+                                                                      newIndex -= 1;
+                                                                    }
+                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                                    controller.multiStopListNew.insert(newIndex, item);
+                                                                  },
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  textColor: AppThemeData.warning200,
+                                                                  hintColor: AppThemeData.warning200,
+                                                                  isReadOnly: true,
+                                                                  onTap: () {
+                                                                    controller.addStops();
+                                                                    setState(() {});
+                                                                  },
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: Container(height: 14, width: 14, color: AppThemeData.warning200),
+                                                                  ),
+                                                                  controller: TextEditingController(text: 'Add Stop'.tr),
+                                                                  hintText: 'Add Stop'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                ButtonThem.buildButton(
+                                                                  context,
+                                                                  title: 'Search Destination'.tr,
+                                                                  onPress: () async {
+                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                    log(controller.departureLatLong.value.toString());
+                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else {
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                if (value['data']['amount'] != 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                } else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+
+                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                  // Get.back();
+                                                                                  controller.confirmWidgetVisible.value = false;
+                                                                                  var dataMulti = controller.multiStopListNew
+                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .toList();
+
+                                                                                  controller.multiStopListNew = dataMulti;
+                                                                                  controller.multiStopList = List.from(dataMulti);
+                                                                                  setState(() {});
+                                                                                  tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                                }
+                                                                              } else {
+                                                                                if (Constant.distanceUnit == "KM") {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                } else {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                }
+                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                controller.confirmWidgetVisible.value = false;
+                                                                                var dataMulti = controller.multiStopListNew
+                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .toList();
+
+                                                                                controller.multiStopListNew = dataMulti;
+                                                                                controller.multiStopList = List.from(dataMulti);
+                                                                                setState(() {});
+                                                                                tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
+                                                                          children: [
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      child: SingleChildScrollView(
+                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            const SizedBox(height: 20),
+                                                            Text(
+                                                              "Enter Destination".tr,
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontFamily: AppThemeData.semiBold,
+                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(height: 12),
+                                                            Column(
+                                                              children: [
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.departureController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () async {
+                                                                      LocationPermission permission = await Geolocator.checkPermission();
+                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                                        permission = await Geolocator.requestPermission();
+                                                                      }
+
+                                                                      Position position = await Geolocator.getCurrentPosition(
+                                                                        desiredAccuracy: LocationAccuracy.high,
+                                                                      );
+
+                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                                        position.latitude,
+                                                                        position.longitude,
+                                                                      );
+                                                                      Placemark place = placemarks.first;
+
+                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                                      controller.departureController.text = address;
+                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                                    },
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.departureController,
+                                                                  hintText: 'Pick Up Location'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  onTap: () async {
+                                                                    await Constant().placeSelectAPI(context).then((value) {
+                                                                      if (value != null) {
+                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
+                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  isReadOnly: true,
+                                                                  prefix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_location.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                  controller: controller.destinationController,
+                                                                  hintText: 'Where you want to go?'.tr,
+                                                                  suffix: IconButton(
+                                                                    onPressed: () {},
+                                                                    icon: SvgPicture.asset(
+                                                                      'assets/icons/ic_right_arrow.svg',
+                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextFieldWidget(
+                                                                  isReadOnly: true,
+                                                                  controller: controller.dateController,
+                                                                  hintText: "Select Date".tr,
+                                                                  onTap: () async {
+                                                                    DateTime? pickedDate = await showDatePicker(
+                                                                      context: context,
+                                                                      initialDate: DateTime.now(),
+                                                                      firstDate: DateTime.now(),
+                                                                      lastDate: DateTime.now().add(const Duration(days: 365)),
+                                                                    );
+
+                                                                    if (pickedDate != null) {
+                                                                      controller.dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                                                                      controller.selectedDate.value = pickedDate;
+                                                                    }
+                                                                  },
+                                                                  prefix: const Icon(Icons.calendar_month),
+                                                                ),
+
+                                                                const SizedBox(height: 12),
+
+// TIME PICKER
+                                                                TextFieldWidget(
+                                                                  isReadOnly: true,
+                                                                  controller: controller.timeController,
+                                                                  hintText: "Select Time".tr,
+                                                                  onTap: () async {
+                                                                    TimeOfDay? pickedTime = await showTimePicker(
+                                                                      context: context,
+                                                                      initialTime: TimeOfDay.now(),
+                                                                    );
+
+                                                                    if (pickedTime != null) {
+                                                                      controller.timeController.text = pickedTime.format(context);
+                                                                      controller.selectedTime.value = pickedTime;
+                                                                    }
+                                                                  },
+                                                                  prefix: const Icon(Icons.access_time),
+                                                                ),
+                                                                ButtonThem.buildButton(
+                                                                  context,
+                                                                  title: 'Search Destination'.tr,
+                                                                  onPress: () async {
+                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                    log(controller.departureLatLong.value.toString());
+                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                                    } else {
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                if (value['data']['amount'] != 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                } else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+
+                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                  // Get.back();
+                                                                                  controller.confirmWidgetVisible.value = false;
+                                                                                  var dataMulti = controller.multiStopListNew
+                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .toList();
+
+                                                                                  controller.multiStopListNew = dataMulti;
+                                                                                  controller.multiStopList = List.from(dataMulti);
+                                                                                  setState(() {});
+
+                                                                                  await controller
+                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                                      .then((value) {
+                                                                                    if (value != null) {
+                                                                                      if (value.success == "Success") {
+                                                                                        if (value.data?.isNotEmpty == true) {
+                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                                              driverData: value.data?.first,
+                                                                                              selectedDate: controller.selectedDate.value,
+                                                                                              selectedTime: controller.selectedTime.value);
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  });
+                                                                                }
+                                                                              } else {
+                                                                                if (Constant.distanceUnit == "KM") {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                } else {
+                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                }
+                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                                controller.confirmWidgetVisible.value = false;
+                                                                                var dataMulti = controller.multiStopListNew
+                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .toList();
+
+                                                                                controller.multiStopListNew = dataMulti;
+                                                                                controller.multiStopList = List.from(dataMulti);
+                                                                                setState(() {});
+                                                                                await controller
+                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                                    .then((value) {
+                                                                                  if (value != null) {
+                                                                                    if (value.success == "Success") {
+                                                                                      if (value.data?.isNotEmpty == true) {
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                                            driverData: value.data?.first,
+                                                                                            selectedDate: controller.selectedDate.value,
+                                                                                            selectedTime: controller.selectedTime.value);
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                });
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                const SizedBox(height: 20),
+                                                                ListView.builder(
+                                                                  padding: EdgeInsets.zero,
+                                                                  primary: false,
+                                                                  shrinkWrap: true,
+                                                                  itemCount: controller.bannerModel.value.data?.length,
+                                                                  itemBuilder: (BuildContext context, int i) {
+                                                                    return Padding(
+                                                                      padding: const EdgeInsets.only(bottom: 20),
+                                                                      child: Center(
+                                                                        child: Stack(
+                                                                          alignment: Alignment.bottomLeft,
+                                                                          children: [
+                                                                            CachedNetworkImage(
+                                                                              filterQuality: FilterQuality.high,
+                                                                              width: Responsive.width(100, context),
+                                                                              height: 180,
+                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                              fit: BoxFit.fill,
+                                                                              placeholder: (context, url) => Constant.loader(context),
+                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].title ?? '',
+                                                                                    maxLines: 1,
+                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                  const SizedBox(height: 2),
+                                                                                  Text(
+                                                                                    controller.bannerModel.value.data?[i].description ?? '',
+                                                                                    maxLines: 2,
+                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                           ),
                                         ),
                                       ],
@@ -2613,38 +2110,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget setRouteWidget(Widget child) {
     if (Constant.homeScreenType == 'OlaHome') {
-      return SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 16), child: child);
+      return SingleChildScrollView(padding: EdgeInsets.symmetric(horizontal: 16), child: child);
     } else {
       return child;
     }
   }
 
-  Widget buildTextField(
-      {required title, required TextEditingController textController}) {
+  Widget buildTextField({required title, required TextEditingController textController}) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: TextField(
         controller: textController,
         textInputAction: TextInputAction.done,
         style: TextStyle(color: ConstantColors.titleTextColor),
-        decoration: InputDecoration(
-            hintText: title,
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabled: false),
+        decoration: InputDecoration(hintText: title, border: InputBorder.none, focusedBorder: InputBorder.none, enabled: false),
       ),
     );
   }
 
-  Widget appBarHome(
-      {required HomeController controller, required bool isDarkMode}) {
+  Widget appBarHome({required HomeController controller, required bool isDarkMode}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFieldWidget(
-          textColor:
-              isDarkMode ? AppThemeData.grey800Dark : AppThemeData.grey800,
+          textColor: isDarkMode ? AppThemeData.grey800Dark : AppThemeData.grey800,
           fontFamily: AppThemeData.medium,
           width: Constant.homeScreenType == 'OlaHome' ? 0 : 0.8,
           isReadOnly: true,
@@ -2652,12 +2141,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: SvgPicture.asset("assets/icons/ic_menu_fill.svg",
-                colorFilter: ColorFilter.mode(
-                    isDarkMode
-                        ? AppThemeData.grey500Dark
-                        : AppThemeData.grey300Dark,
-                    BlendMode.srcIn)),
+            icon: SvgPicture.asset("assets/icons/ic_menu_fill.svg", colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn)),
           ),
           hintText: 'your_current_location'.tr,
           controller: controller.currentLocationController,
@@ -2668,18 +2152,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final passengerController = TextEditingController(text: "1");
 
-  tripOptionBottomSheet(BuildContext context, bool isDarkMode,
-      HomeController controller, String type,
-      {DriverData? driverData,DateTime? selectedDate,
-        TimeOfDay? selectedTime} ) {
+  tripOptionBottomSheet(BuildContext context, bool isDarkMode, HomeController controller, String type, {DriverData? driverData, DateTime? selectedDate, TimeOfDay? selectedTime}) {
     return showModalBottomSheet(
-      barrierColor:
-          isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
+      barrierColor: isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
       isDismissible: true,
       isScrollControlled: true,
       context: context,
-      backgroundColor:
-          isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+      backgroundColor: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
@@ -2695,11 +2174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         height: 8,
                         width: 75,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: isDarkMode
-                                ? AppThemeData.grey300Dark
-                                : AppThemeData.grey300),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300),
                       ),
                     ),
                     IconButton(
@@ -2708,21 +2183,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       icon: Transform(
                         alignment: Alignment.center,
-                        transform:
-                            Directionality.of(context) == TextDirection.rtl
-                                ? Matrix4.rotationY(3.14159)
-                                : Matrix4.identity(),
-                        child: SvgPicture.asset('assets/icons/ic_left.svg',
-                            colorFilter: ColorFilter.mode(
-                                isDarkMode
-                                    ? AppThemeData.grey900Dark
-                                    : AppThemeData.grey900,
-                                BlendMode.srcIn)),
+                        transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
+                        child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2733,11 +2199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isReadOnly: true,
                                 prefix: IconButton(
                                   onPressed: () {},
-                                  icon: SvgPicture.asset(
-                                      'assets/icons/ic_location.svg',
-                                      colorFilter: ColorFilter.mode(
-                                          AppThemeData.success300,
-                                          BlendMode.srcIn)),
+                                  icon: SvgPicture.asset('assets/icons/ic_location.svg', colorFilter: ColorFilter.mode(AppThemeData.success300, BlendMode.srcIn)),
                                 ),
                                 controller: controller.departureController,
                                 hintText: 'Pick Up Location'.tr,
@@ -2746,150 +2208,82 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isReadOnly: true,
                                 prefix: IconButton(
                                   onPressed: () {},
-                                  icon: SvgPicture.asset(
-                                      'assets/icons/ic_location.svg',
-                                      colorFilter: ColorFilter.mode(
-                                          AppThemeData.warning200,
-                                          BlendMode.srcIn)),
+                                  icon: SvgPicture.asset('assets/icons/ic_location.svg', colorFilter: ColorFilter.mode(AppThemeData.warning200, BlendMode.srcIn)),
                                 ),
                                 controller: controller.destinationController,
                                 hintText: 'Where you want to go?'.tr,
                               ),
                               if (type == 'schedule_ride')
                                 Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: isDarkMode
-                                              ? AppThemeData.grey300Dark
-                                              : AppThemeData.grey300,
-                                          width: 1)),
+                                  decoration: BoxDecoration(border: Border.all(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 14),
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                                         child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
-                                                SvgPicture.asset(
-                                                    'assets/icons/ic_map.svg',
-                                                    colorFilter:
-                                                    ColorFilter.mode(
-                                                        AppThemeData
-                                                            .success300,
-                                                        BlendMode.srcIn)),
+                                                SvgPicture.asset('assets/icons/ic_map.svg', colorFilter: ColorFilter.mode(AppThemeData.success300, BlendMode.srcIn)),
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   'Selected Date'.tr,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily:
-                                                      AppThemeData.regular,
-                                                      color: isDarkMode
-                                                          ? AppThemeData
-                                                          .grey900Dark
-                                                          : AppThemeData
-                                                          .grey900),
+                                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                                 ),
                                               ],
                                             ),
                                             Text(
                                               '${selectedDate}',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontFamily:
-                                                  AppThemeData.medium,
-                                                  color: isDarkMode
-                                                      ? AppThemeData.grey900Dark
-                                                      : AppThemeData.grey900),
+                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                             ),
-
-
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ), if (type == 'schedule_ride')
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: isDarkMode
-                                              ? AppThemeData.grey300Dark
-                                              : AppThemeData.grey300,
-                                          width: 1)),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 14),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                    'assets/icons/ic_map.svg',
-                                                    colorFilter:
-                                                    ColorFilter.mode(
-                                                        AppThemeData
-                                                            .success300,
-                                                        BlendMode.srcIn)),
-                                                const SizedBox(width: 10),
-                                                Text(
-                                                  'Selected Time'.tr,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily:
-                                                      AppThemeData.regular,
-                                                      color: isDarkMode
-                                                          ? AppThemeData
-                                                          .grey900Dark
-                                                          : AppThemeData
-                                                          .grey900),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              '${selectedTime}',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontFamily:
-                                                  AppThemeData.medium,
-                                                  color: isDarkMode
-                                                      ? AppThemeData.grey900Dark
-                                                      : AppThemeData.grey900),
-                                            ),
-
-
                                           ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-
-
+                              if (type == 'schedule_ride')
+                                Container(
+                                  decoration: BoxDecoration(border: Border.all(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SvgPicture.asset('assets/icons/ic_map.svg', colorFilter: ColorFilter.mode(AppThemeData.success300, BlendMode.srcIn)),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  'Selected Time'.tr,
+                                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              '${selectedTime}',
+                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ReorderableListView(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 children: <Widget>[
-                                  for (int index = 0;
-                                      index <
-                                          controller.multiStopListNew.length;
-                                      index += 1)
+                                  for (int index = 0; index < controller.multiStopListNew.length; index += 1)
                                     Container(
-                                      key: ValueKey(
-                                          controller.multiStopListNew[index]),
+                                      key: ValueKey(controller.multiStopListNew[index]),
                                       child: Column(
                                         children: [
                                           Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               Expanded(
                                                 child: TextFieldWidget(
@@ -2898,35 +2292,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   prefix: IconButton(
                                                     onPressed: () {},
                                                     icon: Text(
-                                                      String.fromCharCode(
-                                                          index + 65),
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontFamily:
-                                                              AppThemeData
-                                                                  .regular,
-                                                          color: isDarkMode
-                                                              ? AppThemeData
-                                                                  .grey500Dark
-                                                              : AppThemeData
-                                                                  .grey500),
+                                                      String.fromCharCode(index + 65),
+                                                      style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey500),
                                                     ),
                                                   ),
-                                                  hintText:
-                                                      "Where do you want to stop?"
-                                                          .tr,
-                                                  controller: controller
-                                                      .multiStopListNew[index]
-                                                      .editingController,
+                                                  hintText: "Where do you want to stop?".tr,
+                                                  controller: controller.multiStopListNew[index].editingController,
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          Container(
-                                              color: isDarkMode
-                                                  ? AppThemeData.grey300Dark
-                                                  : AppThemeData.grey300,
-                                              height: 1),
+                                          Container(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300, height: 1),
                                         ],
                                       ),
                                     ),
@@ -2935,82 +2311,46 @@ class _HomeScreenState extends State<HomeScreen> {
                                   if (oldIndex < newIndex) {
                                     newIndex -= 1;
                                   }
-                                  final AddStopModel item = controller
-                                      .multiStopListNew
-                                      .removeAt(oldIndex);
-                                  controller.multiStopListNew
-                                      .insert(newIndex, item);
+                                  final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                  controller.multiStopListNew.insert(newIndex, item);
                                 },
                               ),
                             ],
                           ),
                           const SizedBox(height: 10),
-                          if (type == 'taxi' ||type ==  "schedule_ride")
+                          if (type == 'taxi' || type == "schedule_ride")
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
                                     "Distance".tr,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: AppThemeData.semiBold,
-                                        color: isDarkMode
-                                            ? AppThemeData.grey900Dark
-                                            : AppThemeData.grey900),
+                                    style: TextStyle(fontSize: 18, fontFamily: AppThemeData.semiBold, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                   ),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: isDarkMode
-                                              ? AppThemeData.grey300Dark
-                                              : AppThemeData.grey300,
-                                          width: 1)),
+                                  decoration: BoxDecoration(border: Border.all(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 14),
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
-                                                SvgPicture.asset(
-                                                    'assets/icons/ic_map.svg',
-                                                    colorFilter:
-                                                        ColorFilter.mode(
-                                                            AppThemeData
-                                                                .success300,
-                                                            BlendMode.srcIn)),
+                                                SvgPicture.asset('assets/icons/ic_map.svg', colorFilter: ColorFilter.mode(AppThemeData.success300, BlendMode.srcIn)),
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   'Total Distances'.tr,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontFamily:
-                                                          AppThemeData.regular,
-                                                      color: isDarkMode
-                                                          ? AppThemeData
-                                                              .grey900Dark
-                                                          : AppThemeData
-                                                              .grey900),
+                                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                                 ),
                                               ],
                                             ),
                                             Text(
                                               '${controller.distance.value.toStringAsFixed(2)} ${Constant.distanceUnit}',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontFamily:
-                                                      AppThemeData.medium,
-                                                  color: isDarkMode
-                                                      ? AppThemeData.grey900Dark
-                                                      : AppThemeData.grey900),
+                                              style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                             ),
                                           ],
                                         ),
@@ -3021,21 +2361,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 10),
                               ],
                             ),
-                          if (type != 'taxi'  && type != 'schedule_ride')
+                          if (type != 'taxi' && type != 'schedule_ride')
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
                                     "trip_options".tr,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: AppThemeData.semiBold,
-                                        color: isDarkMode
-                                            ? AppThemeData.grey900Dark
-                                            : AppThemeData.grey900),
+                                    style: TextStyle(fontSize: 18, fontFamily: AppThemeData.semiBold, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                   ),
                                 ),
                                 TextFieldWidget(
@@ -3043,11 +2377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onPressed: () {},
                                     icon: SvgPicture.asset(
                                       'assets/icons/ic_parent.svg',
-                                      colorFilter: ColorFilter.mode(
-                                          isDarkMode
-                                              ? AppThemeData.grey500Dark
-                                              : AppThemeData.grey300Dark,
-                                          BlendMode.srcIn),
+                                      colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                     ),
                                   ),
                                   controller: passengerController,
@@ -3063,15 +2393,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onPressed: () {},
                                         icon: SvgPicture.asset(
                                           'assets/icons/ic_child.svg',
-                                          colorFilter: ColorFilter.mode(
-                                              isDarkMode
-                                                  ? AppThemeData.grey500Dark
-                                                  : AppThemeData.grey300Dark,
-                                              BlendMode.srcIn),
+                                          colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                         ),
                                       ),
-                                      controller: controller.addChildList[index]
-                                          .editingController,
+                                      controller: controller.addChildList[index].editingController,
                                       hintText: 'any_children_Age_of_child'.tr,
                                     );
                                   },
@@ -3079,46 +2404,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Visibility(
                                   visible: controller.addChildList.length < 3,
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: isDarkMode
-                                                ? AppThemeData.grey300Dark
-                                                : AppThemeData.grey300,
-                                            width: 1)),
+                                    decoration: BoxDecoration(border: Border.all(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16, horizontal: 16),
+                                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              if (controller
-                                                      .addChildList.length <
-                                                  3) {
-                                                controller.addChildList.add(
-                                                    AddChildModel(
-                                                        editingController:
-                                                            TextEditingController()));
+                                              if (controller.addChildList.length < 3) {
+                                                controller.addChildList.add(AddChildModel(editingController: TextEditingController()));
                                               }
                                             },
                                             child: SizedBox(
                                               child: Row(
                                                 children: [
-                                                  Icon(Icons.add,
-                                                      color: AppThemeData
-                                                          .warning200,
-                                                      size: 20),
+                                                  Icon(Icons.add, color: AppThemeData.warning200, size: 20),
                                                   const SizedBox(width: 10),
                                                   Text(
                                                     "add_children_s".tr,
-                                                    style: TextStyle(
-                                                        color: AppThemeData
-                                                            .warning200,
-                                                        fontFamily: AppThemeData
-                                                            .regular,
-                                                        fontSize: 16),
+                                                    style: TextStyle(color: AppThemeData.warning200, fontFamily: AppThemeData.regular, fontSize: 16),
                                                   ),
                                                 ],
                                               ),
@@ -3136,76 +2441,47 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(top: 10),
                             child: ButtonThem.buildButton(
                               context,
-                              title: type == 'taxi'
-                                  ? "Book now".tr
-                                  : "Select Vehicle".tr,
+                              title: type == 'taxi' ? "Book now".tr : "Select Vehicle".tr,
                               btnColor: AppThemeData.primary200,
                               onPress: () async {
-                                if (passengerController.text.isEmpty &&
-                                    type != 'taxi') {
-                                  ShowToastDialog.showToast(
-                                      "Please Enter Passenger".tr);
+                                if (passengerController.text.isEmpty && type != 'taxi') {
+                                  ShowToastDialog.showToast("Please Enter Passenger".tr);
                                 } else {
                                   if (type == 'taxi') {
                                     Map<String, dynamic> bodyParams = {
-                                      'customer_id':
-                                          Preferences.getInt(Preferences.userId)
-                                              .toString(),
-                                      'start_lat': controller
-                                          .departureLatLong.value.latitude
-                                          .toString(),
-                                      'start_lng': controller
-                                          .departureLatLong.value.longitude
-                                          .toString(),
-                                      'end_lat': controller
-                                          .destinationLatLong.value.latitude
-                                          .toString(),
-                                      'end_lng': controller
-                                          .destinationLatLong.value.longitude
-                                          .toString(),
+                                      'customer_id': Preferences.getInt(Preferences.userId).toString(),
+                                      'start_lat': controller.departureLatLong.value.latitude.toString(),
+                                      'start_lng': controller.departureLatLong.value.longitude.toString(),
+                                      'end_lat': controller.destinationLatLong.value.latitude.toString(),
+                                      'end_lng': controller.destinationLatLong.value.longitude.toString(),
                                       'payment_method': '5',
-                                      'distance':
-                                          controller.distance.value.toString(),
-                                      'distance_unit':
-                                          Constant.distanceUnit.toString(),
+                                      'distance': controller.distance.value.toString(),
+                                      'distance_unit': Constant.distanceUnit.toString(),
                                       'duree': controller.duration.toString(),
-                                      'id_conducteur':
-                                          driverData?.id.toString(),
-                                      'depart_name':
-                                          controller.departureController.text,
-                                      'destination_name':
-                                          controller.destinationController.text,
-                                      'trip_category':
-                                          Constant.taxiVehicleCategoryId,
+                                      'id_conducteur': driverData?.id.toString(),
+                                      'depart_name': controller.departureController.text,
+                                      'destination_name': controller.destinationController.text,
+                                      'trip_category': Constant.taxiVehicleCategoryId,
                                     };
-                                    controller
-                                        .bookTaxiRide(bodyParams)
-                                        .then((value) async {
+                                    controller.bookTaxiRide(bodyParams).then((value) async {
                                       if (value != null) {
                                         if (value['success'] == true) {
                                           Get.back();
-                                          controller.departureController
-                                              .clear();
-                                          controller.destinationController
-                                              .clear();
+                                          controller.departureController.clear();
+                                          controller.destinationController.clear();
                                           controller.polyLines.value = {};
-                                          controller.departureLatLong.value =
-                                              const LatLng(0, 0);
-                                          controller.destinationLatLong.value =
-                                              const LatLng(0, 0);
+                                          controller.departureLatLong.value = const LatLng(0, 0);
+                                          controller.destinationLatLong.value = const LatLng(0, 0);
                                           passengerController.clear();
                                           controller.markers.clear();
                                           controller.clearData();
                                           controller.getDirections();
-                                          Get.to(
-                                              const RideBookingSuccessScreen());
+                                          Get.to(const RideBookingSuccessScreen());
                                         }
                                       }
                                     });
                                   } else {
-                                    await controller
-                                        .getVehicleCategory()
-                                        .then((value) {
+                                    await controller.getVehicleCategory().then((value) {
                                       controller.update();
                                       if (value != null) {
                                         if (value.success == "Success") {
@@ -3241,12 +2517,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           //     }
                                           //   }
                                           // }
-                                          chooseVehicleBottomSheet(
-                                              context,
-                                              value,
-                                              isDarkMode,
-                                              controller,
-                                              type);
+                                          chooseVehicleBottomSheet(context, value, isDarkMode, controller, type);
                                         }
                                       }
                                     });
@@ -3269,20 +2540,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  chooseVehicleBottomSheet(
-      BuildContext context,
-      VehicleCategoryModel vehicleCategoryModel,
-      bool isDarkMode,
-      HomeController controller,
-      String type) {
+  chooseVehicleBottomSheet(BuildContext context, VehicleCategoryModel vehicleCategoryModel, bool isDarkMode, HomeController controller, String type) {
     return showModalBottomSheet(
-      barrierColor:
-          isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
+      barrierColor: isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
       isDismissible: true,
       isScrollControlled: true,
       context: context,
-      backgroundColor:
-          isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+      backgroundColor: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
       builder: (context) {
         final themeChange = Provider.of<DarkThemeProvider>(context);
         return StatefulBuilder(
@@ -3296,126 +2560,72 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     height: 8,
                     width: 75,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: isDarkMode
-                            ? AppThemeData.grey300Dark
-                            : AppThemeData.grey300),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300),
                   ),
                 ),
                 IconButton(
                   onPressed: () {
                     Get.back();
-                    tripOptionBottomSheet(
-                        context, themeChange.getThem(), controller, type);
+                    tripOptionBottomSheet(context, themeChange.getThem(), controller, type);
                   },
                   icon: Transform(
                     alignment: Alignment.center,
-                    transform: Directionality.of(context) == TextDirection.rtl
-                        ? Matrix4.rotationY(3.14159)
-                        : Matrix4.identity(),
-                    child: SvgPicture.asset('assets/icons/ic_left.svg',
-                        colorFilter: ColorFilter.mode(
-                            themeChange.getThem()
-                                ? AppThemeData.grey900Dark
-                                : AppThemeData.grey900,
-                            BlendMode.srcIn)),
+                    transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
+                    child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                   ),
                 ),
                 const SizedBox(height: 10),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: themeChange.getThem()
-                                    ? AppThemeData.grey300Dark
-                                    : AppThemeData.grey300,
-                                width: 1)),
+                        decoration: BoxDecoration(border: Border.all(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 14),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      SvgPicture.asset(
-                                          'assets/icons/ic_map.svg',
-                                          colorFilter: ColorFilter.mode(
-                                              AppThemeData.success300,
-                                              BlendMode.srcIn)),
+                                      SvgPicture.asset('assets/icons/ic_map.svg', colorFilter: ColorFilter.mode(AppThemeData.success300, BlendMode.srcIn)),
                                       const SizedBox(width: 10),
                                       Text(
                                         'Total Distances'.tr,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: AppThemeData.regular,
-                                            color: themeChange.getThem()
-                                                ? AppThemeData.grey900Dark
-                                                : AppThemeData.grey900),
+                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                       ),
                                     ],
                                   ),
                                   Text(
                                     '${controller.distance.value.toStringAsFixed(2)} ${Constant.distanceUnit}',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: AppThemeData.medium,
-                                        color: themeChange.getThem()
-                                            ? AppThemeData.grey900Dark
-                                            : AppThemeData.grey900),
+                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
-                                color: themeChange.getThem()
-                                    ? AppThemeData.grey300Dark
-                                    : AppThemeData.grey300,
-                                height: 1),
+                            Container(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, height: 1),
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 14),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      SvgPicture.asset(
-                                          'assets/icons/ic_group.svg',
-                                          colorFilter: ColorFilter.mode(
-                                              AppThemeData.warning200,
-                                              BlendMode.srcIn)),
+                                      SvgPicture.asset('assets/icons/ic_group.svg', colorFilter: ColorFilter.mode(AppThemeData.warning200, BlendMode.srcIn)),
                                       const SizedBox(width: 10),
                                       Text(
                                         'About Passengers'.tr,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: AppThemeData.regular,
-                                            color: themeChange.getThem()
-                                                ? AppThemeData.grey900Dark
-                                                : AppThemeData.grey900),
+                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                       ),
                                     ],
                                   ),
                                   Text(
                                     '${passengerController.text} ${'Persons'.tr}',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: AppThemeData.medium,
-                                        color: themeChange.getThem()
-                                            ? AppThemeData.grey900Dark
-                                            : AppThemeData.grey900),
+                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                   ),
                                 ],
                               ),
@@ -3428,23 +2638,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
                           "Recommended for you".tr,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: AppThemeData.semiBold,
-                              color: themeChange.getThem()
-                                  ? AppThemeData.grey900Dark
-                                  : AppThemeData.grey900),
+                          style: TextStyle(fontSize: 18, fontFamily: AppThemeData.semiBold, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                         ),
                       ),
                       SizedBox(
                         height: 200,
                         child: ListView.separated(
                           separatorBuilder: (context, index) {
-                            return Container(
-                                color: themeChange.getThem()
-                                    ? AppThemeData.grey300Dark
-                                    : AppThemeData.grey300,
-                                height: 1);
+                            return Container(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, height: 1);
                           },
                           itemCount: vehicleCategoryModel.data?.length ?? 0,
                           scrollDirection: Axis.vertical,
@@ -3453,88 +2654,58 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                controller.vehicleData.value =
-                                    vehicleCategoryModel.data![index];
+                                controller.vehicleData.value = vehicleCategoryModel.data![index];
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: controller.vehicleData.value.id ==
-                                          vehicleCategoryModel.data![index].id
-                                              .toString()
+                                  color: controller.vehicleData.value.id == vehicleCategoryModel.data![index].id.toString()
                                       ? AppThemeData.secondary50
                                       : themeChange.getThem()
                                           ? AppThemeData.surface50Dark
                                           : AppThemeData.surface50,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 12),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                   child: Row(
                                     children: [
                                       Expanded(
                                         child: Row(
                                           children: [
                                             CachedNetworkImage(
-                                              imageUrl: vehicleCategoryModel
-                                                  .data![index].image
-                                                  .toString(),
+                                              imageUrl: vehicleCategoryModel.data![index].image.toString(),
                                               fit: BoxFit.cover,
                                               width: 40,
                                               height: 40,
-                                              placeholder: (context, url) =>
-                                                  Constant.loader(context),
-                                              errorWidget: (context, url,
-                                                      error) =>
-                                                  Image.asset(
-                                                      "assets/images/appIcon.png"),
+                                              placeholder: (context, url) => Constant.loader(context),
+                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png"),
                                             ),
                                             const SizedBox(width: 16),
                                             Column(
                                               children: [
                                                 Text(
-                                                  vehicleCategoryModel
-                                                      .data![index].libelle
-                                                      .toString(),
+                                                  vehicleCategoryModel.data![index].libelle.toString(),
                                                   textAlign: TextAlign.start,
                                                   style: TextStyle(
                                                     fontSize: 16,
-                                                    color: controller
-                                                                .vehicleData
-                                                                .value
-                                                                .id ==
-                                                            vehicleCategoryModel
-                                                                .data?[index].id
+                                                    color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData
-                                                                .grey900Dark
-                                                            : AppThemeData
-                                                                .grey900,
-                                                    fontFamily:
-                                                        AppThemeData.semiBold,
+                                                            ? AppThemeData.grey900Dark
+                                                            : AppThemeData.grey900,
+                                                    fontFamily: AppThemeData.semiBold,
                                                   ),
                                                 ),
                                                 Text(
-                                                  vehicleCategoryModel
-                                                          .data?[index].prix ??
-                                                      '',
+                                                  vehicleCategoryModel.data?[index].prix ?? '',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 12,
-                                                    color: controller
-                                                                .vehicleData
-                                                                .value
-                                                                .id ==
-                                                            vehicleCategoryModel
-                                                                .data?[index].id
+                                                    color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData
-                                                                .grey900Dark
-                                                            : AppThemeData
-                                                                .grey900,
-                                                    fontFamily:
-                                                        AppThemeData.regular,
+                                                            ? AppThemeData.grey900Dark
+                                                            : AppThemeData.grey900,
+                                                    fontFamily: AppThemeData.regular,
                                                   ),
                                                 ),
                                               ],
@@ -3545,13 +2716,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Column(
                                         children: [
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(top: 5),
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   Constant().amountShow(
@@ -3561,20 +2729,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 16,
-                                                    color: controller
-                                                                .vehicleData
-                                                                .value
-                                                                .id ==
-                                                            vehicleCategoryModel
-                                                                .data?[index].id
+                                                    color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData
-                                                                .grey900Dark
-                                                            : AppThemeData
-                                                                .grey900,
-                                                    fontFamily:
-                                                        AppThemeData.semiBold,
+                                                            ? AppThemeData.grey900Dark
+                                                            : AppThemeData.grey900,
+                                                    fontFamily: AppThemeData.semiBold,
                                                   ),
                                                 ),
                                                 Text(
@@ -3582,20 +2742,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 12,
-                                                    color: controller
-                                                                .vehicleData
-                                                                .value
-                                                                .id ==
-                                                            vehicleCategoryModel
-                                                                .data?[index].id
+                                                    color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData
-                                                                .grey900Dark
-                                                            : AppThemeData
-                                                                .grey900,
-                                                    fontFamily:
-                                                        AppThemeData.regular,
+                                                            ? AppThemeData.grey900Dark
+                                                            : AppThemeData.grey900,
+                                                    fontFamily: AppThemeData.regular,
                                                   ),
                                                 ),
                                               ],
@@ -3619,19 +2771,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPress: () async {
                           if (controller.vehicleData.value.id != null) {
                             double cout = 0.0;
-                            if (controller.distance.value >
-                                double.parse(controller.vehicleData.value
-                                        .minimumDeliveryChargesWithin ??
-                                    '0')) {
-                              cout = (controller.distance.value *
-                                      double.parse(controller.vehicleData.value
-                                              .deliveryCharges ??
-                                          '0'))
-                                  .toDouble();
+                            if (controller.distance.value > double.parse(controller.vehicleData.value.minimumDeliveryChargesWithin ?? '0')) {
+                              cout = (controller.distance.value * double.parse(controller.vehicleData.value.deliveryCharges ?? '0')).toDouble();
                             } else {
-                              cout = double.parse(controller.vehicleData.value
-                                      .minimumDeliveryCharges ??
-                                  '0');
+                              cout = double.parse(controller.vehicleData.value.minimumDeliveryCharges ?? '0');
                             }
 
                             // double cout = double.parse(controller
@@ -3669,10 +2812,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             // }
 
                             await controller
-                                .getDriverDetails(
-                                    controller.vehicleData.value.id ?? '',
-                                    '${controller.departureLatLong.value.latitude}',
-                                    '${controller.departureLatLong.value.longitude}')
+                                .getDriverDetails(controller.vehicleData.value.id ?? '', '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
                                 .then((value) {
                               if (value != null) {
                                 if (value.success == "Success") {
@@ -3684,27 +2824,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // }
                                   if (value.data?.isNotEmpty == true) {
                                     Get.back();
-                                    conformDataBottomSheet(
-                                        context,
-                                        vehicleCategoryModel,
-                                        value.data![0],
-                                        cout,
-                                        isDarkMode,
-                                        controller,
-                                        type);
+                                    conformDataBottomSheet(context, vehicleCategoryModel, value.data![0], cout, isDarkMode, controller, type);
                                   } else {
-                                    ShowToastDialog.showToast(
-                                        "Driver not found in your area.".tr);
+                                    ShowToastDialog.showToast("Driver not found in your area.".tr);
                                   }
                                 } else {
-                                  ShowToastDialog.showToast(
-                                      "Driver not found in your area.".tr);
+                                  ShowToastDialog.showToast("Driver not found in your area.".tr);
                                 }
                               }
                             });
                           } else {
-                            ShowToastDialog.showToast(
-                                "Please select Vehicle Type".tr);
+                            ShowToastDialog.showToast("Please select Vehicle Type".tr);
                           }
                         },
                       ),
@@ -3720,22 +2850,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  conformDataBottomSheet(
-      BuildContext context,
-      VehicleCategoryModel vehicleCategoryModel,
-      DriverData driverModel,
-      double tripPrice,
-      bool isDarkMode,
-      HomeController controller,
-      String type) {
+  conformDataBottomSheet(BuildContext context, VehicleCategoryModel vehicleCategoryModel, DriverData driverModel, double tripPrice, bool isDarkMode, HomeController controller, String type) {
     return showModalBottomSheet(
-      barrierColor:
-          isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
+      barrierColor: isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
       isDismissible: true,
       isScrollControlled: true,
       context: context,
-      backgroundColor:
-          isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+      backgroundColor: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
@@ -3749,30 +2870,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       height: 8,
                       width: 75,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: isDarkMode
-                              ? AppThemeData.grey300Dark
-                              : AppThemeData.grey300),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300),
                     ),
                   ),
                   IconButton(
                     onPressed: () {
                       Get.back();
-                      chooseVehicleBottomSheet(context, vehicleCategoryModel,
-                          isDarkMode, controller, type);
+                      chooseVehicleBottomSheet(context, vehicleCategoryModel, isDarkMode, controller, type);
                     },
                     icon: Transform(
                       alignment: Alignment.center,
-                      transform: Directionality.of(context) == TextDirection.rtl
-                          ? Matrix4.rotationY(3.14159)
-                          : Matrix4.identity(),
-                      child: SvgPicture.asset('assets/icons/ic_left.svg',
-                          colorFilter: ColorFilter.mode(
-                              isDarkMode
-                                  ? AppThemeData.grey900Dark
-                                  : AppThemeData.grey900,
-                              BlendMode.srcIn)),
+                      transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
+                      child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -3787,13 +2896,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             fit: BoxFit.cover,
                             height: 110,
                             width: 110,
-                            placeholder: (context, url) =>
-                                Constant.loader(context),
-                            errorWidget: (context, url, error) => Image.asset(
-                                "assets/images/appIcon.png",
-                                fit: BoxFit.cover,
-                                height: 110,
-                                width: 110),
+                            placeholder: (context, url) => Constant.loader(context),
+                            errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover, height: 110, width: 110),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -3803,20 +2907,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Text(
                               '${driverModel.prenom ?? ''} ${driverModel.nom ?? ''}',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: AppThemeData.semiBold,
-                                  color: isDarkMode
-                                      ? AppThemeData.grey900Dark
-                                      : AppThemeData.grey900),
+                              style: TextStyle(fontSize: 18, fontFamily: AppThemeData.semiBold, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
-                              child: StarRating(
-                                  size: 20,
-                                  rating: double.parse(
-                                      driverModel.moyenne.toString()),
-                                  color: AppThemeData.warning200),
+                              child: StarRating(size: 20, rating: double.parse(driverModel.moyenne.toString()), color: AppThemeData.warning200),
                             ),
                             // Padding(
                             //   padding: const EdgeInsets.only(top: 3),
@@ -3835,24 +2930,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: buildDetails(
-                                    title: driverModel.totalCompletedRide
-                                        .toString(),
-                                    value: 'Total Trips'.tr,
-                                    isDarkMode: isDarkMode),
+                                child: buildDetails(title: driverModel.totalCompletedRide.toString(), value: 'Total Trips'.tr, isDarkMode: isDarkMode),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: buildDetails(title: controller.duration.value, value: 'Duration'.tr, isDarkMode: isDarkMode),
                               ),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: buildDetails(
-                                    title: controller.duration.value,
-                                    value: 'Duration'.tr,
-                                    isDarkMode: isDarkMode),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: buildDetails(
-                                  title: Constant()
-                                      .amountShow(amount: tripPrice.toString()),
+                                  title: Constant().amountShow(amount: tripPrice.toString()),
                                   value: 'Trip Price'.tr,
                                   isDarkMode: isDarkMode,
                                 ),
@@ -3862,87 +2949,49 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 10),
                         Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1,
-                                  color: isDarkMode
-                                      ? AppThemeData.grey300Dark
-                                      : AppThemeData.grey300)),
+                          decoration: BoxDecoration(border: Border.all(width: 1, color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300)),
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 14, horizontal: 8),
+                                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Cab Details".tr,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: AppThemeData.regular,
-                                          color: isDarkMode
-                                              ? AppThemeData.grey900Dark
-                                              : AppThemeData.grey900),
+                                      style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                     ),
                                     Text(
                                       "${driverModel.numberplate}",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: AppThemeData.medium,
-                                          color: isDarkMode
-                                              ? AppThemeData.grey900Dark
-                                              : AppThemeData.grey900),
+                                      style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                     ),
                                   ],
                                 ),
                               ),
-                              Container(
-                                  color: isDarkMode
-                                      ? AppThemeData.grey300Dark
-                                      : AppThemeData.grey300,
-                                  height: 1),
+                              Container(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300, height: 1),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 14, horizontal: 8),
+                                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Driver’s Contact No.".tr,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: AppThemeData.regular,
-                                          color: isDarkMode
-                                              ? AppThemeData.grey900Dark
-                                              : AppThemeData.grey900),
+                                      style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text(
                                           "${driverModel.phone}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: AppThemeData.medium,
-                                              color: isDarkMode
-                                                  ? AppThemeData.grey900Dark
-                                                  : AppThemeData.grey900),
+                                          style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                         ),
                                         const SizedBox(width: 5),
                                         InkWell(
                                           splashColor: Colors.transparent,
                                           onTap: () {
-                                            Constant.makePhoneCall(
-                                                driverModel.phone.toString());
+                                            Constant.makePhoneCall(driverModel.phone.toString());
                                           },
-                                          child: SvgPicture.asset(
-                                              'assets/icons/ic_phone.svg',
-                                              colorFilter: ColorFilter.mode(
-                                                  AppThemeData.secondary200,
-                                                  BlendMode.srcIn)),
+                                          child: SvgPicture.asset('assets/icons/ic_phone.svg', colorFilter: ColorFilter.mode(AppThemeData.secondary200, BlendMode.srcIn)),
                                         ),
                                       ],
                                     ),
@@ -3955,8 +3004,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         InkWell(
                           splashColor: Colors.transparent,
                           onTap: () async {
-                            controller.paymentSettingModel.value =
-                                Constant.getPaymentSetting();
+                            controller.paymentSettingModel.value = Constant.getPaymentSetting();
                             favouriteNameTextController.text = '';
                             _favouriteNameDialog(context, controller);
                           },
@@ -3966,19 +3014,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SvgPicture.asset('assets/icons/ic_star.svg',
-                                    height: 24,
-                                    width: 24,
-                                    colorFilter: ColorFilter.mode(
-                                        AppThemeData.secondary300,
-                                        BlendMode.srcIn)),
+                                SvgPicture.asset('assets/icons/ic_star.svg', height: 24, width: 24, colorFilter: ColorFilter.mode(AppThemeData.secondary300, BlendMode.srcIn)),
                                 const SizedBox(width: 10),
                                 Text(
                                   "Add Favourite Name".tr,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: AppThemeData.regular,
-                                      color: AppThemeData.secondary300),
+                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: AppThemeData.secondary300),
                                 ),
                               ],
                             ),
@@ -3995,14 +3035,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.walletAmount.value = amount;
                               }
                               Get.back();
-                              _paymentMethodDialog(
-                                  context,
-                                  vehicleCategoryModel,
-                                  tripPrice,
-                                  driverModel,
-                                  isDarkMode,
-                                  controller,
-                                  type);
+                              _paymentMethodDialog(context, vehicleCategoryModel, tripPrice, driverModel, isDarkMode, controller, type);
                             },
                           ),
                         ),
@@ -4321,21 +3354,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     InkWell(
                       onTap: () {
                         Map<String, String> bodyParams = {
-                          'id_user_app':
-                              Preferences.getInt(Preferences.userId).toString(),
-                          'lat1': controller.departureLatLong.value.latitude
-                              .toString(),
-                          'lng1': controller.departureLatLong.value.longitude
-                              .toString(),
-                          'lat2': controller.destinationLatLong.value.latitude
-                              .toString(),
-                          'lng2': controller.destinationLatLong.value.longitude
-                              .toString(),
+                          'id_user_app': Preferences.getInt(Preferences.userId).toString(),
+                          'lat1': controller.departureLatLong.value.latitude.toString(),
+                          'lng1': controller.departureLatLong.value.longitude.toString(),
+                          'lat2': controller.destinationLatLong.value.latitude.toString(),
+                          'lng2': controller.destinationLatLong.value.longitude.toString(),
                           'distance': controller.distance.value.toString(),
                           'distance_unit': Constant.distanceUnit.toString(),
                           'depart_name': controller.departureController.text,
-                          'destination_name':
-                              controller.destinationController.text,
+                          'destination_name': controller.destinationController.text,
                           'fav_name': favouriteNameTextController.text,
                         };
                         controller.setFavouriteRide(bodyParams).then((value) {
@@ -4346,9 +3373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                         });
                       },
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text("Ok".tr)),
+                      child: Padding(padding: const EdgeInsets.only(left: 20), child: Text("Ok".tr)),
                     ),
                   ],
                 ),
@@ -4370,12 +3395,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-        title: Text("Cab me".tr),
-        content: Text(
-            "You have pending payments. Please complete payment before book new trip."
-                .tr),
-        actions: [okButton]);
+    AlertDialog alert = AlertDialog(title: Text("Cab me".tr), content: Text("You have pending payments. Please complete payment before book new trip.".tr), actions: [okButton]);
     // show the dialog
     showDialog(
       context: context,
@@ -4385,34 +3405,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _paymentMethodDialog(
-      BuildContext context,
-      VehicleCategoryModel vehicleCategoryModel,
-      double tripPrice,
-      DriverData driverData,
-      bool isDarkMode,
-      HomeController controller,
-      String type) {
+  _paymentMethodDialog(BuildContext context, VehicleCategoryModel vehicleCategoryModel, double tripPrice, DriverData driverData, bool isDarkMode, HomeController controller, String type) {
     return showModalBottomSheet(
-      barrierColor:
-          isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
+      barrierColor: isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
       isDismissible: true,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+        borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
       ),
       context: context,
-      backgroundColor:
-          isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+      backgroundColor: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
             return SizedBox(
               height: Get.height * 0.9,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -4422,57 +3431,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           height: 8,
                           width: 75,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: isDarkMode
-                                  ? AppThemeData.grey300Dark
-                                  : AppThemeData.grey300),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300),
                         ),
                       ),
                       InkWell(
                         onTap: () {
                           Get.back();
-                          conformDataBottomSheet(
-                              context,
-                              vehicleCategoryModel,
-                              driverData,
-                              tripPrice,
-                              isDarkMode,
-                              controller,
-                              type);
+                          conformDataBottomSheet(context, vehicleCategoryModel, driverData, tripPrice, isDarkMode, controller, type);
                         },
                         child: Transform(
                           alignment: Alignment.center,
-                          transform:
-                              Directionality.of(context) == TextDirection.rtl
-                                  ? Matrix4.rotationY(3.14159)
-                                  : Matrix4.identity(),
-                          child: SvgPicture.asset('assets/icons/ic_left.svg',
-                              colorFilter: ColorFilter.mode(
-                                  isDarkMode
-                                      ? AppThemeData.grey900Dark
-                                      : AppThemeData.grey900,
-                                  BlendMode.srcIn)),
+                          transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
+                          child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                         ),
                       ),
                       const SizedBox(height: 16),
                       Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: isDarkMode
-                                    ? AppThemeData.grey300Dark
-                                    : AppThemeData.grey300)),
+                        decoration: BoxDecoration(border: Border.all(color: isDarkMode ? AppThemeData.grey300Dark : AppThemeData.grey300)),
                         child: Column(
                           children: [
                             RadioButtonCustom(
                               image: "assets/icons/cash.png",
                               name: "Cash",
                               groupValue: controller.paymentMethodType.value,
-                              isEnabled: controller.paymentSettingModel.value
-                                          .cash?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.cash?.isEnabled == "true" ? true : false,
                               isSelected: controller.cash.value,
                               onClick: (String? value) {
                                 controller.stripe = false.obs;
@@ -4489,26 +3471,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .cash!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.cash!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              subName: Constant().amountShow(
-                                  amount: controller.walletAmount.value),
+                              subName: Constant().amountShow(amount: controller.walletAmount.value),
                               image: "assets/icons/walltet_icons.png",
                               name: "Wallet",
                               groupValue: controller.paymentMethodType.value,
-                              isEnabled: controller.paymentSettingModel.value
-                                          .myWallet?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.myWallet?.isEnabled == "true" ? true : false,
                               isSelected: controller.wallet.value,
                               onClick: (String? value) {
                                 controller.stripe = false.obs;
@@ -4525,12 +3497,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .myWallet!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.myWallet!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
@@ -4538,11 +3505,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               image: "assets/icons/stripe.png",
                               name: 'Stripe',
                               groupValue: controller.paymentMethodType.value,
-                              isEnabled: controller.paymentSettingModel.value
-                                          .strip?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.strip?.isEnabled == "true" ? true : false,
                               isSelected: controller.stripe.value,
                               onClick: (String? value) {
                                 controller.stripe = true.obs;
@@ -4559,21 +3522,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .strip!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.strip!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .payStack?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.payStack?.isEnabled == "true" ? true : false,
                               name: 'PayStack',
                               image: "assets/icons/paystack.png",
                               isSelected: controller.payStack.value,
@@ -4593,21 +3547,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .payStack!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.payStack!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .flutterWave?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.flutterWave?.isEnabled == "true" ? true : false,
                               name: 'FlutterWave',
                               image: "assets/icons/flutterwave.png",
                               isSelected: controller.flutterWave.value,
@@ -4627,21 +3572,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .flutterWave!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.flutterWave!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .razorpay?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.razorpay?.isEnabled == "true" ? true : false,
                               name: 'RazorPay',
                               image: "assets/icons/razorpay_@3x.png",
                               isSelected: controller.razorPay.value,
@@ -4661,21 +3597,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .razorpay!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.razorpay!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .payFast?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.payFast?.isEnabled == "true" ? true : false,
                               name: 'PayFast',
                               image: "assets/icons/payfast.png",
                               isSelected: controller.payFast.value,
@@ -4695,21 +3622,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .payFast!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.payFast!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .mercadopago?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.mercadopago?.isEnabled == "true" ? true : false,
                               name: 'MercadoPago',
                               image: "assets/icons/mercadopago.png",
                               isSelected: controller.mercadoPago.value,
@@ -4729,21 +3647,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .mercadopago!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.mercadopago!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .payPal?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.payPal?.isEnabled == "true" ? true : false,
                               name: 'PayPal',
                               image: "assets/icons/paypal_@3x.png",
                               isSelected: controller.paypal.value,
@@ -4763,21 +3672,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .payPal!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.payPal!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .xendit?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.xendit?.isEnabled == "true" ? true : false,
                               name: 'Xendit',
                               image: "assets/icons/xendit.png",
                               isSelected: controller.xendit.value,
@@ -4797,21 +3697,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .xendit!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.xendit!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .orangePay?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.orangePay?.isEnabled == "true" ? true : false,
                               name: 'Orange Pay',
                               image: "assets/icons/orangeMoney.png",
                               isSelected: controller.orangePay.value,
@@ -4831,21 +3722,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = false.obs;
                                 controller.orangePay = true.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .orangePay!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.orangePay!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
                             RadioButtonCustom(
-                              isEnabled: controller.paymentSettingModel.value
-                                          .midtrans?.isEnabled ==
-                                      "true"
-                                  ? true
-                                  : false,
+                              isEnabled: controller.paymentSettingModel.value.midtrans?.isEnabled == "true" ? true : false,
                               name: 'Midtrans',
                               image: "assets/icons/midtrans.png",
                               isSelected: controller.midtrans.value,
@@ -4865,12 +3747,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 controller.midtrans = true.obs;
                                 controller.orangePay = false.obs;
                                 controller.paymentMethodType.value = value!;
-                                controller.paymentMethodId.value = controller
-                                    .paymentSettingModel
-                                    .value
-                                    .midtrans!
-                                    .idPaymentMethod
-                                    .toString();
+                                controller.paymentMethodId.value = controller.paymentSettingModel.value.midtrans!.idPaymentMethod.toString();
                                 setState(() {});
                               },
                             ),
@@ -4880,77 +3757,46 @@ class _HomeScreenState extends State<HomeScreen> {
                       ButtonThem.buildButton(
                         context,
                         btnHeight: 54,
-                        title:
-                            "${"Book".tr} ${Constant().amountShow(amount: tripPrice.toString())}",
+                        title: "${"Book".tr} ${Constant().amountShow(amount: tripPrice.toString())}",
                         btnColor: AppThemeData.primary200,
                         txtColor: Colors.white,
                         onPress: () {
-                          if (controller.paymentMethodType.value ==
-                              "Select Method") {
-                            ShowToastDialog.showToast(
-                                "Please select payment method".tr);
+                          if (controller.paymentMethodType.value == "Select Method") {
+                            ShowToastDialog.showToast("Please select payment method".tr);
                           } else {
                             List stopsList = [];
-                            for (var i = 0;
-                                i < controller.multiStopListNew.length;
-                                i++) {
+                            for (var i = 0; i < controller.multiStopListNew.length; i++) {
                               stopsList.add({
-                                "latitude": controller
-                                    .multiStopListNew[i].latitude
-                                    .toString(),
-                                "longitude": controller
-                                    .multiStopListNew[i].longitude
-                                    .toString(),
-                                "location": controller
-                                    .multiStopListNew[i].editingController.text
-                                    .toString(),
+                                "latitude": controller.multiStopListNew[i].latitude.toString(),
+                                "longitude": controller.multiStopListNew[i].longitude.toString(),
+                                "location": controller.multiStopListNew[i].editingController.text.toString(),
                               });
                             }
 
                             Map<String, dynamic> bodyParams = {
-                              'user_id': Preferences.getInt(Preferences.userId)
-                                  .toString(),
-                              'lat1': controller.departureLatLong.value.latitude
-                                  .toString(),
-                              'lng1': controller
-                                  .departureLatLong.value.longitude
-                                  .toString(),
-                              'lat2': controller
-                                  .destinationLatLong.value.latitude
-                                  .toString(),
-                              'lng2': controller
-                                  .destinationLatLong.value.longitude
-                                  .toString(),
+                              'user_id': Preferences.getInt(Preferences.userId).toString(),
+                              'lat1': controller.departureLatLong.value.latitude.toString(),
+                              'lng1': controller.departureLatLong.value.longitude.toString(),
+                              'lat2': controller.destinationLatLong.value.latitude.toString(),
+                              'lng2': controller.destinationLatLong.value.longitude.toString(),
                               'cout': tripPrice.toString(),
                               'distance': controller.distance.value.toString(),
                               'distance_unit': Constant.distanceUnit.toString(),
                               'duree': controller.duration.toString(),
                               'id_conducteur': driverData.id.toString(),
                               'id_payment': controller.paymentMethodId.value,
-                              'depart_name':
-                                  controller.departureController.text,
-                              'destination_name':
-                                  controller.destinationController.text,
+                              'depart_name': controller.departureController.text,
+                              'destination_name': controller.destinationController.text,
                               'stops': stopsList,
                               'place': '',
                               'number_poeple': passengerController.text,
                               'image': '',
                               'image_name': "",
                               'statut_round': 'no',
-                              'trip_objective':
-                                  controller.tripOptionCategory.value,
-                              'age_children1': controller
-                                  .addChildList[0].editingController.text,
-                              'age_children2':
-                                  controller.addChildList.length == 2
-                                      ? controller.addChildList[1]
-                                          .editingController.text
-                                      : "",
-                              'age_children3':
-                                  controller.addChildList.length == 3
-                                      ? controller.addChildList[2]
-                                          .editingController.text
-                                      : "",
+                              'trip_objective': controller.tripOptionCategory.value,
+                              'age_children1': controller.addChildList[0].editingController.text,
+                              'age_children2': controller.addChildList.length == 2 ? controller.addChildList[1].editingController.text : "",
+                              'age_children3': controller.addChildList.length == 3 ? controller.addChildList[2].editingController.text : "",
                             };
 
                             controller.bookRide(bodyParams).then((value) async {
@@ -4960,10 +3806,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   controller.departureController.clear();
                                   controller.destinationController.clear();
                                   controller.polyLines.value = {};
-                                  controller.departureLatLong.value =
-                                      const LatLng(0, 0);
-                                  controller.destinationLatLong.value =
-                                      const LatLng(0, 0);
+                                  controller.departureLatLong.value = const LatLng(0, 0);
+                                  controller.destinationLatLong.value = const LatLng(0, 0);
                                   passengerController.clear();
                                   tripPrice = 0.0;
                                   controller.markers.clear();
@@ -4997,19 +3841,12 @@ class _HomeScreenState extends State<HomeScreen> {
           title,
           textAlign: TextAlign.center,
           maxLines: 1,
-          style: TextStyle(
-              fontSize: 22,
-              fontFamily: AppThemeData.semiBold,
-              color: AppThemeData.secondary200),
+          style: TextStyle(fontSize: 22, fontFamily: AppThemeData.semiBold, color: AppThemeData.secondary200),
         ),
         Text(
           value,
           textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 12,
-              fontFamily: AppThemeData.regular,
-              color:
-                  isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
+          style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
         ),
       ],
     );

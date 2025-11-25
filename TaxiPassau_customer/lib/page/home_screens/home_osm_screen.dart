@@ -31,8 +31,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as geocoding;
 import 'package:provider/provider.dart';
-import 'package:location/location.dart' hide LocationAccuracy;
-
 
 class HomeOSMScreen extends StatefulWidget {
   const HomeOSMScreen({super.key});
@@ -227,8 +225,7 @@ class _HomeOSMScreenState extends State<HomeOSMScreen> {
                                                             onPressed: () async {
                                                               try {
                                                                 LocationPermission permission = await Geolocator.checkPermission();
-                                                                if (permission == LocationPermission.denied ||
-                                                                    permission == LocationPermission.deniedForever) {
+                                                                if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
                                                                   permission = await Geolocator.requestPermission();
                                                                 }
 
@@ -247,8 +244,7 @@ class _HomeOSMScreenState extends State<HomeOSMScreen> {
                                                                 );
                                                                 Placemark place = placemarks.first;
 
-                                                                String address =
-                                                                    "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+                                                                String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
 
                                                                 controller.departureController.text = address;
 
