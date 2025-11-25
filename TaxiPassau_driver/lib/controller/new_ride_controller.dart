@@ -112,15 +112,37 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
         rejectedRideList.clear();
         log("newRideList :: ${model.data}");
         for (var ride in model.data!) {
-          if (ride.statut == "pending" || ride.statut == "new" || ride.statut == "on ride" || ride.statut == "confirmed") {
-            log("newRideList :: ${ride.statut} :: ${ride.id}");
+          if (ride == null) continue;
+
+          final status = ride.statut?.toLowerCase();
+
+          print("Status $status");
+
+          // Skip dummy rides
+          if ((ride.distance == null || ride.distance.toString().trim().isEmpty) &&
+              (ride.duree == null || ride.duree.toString().trim().isEmpty) &&
+              (ride.montant == null || ride.montant.toString().trim().isEmpty)) {
+            continue;
+          }
+
+          if (status == "pending" ||
+              status == "new" ||
+              status == "confirmed" ||
+              status == "on ride") {
             newRideList.add(ride);
-          } else if (ride.statut == "completed") {
+          }
+          else if (status == "completed") {
             completedRideList.add(ride);
-          } else if (ride.statut == "rejected") {
+          }
+          else if (status == "rejected" ||
+              status == "cancelled" ||       // in case API sends cancelled
+              status == "driver_rejected" || // optional
+              status == "user_rejected") {   // optional
             rejectedRideList.add(ride);
           }
         }
+
+
         update();
         ShowToastDialog.closeLoader();
         // rideList.value = model.data!;
@@ -135,6 +157,9 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
         Get.offAll(const LoginScreen());
       } else {
         rideList.clear();
+        newRideList.clear();
+        completedRideList.clear();
+        rejectedRideList.clear();
         isLoading.value = false;
         ShowToastDialog.closeLoader();
       }
