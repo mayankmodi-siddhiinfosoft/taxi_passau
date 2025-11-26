@@ -57,7 +57,7 @@ class RideBookingSuccessScreen extends StatelessWidget {
               btnColor: AppThemeData.secondary200,
               txtColor: AppThemeData.grey900,
               onPress: () async {
-                Get.off(const NewRideScreen(initialService: '',));
+                Get.off( NewRideScreen(initialService: '',));
               },
             ),
             const SizedBox(height: 20),
