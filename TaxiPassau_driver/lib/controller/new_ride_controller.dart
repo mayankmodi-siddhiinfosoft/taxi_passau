@@ -111,33 +111,47 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
         completedRideList.clear();
         rejectedRideList.clear();
         log("newRideList :: ${model.data}");
+        // for (var ride in model.data!) {
+        //   if (ride == null) continue;
+        //
+        //   final status = ride.statut?.toLowerCase();
+        //
+        //   print("Status $status");
+        //
+        //   // Skip dummy rides
+        //   if ((ride.distance == null || ride.distance.toString().trim().isEmpty) &&
+        //       (ride.duree == null || ride.duree.toString().trim().isEmpty) &&
+        //       (ride.montant == null || ride.montant.toString().trim().isEmpty)) {
+        //     continue;
+        //   }
+        //
+        //   if (status == "pending" ||
+        //       status == "new" ||
+        //       status == "confirmed" ||
+        //       status == "on ride") {
+        //     newRideList.add(ride);
+        //   }
+        //   else if (status == "completed") {
+        //     completedRideList.add(ride);
+        //   }
+        //   else if (status == "rejected" ||
+        //       status == "cancelled" ||       // in case API sends cancelled
+        //       status == "driver_rejected" || // optional
+        //       status == "user_rejected") {   // optional
+        //     rejectedRideList.add(ride);
+        //   }
+        // }
+
         for (var ride in model.data!) {
-          if (ride == null) continue;
+          // Skip schedule rides
+          if (ride.rideType == "schedule_ride") continue;
 
-          final status = ride.statut?.toLowerCase();
-
-          print("Status $status");
-
-          // Skip dummy rides
-          if ((ride.distance == null || ride.distance.toString().trim().isEmpty) &&
-              (ride.duree == null || ride.duree.toString().trim().isEmpty) &&
-              (ride.montant == null || ride.montant.toString().trim().isEmpty)) {
-            continue;
-          }
-
-          if (status == "pending" ||
-              status == "new" ||
-              status == "confirmed" ||
-              status == "on ride") {
+          if (ride.statut == "pending" || ride.statut == "new" || ride.statut == "on ride" || ride.statut == "confirmed") {
+            log("newRideList :: ${ride.statut} :: ${ride.id}");
             newRideList.add(ride);
-          }
-          else if (status == "completed") {
+          } else if (ride.statut == "completed") {
             completedRideList.add(ride);
-          }
-          else if (status == "rejected" ||
-              status == "cancelled" ||       // in case API sends cancelled
-              status == "driver_rejected" || // optional
-              status == "user_rejected") {   // optional
+          } else if (ride.statut == "rejected") {
             rejectedRideList.add(ride);
           }
         }
