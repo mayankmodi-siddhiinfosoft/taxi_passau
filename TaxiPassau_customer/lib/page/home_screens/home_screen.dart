@@ -406,9 +406,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           await controller.getUserPendingPayment().then((value) async {
                                                                             if (value != null) {
                                                                               if (value['success'] == "success") {
-                                                                                if (value['data']['amount'] != 0) {
+                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
+                                                                                double amount = double.tryParse(amountStr) ?? 0;
+
+                                                                                if (amount >= 0) {
                                                                                   _pendingPaymentDialog(context);
-                                                                                } else {
+                                                                                  return; // ← important (stop further ride booking)
+                                                                                }else {
                                                                                   if (Constant.distanceUnit == "KM") {
                                                                                     controller.distance.value =
                                                                                         durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
@@ -754,9 +758,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           await controller.getUserPendingPayment().then((value) async {
                                                                             if (value != null) {
                                                                               if (value['success'] == "success") {
-                                                                                if (value['data']['amount'] != 0) {
+                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
+                                                                                double amount = double.tryParse(amountStr) ?? 0;
+
+                                                                                if (amount >= 0) {
                                                                                   _pendingPaymentDialog(context);
-                                                                                } else {
+                                                                                  return; // ← important (stop further ride booking)
+                                                                                }else {
                                                                                   if (Constant.distanceUnit == "KM") {
                                                                                     controller.distance.value =
                                                                                         durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
@@ -1018,9 +1026,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           await controller.getUserPendingPayment().then((value) async {
                                                                             if (value != null) {
                                                                               if (value['success'] == "success") {
-                                                                                if (value['data']['amount'] != 0) {
+                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
+                                                                                double amount = double.tryParse(amountStr) ?? 0;
+
+                                                                                if (amount >= 0) {
                                                                                   _pendingPaymentDialog(context);
-                                                                                } else {
+                                                                                  return; // ← important (stop further ride booking)
+                                                                                }else {
                                                                                   if (Constant.distanceUnit == "KM") {
                                                                                     controller.distance.value =
                                                                                         durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
@@ -1488,8 +1500,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           await controller.getUserPendingPayment().then((value) async {
                                                                             if (value != null) {
                                                                               if (value['success'] == "success") {
-                                                                                if (value['data']['amount'] != 0) {
+                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
+                                                                                double amount = double.tryParse(amountStr) ?? 0;
+
+                                                                                if (amount >= 0) {
                                                                                   _pendingPaymentDialog(context);
+                                                                                  return; // ← important (stop further ride booking)
                                                                                 } else {
                                                                                   if (Constant.distanceUnit == "KM") {
                                                                                     controller.distance.value =
@@ -1832,7 +1848,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           .then((durationValue) async {
                                                                         if (durationValue != null) {
                                                                           await controller.getUserPendingPayment().then((value) async {
+<<<<<<< HEAD
+
+
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                // String amountStr = value['data']['amount']?.toString() ?? "0";
+                                                                                // double amount = double.tryParse(amountStr) ?? 0;
+                                                                                //
+                                                                                // if (amount > 0) {
+                                                                                //   _pendingPaymentDialog(context);
+                                                                                //   return; // ← important (stop further ride booking)
+                                                                                // }
+                                                                                var dataList = value['data'];
+                                                                                if (dataList is List && dataList.isNotEmpty) {
+                                                                                  var item = dataList.first;
+
+                                                                                  double amount = double.tryParse(item['amount']?.toString() ?? "0") ?? 0;
+                                                                                  String status = item['statut']?.toString() ?? "";
+
+                                                                                  // 🔥 Only block if status is pending AND amount > 0
+                                                                                  if (status == "pending" && amount > 0) {
+                                                                                    _pendingPaymentDialog(context);
+                                                                                    return; // STOP booking ride
+                                                                                  }
+                                                                                }
+                                                                                else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+=======
                                                                             double pendingAmount = 0.0;
+>>>>>>> main
 
                                                                             if (value != null &&
                                                                                 value['success'] == "success" &&
@@ -2143,9 +2192,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
+<<<<<<< HEAD
+                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                        durationValue,
+                                                                      ) async {
+                                                                        log("getDurationDistance :: 11 :: $durationValue");
+                                                                        if (durationValue != null) {
+                                                                          await controller.getUserPendingPayment().then((value) async {
+                                                                            if (value != null) {
+                                                                              if (value['success'] == "success") {
+                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
+                                                                                double amount = double.tryParse(amountStr) ?? 0;
+
+                                                                                if (amount >= 0) {
+                                                                                  _pendingPaymentDialog(context);
+                                                                                  return; // ← important (stop further ride booking)
+                                                                                }
+                                                                                else {
+                                                                                  if (Constant.distanceUnit == "KM") {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  } else {
+                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  }
+=======
                                                                       try {
                                                                         var durationValue = await controller.getDurationDistance(
                                                                             controller.departureLatLong.value, controller.destinationLatLong.value);
+>>>>>>> main
 
                                                                         log("getDurationDistance :: $durationValue");
 

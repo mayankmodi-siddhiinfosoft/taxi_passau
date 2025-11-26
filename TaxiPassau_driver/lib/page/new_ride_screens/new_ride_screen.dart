@@ -47,347 +47,326 @@ class NewRideScreen extends StatelessWidget {
       init: NewRideController(),
       builder: (controller) {
         return Scaffold(
-          key: _scaffoldKey,
-          appBar: AppBar(
-            backgroundColor: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
-            elevation: 0,
-            centerTitle: true,
-            title:
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text(
-            //       'Taxi Passau Fahrer'.tr,
-            //       style: TextStyle(color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, fontSize: 18, fontFamily: AppThemeData.semiBold),
-            //     ),
-            //     Row(
-            //       children: [
-            //         Text(
-            //           "Status".tr,
-            //           style: TextStyle(color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, fontFamily: AppThemeData.regular, fontSize: 16),
-            //         ),
-            //         const SizedBox(width: 4),
-            //         Transform.scale(
-            //           scale: 0.8,
-            //           child: Switch(
-            //             value: controllerDashBoard.isActive.value,
-            //             activeColor: AppThemeData.success300,
-            //             inactiveTrackColor: AppThemeData.warning200,
-            //             onChanged: (value) async {
-            //               await controllerDashBoard.getUsrData();
-            //               if (controllerDashBoard.userModel.value.userData!.statutVehicule == "no") {
-            //                 showAlertDialog(context, "vehicleInformation");
-            //               } else if (controllerDashBoard.userModel.value.userData!.isVerified == "no" || controllerDashBoard.userModel.value.userData!.isVerified!.isEmpty) {
-            //                 showAlertDialog(context, "document");
-            //               } else {
-            //                 ShowToastDialog.showLoader("Please wait");
-            //
-            //                 Map<String, dynamic> bodyParams = {'id_driver': Preferences.getInt(Preferences.userId), 'online': controllerDashBoard.isActive.value ? 'no' : 'yes'};
-            //
-            //                 await controllerDashBoard.changeOnlineStatus(bodyParams).then((value) {
-            //                   if (value != null) {
-            //                     if (value['success'] == "success") {
-            //                       UserModel userModel = Constant.getUserData();
-            //                       userModel.userData!.online = value['data']['online'];
-            //                       controller.userModel.value = userModel;
-            //                       Preferences.setString(Preferences.user, jsonEncode(userModel.toJson()));
-            //                       controllerDashBoard.isActive.value = userModel.userData!.online == 'no' ? false : true;
-            //                       ShowToastDialog.showToast(value['message']);
-            //                     } else {
-            //                       ShowToastDialog.showToast(value['error']);
-            //                     }
-            //                   }
-            //                 });
-            //
-            //                 ShowToastDialog.closeLoader();
-            //               }
-            //             },
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(
-                    'Taxi Passau Fahrer'.tr,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                      fontSize: 18,
-                      fontFamily: AppThemeData.semiBold,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Status".tr,
+            key: _scaffoldKey,
+            appBar: AppBar(
+              backgroundColor: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
+              elevation: 0,
+              centerTitle: true,
+              title:
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       'Taxi Passau Fahrer'.tr,
+                  //       style: TextStyle(color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, fontSize: 18, fontFamily: AppThemeData.semiBold),
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         Text(
+                  //           "Status".tr,
+                  //           style: TextStyle(color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, fontFamily: AppThemeData.regular, fontSize: 16),
+                  //         ),
+                  //         const SizedBox(width: 4),
+                  //         Transform.scale(
+                  //           scale: 0.8,
+                  //           child: Switch(
+                  //             value: controllerDashBoard.isActive.value,
+                  //             activeColor: AppThemeData.success300,
+                  //             inactiveTrackColor: AppThemeData.warning200,
+                  //             onChanged: (value) async {
+                  //               await controllerDashBoard.getUsrData();
+                  //               if (controllerDashBoard.userModel.value.userData!.statutVehicule == "no") {
+                  //                 showAlertDialog(context, "vehicleInformation");
+                  //               } else if (controllerDashBoard.userModel.value.userData!.isVerified == "no" || controllerDashBoard.userModel.value.userData!.isVerified!.isEmpty) {
+                  //                 showAlertDialog(context, "document");
+                  //               } else {
+                  //                 ShowToastDialog.showLoader("Please wait");
+                  //
+                  //                 Map<String, dynamic> bodyParams = {'id_driver': Preferences.getInt(Preferences.userId), 'online': controllerDashBoard.isActive.value ? 'no' : 'yes'};
+                  //
+                  //                 await controllerDashBoard.changeOnlineStatus(bodyParams).then((value) {
+                  //                   if (value != null) {
+                  //                     if (value['success'] == "success") {
+                  //                       UserModel userModel = Constant.getUserData();
+                  //                       userModel.userData!.online = value['data']['online'];
+                  //                       controller.userModel.value = userModel;
+                  //                       Preferences.setString(Preferences.user, jsonEncode(userModel.toJson()));
+                  //                       controllerDashBoard.isActive.value = userModel.userData!.online == 'no' ? false : true;
+                  //                       ShowToastDialog.showToast(value['message']);
+                  //                     } else {
+                  //                       ShowToastDialog.showToast(value['error']);
+                  //                     }
+                  //                   }
+                  //                 });
+                  //
+                  //                 ShowToastDialog.closeLoader();
+                  //               }
+                  //             },
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      'Taxi Passau Fahrer'.tr,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                        fontFamily: AppThemeData.regular,
-                        fontSize: 16,
+                        color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                        fontSize: 18,
+                        fontFamily: AppThemeData.semiBold,
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    Transform.scale(
-                      scale: 0.8,
-                      child: Switch(
-                        value: controllerDashBoard.isActive.value,
-                        activeColor: AppThemeData.success300,
-                        inactiveTrackColor: AppThemeData.warning200,
-                        onChanged: (value) async {
-                          await controllerDashBoard.getUsrData();
-                          if (controllerDashBoard.userModel.value.userData!.statutVehicule == "no") {
-                            showAlertDialog(context, "vehicleInformation");
-                          } else if (controllerDashBoard.userModel.value.userData!.isVerified == "no" || controllerDashBoard.userModel.value.userData!.isVerified!.isEmpty) {
-                            showAlertDialog(context, "document");
-                          } else {
-                            ShowToastDialog.showLoader("Please wait");
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Status".tr,
+                        style: TextStyle(
+                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                          fontFamily: AppThemeData.regular,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Transform.scale(
+                        scale: 0.8,
+                        child: Switch(
+                          value: controllerDashBoard.isActive.value,
+                          activeColor: AppThemeData.success300,
+                          inactiveTrackColor: AppThemeData.warning200,
+                          onChanged: (value) async {
+                            await controllerDashBoard.getUsrData();
+                            if (controllerDashBoard.userModel.value.userData!.statutVehicule == "no") {
+                              showAlertDialog(context, "vehicleInformation");
+                            } else if (controllerDashBoard.userModel.value.userData!.isVerified == "no" ||
+                                controllerDashBoard.userModel.value.userData!.isVerified!.isEmpty) {
+                              showAlertDialog(context, "document");
+                            } else {
+                              ShowToastDialog.showLoader("Please wait");
 
-                            Map<String, dynamic> bodyParams = {
-                              'id_driver': Preferences.getInt(Preferences.userId),
-                              'online': controllerDashBoard.isActive.value ? 'no' : 'yes'
-                            };
+                              Map<String, dynamic> bodyParams = {
+                                'id_driver': Preferences.getInt(Preferences.userId),
+                                'online': controllerDashBoard.isActive.value ? 'no' : 'yes'
+                              };
 
-                            await controllerDashBoard.changeOnlineStatus(bodyParams).then((value) {
-                              if (value != null) {
-                                if (value['success'] == "success") {
-                                  UserModel userModel = Constant.getUserData();
-                                  userModel.userData!.online = value['data']['online'];
-                                  controller.userModel.value = userModel;
-                                  Preferences.setString(Preferences.user, jsonEncode(userModel.toJson()));
-                                  controllerDashBoard.isActive.value = userModel.userData!.online == 'no' ? false : true;
-                                  ShowToastDialog.showToast(value['message']);
-                                } else {
-                                  ShowToastDialog.showToast(value['error']);
+                              await controllerDashBoard.changeOnlineStatus(bodyParams).then((value) {
+                                if (value != null) {
+                                  if (value['success'] == "success") {
+                                    UserModel userModel = Constant.getUserData();
+                                    userModel.userData!.online = value['data']['online'];
+                                    controller.userModel.value = userModel;
+                                    Preferences.setString(Preferences.user, jsonEncode(userModel.toJson()));
+                                    controllerDashBoard.isActive.value =
+                                        userModel.userData!.online == 'no' ? false : true;
+                                    ShowToastDialog.showToast(value['message']);
+                                  } else {
+                                    ShowToastDialog.showToast(value['error']);
+                                  }
                                 }
-                              }
-                            });
+                              });
 
-                            ShowToastDialog.closeLoader();
-                          }
-                        },
+                              ShowToastDialog.closeLoader();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              titleSpacing: 12,
+              leading: Builder(
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _scaffoldKey.currentState?.openDrawer();
+                        // Scaffold.of(context).openDrawer();
+                      },
+                      child: Image.asset("assets/icons/ic_side_menu.png",
+                          color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                    ),
+                  );
+                },
+              ),
+            ),
+            backgroundColor: themeChange.getThem() ? AppThemeData.grey50Dark : AppThemeData.grey50,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: SizedBox(
+              width: Responsive.width(50, context),
+              height: 50,
+              child: FloatingActionButton.extended(
+                backgroundColor: AppThemeData.primary200,
+                foregroundColor: Colors.black,
+                onPressed: () {
+                  if (controller.userModel.value.userData?.isVerified == "yes") {
+                    if (Constant.selectedMapType == 'osm') {
+                      Get.to(() => const CreateOsmRideScreen())?.then((v) async {
+                        await controller.getNewRide();
+                      });
+                    } else {
+                      Get.to(() => const CreateRideScreen())?.then((v) async {
+                        await controller.getNewRide();
+                      });
+                    }
+                  } else {
+                    ShowToastDialog.showToast('Your document is not verified by admin');
+                  }
+                },
+                icon: const Icon(Icons.add),
+                label: Text('Create Ride'.tr, style: TextStyle(fontSize: 14, fontFamily: AppThemeData.medium)),
+              ),
+            ),
+            // floatingActionButton: FloatingActionButton(
+            //   backgroundColor: AppThemeData.primary200,
+            //   onPressed: () {
+            //     if (controller.userModel.value.userData!.isVerified == "yes") {
+            //       if (Constant.selectedMapType == 'osm') {
+            //         Get.to(() => const CreateOsmRideScreen());
+            //       } else {
+            //         Get.to(() => const CreateRideScreen());
+            //       }
+            //     } else {
+            //       ShowToastDialog.showToast('Your document is not verified by admin'.tr);
+            //     }
+            //   },
+            //   child: const Icon(
+            //     Icons.add,
+            //     size: 35,
+            //   ),
+            // ),
+            drawer: buildAppDrawer(context, controllerDashBoard),
+            body:Stack(
+              children: [
+                Column(
+                  children: [
+                    if (double.parse(controller.userModel.value.userData!.amount.toString()) <
+                        double.parse(Constant.minimumWalletBalance!))
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppThemeData.primary200,
+                        ),
+                        child: Text(
+                          "${"Your wallet balance must be".tr} "
+                          "${Constant().amountShow(amount: Constant.minimumWalletBalance!.toString())} "
+                          "${"to get ride.".tr}",
+                        ),
+                      ),
+                    Expanded(
+                      child: Container(
+                        // margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: DefaultTabController(
+                          length: 3,
+                          child: Column(
+                            children: [
+                              TabBar(
+                                isScrollable: false,
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                indicatorColor: AppThemeData.primary200,
+                                labelPadding: const EdgeInsets.symmetric(vertical: 8),
+                                dividerColor: Colors.transparent,
+                                labelColor: AppThemeData.primary200,
+                                labelStyle: TextStyle(
+                                  fontFamily: AppThemeData.medium,
+                                  fontSize: 16,
+                                ),
+                                unselectedLabelStyle: TextStyle(
+                                  fontFamily: AppThemeData.regular,
+                                  fontSize: 16,
+                                  color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey400,
+                                ),
+                                tabs: [
+                                  Tab(text: 'New'.tr),
+                                  Tab(text: 'Completed'.tr),
+                                  Tab(text: 'Rejected'.tr),
+                                ],
+                              ),
+                              Obx(()=>
+                                 Expanded(
+                                  child: TabBarView(
+                                    children: [
+                                      buildRideTab(
+                                        isLoading: controller.isLoading.value,
+                                        list: controller.newRideList,
+                                        emptyText: "You don't have any ride booked.",
+                                        controller: controller,
+                                        theme: themeChange.getThem(),
+                                      ),
+                                      buildRideTab(
+                                        isLoading: controller.isLoading.value,
+                                        list: controller.completedRideList,
+                                        emptyText: "You have not completed any trip.",
+                                        controller: controller,
+                                        theme: themeChange.getThem(),
+                                      ),
+                                      buildRideTab(
+                                        isLoading: controller.isLoading.value,
+                                        list: controller.rejectedRideList,
+                                        emptyText: "You have not rejected any trip.",
+                                        controller: controller,
+                                        theme: themeChange.getThem(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ],
-            ),
-            titleSpacing: 12,
-            leading: Builder(
-              builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      _scaffoldKey.currentState?.openDrawer();
-                      // Scaffold.of(context).openDrawer();
-                    },
-                    child: Image.asset("assets/icons/ic_side_menu.png", color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
-                  ),
-                );
-              },
-            ),
-          ),
-          backgroundColor: themeChange.getThem() ? AppThemeData.grey50Dark : AppThemeData.grey50,
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: SizedBox(
-            width: Responsive.width(50, context),
-            height: 50,
-            child: FloatingActionButton.extended(
-              backgroundColor: AppThemeData.primary200,
-              foregroundColor: Colors.black,
-              onPressed: () {
-                if (controller.userModel.value.userData?.isVerified == "yes") {
-                  if (Constant.selectedMapType == 'osm') {
-                    Get.to(() => const CreateOsmRideScreen())?.then((v) async {
-                      await controller.getNewRide();
-                    });
-                  } else {
-                    Get.to(() => const CreateRideScreen())?.then((v) async {
-                      await controller.getNewRide();
-                    });
-                  }
-                } else {
-                  ShowToastDialog.showToast('Your document is not verified by admin');
-                }
-              },
-              icon: const Icon(Icons.add),
-              label: Text('Create Ride'.tr, style: TextStyle(fontSize: 14, fontFamily: AppThemeData.medium)),
-            ),
-          ),
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: AppThemeData.primary200,
-          //   onPressed: () {
-          //     if (controller.userModel.value.userData!.isVerified == "yes") {
-          //       if (Constant.selectedMapType == 'osm') {
-          //         Get.to(() => const CreateOsmRideScreen());
-          //       } else {
-          //         Get.to(() => const CreateRideScreen());
-          //       }
-          //     } else {
-          //       ShowToastDialog.showToast('Your document is not verified by admin'.tr);
-          //     }
-          //   },
-          //   child: const Icon(
-          //     Icons.add,
-          //     size: 35,
-          //   ),
-          // ),
-          drawer: buildAppDrawer(context, controllerDashBoard),
-          body: RefreshIndicator(
-            onRefresh: () => controller.getNewRide(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Column(
-                children: [
-                  if (double.parse(controller.userModel.value.userData!.amount.toString()) < double.parse(Constant.minimumWalletBalance!))
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppThemeData.primary200),
-                      child: Text("${"Your wallet balance must be".tr} ${Constant().amountShow(amount: Constant.minimumWalletBalance!.toString())} ${"to get ride.".tr}"),
-                    ),
-
-                  SafeArea(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            height: Responsive.height(70, context),
-                            color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
-                            child: Theme(
-                              data: ThemeData(
-                                useMaterial3: true, // Optional: use this only if you're using Material 3
-                                tabBarTheme: TabBarThemeData(
-                                  indicatorColor: AppThemeData.primary200,
-                                ),
-                              ),
-                              child: DefaultTabController(
-                                length: 3,
-                                child: Column(children: [
-                                  TabBar(
-                                    isScrollable: false,
-                                    indicatorSize: TabBarIndicatorSize.tab,
-                                    indicatorColor: AppThemeData.primary200,
-                                    indicatorWeight: 0.1,
-                                    labelPadding: const EdgeInsets.symmetric(vertical: 8),
-                                    dividerColor: Colors.transparent,
-                                    labelColor: AppThemeData.primary200,
-                                    automaticIndicatorColorAdjustment: true,
-                                    labelStyle: TextStyle(fontFamily: AppThemeData.medium, fontSize: 16, color: AppThemeData.primary200),
-                                    unselectedLabelStyle: TextStyle(fontFamily: AppThemeData.regular, fontSize: 16, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey400),
-                                    tabs: [
-                                      Tab(
-                                        text: 'New'.tr,
-                                      ),
-                                      Tab(
-                                        text: 'Completed'.tr,
-                                      ),
-                                      Tab(
-                                        text: 'Rejected'.tr,
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: TabBarView(children: [
-                                      SizedBox(
-                                        child: RefreshIndicator(
-                                          backgroundColor: AppThemeData.primary200,
-                                          onRefresh: () => controller.getNewRide(),
-                                          child: controller.isLoading.value
-                                              ? SizedBox() //Constant.loader(context)
-                                              : controller.newRideList.isEmpty
-                                              ? Constant.emptyView("Your don't have any ride booked.",)
-                                              : ListView.builder(
-                                            padding: EdgeInsets.only(bottom: 50),
-                                            itemCount: controller.completedRideList.length,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              return newRideWidgets(context, controller.completedRideList[index], controller, themeChange.getThem());
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: RefreshIndicator(
-                                          backgroundColor: AppThemeData.primary200,
-                                          color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                          onRefresh: () => controller.getNewRide(),
-                                          child: controller.isLoading.value
-                                              ? SizedBox()
-                                              : controller.completedRideList.isEmpty
-                                              ? Constant.emptyView( "You have not completed any trip.")
-                                              : ListView.builder(
-                                            padding: EdgeInsets.only(bottom: 50),
-                                            itemCount: controller.completedRideList.length,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              return newRideWidgets(context, controller.completedRideList[index], controller, themeChange.getThem());
-                                            },
-                                          ),
-
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: RefreshIndicator(
-                                          backgroundColor: AppThemeData.primary200,
-                                          onRefresh: () => controller.getNewRide(),
-                                          child: controller.isLoading.value
-                                              ? SizedBox()
-                                              : controller.rejectedRideList.isEmpty
-                                              ? Constant.emptyView( "You have not rejected any trip.",)
-                                              : ListView.builder(
-                                            padding: EdgeInsets.only(bottom: 50),
-                                            itemCount: controller.completedRideList.length,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              return newRideWidgets(context, controller.rejectedRideList[index], controller, themeChange.getThem());
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                  )
-                                ]),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Expanded(
-                  //   child: controller.isLoading.value
-                  //       ? SizedBox()
-                  //       : controller.rideList.isEmpty
-                  //           ? Constant.emptyView("Your don't have any ride booked.")
-                  //           : ListView.builder(
-                  //               padding: EdgeInsets.only(bottom: 50),
-                  //               itemCount: controller.rideList.length,
-                  //               shrinkWrap: true,
-                  //               itemBuilder: (context, index) {
-                  //                 return newRideWidgets(context, controller.rideList[index], controller, themeChange.getThem());
-                  //               },
-                  //             ),
-                  // ),
-                ],
-              ),
-            ),
-          ),
-        );
+            ));
       },
+    );
+  }
+
+  Widget buildRideTab({
+    required bool isLoading,
+    required List list,
+    required String emptyText,
+    required controller,
+    required bool theme,
+  }) {
+    return RefreshIndicator(
+      backgroundColor: AppThemeData.primary200,
+      onRefresh: () => controller.getNewRide(),
+      child: isLoading
+          ? const SizedBox()
+          : list.isEmpty
+              ? Constant.emptyView(emptyText)
+              : ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 50,left: 10,right: 10,top: 10),
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return newRideWidgets(
+                      context,
+                      list[index],
+                      controller,
+                      theme,
+                    );
+                  },
+                ),
     );
   }
 
   Widget newRideWidgets(BuildContext context, RideData data, NewRideController controller, bool isDarkMode) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-
 
     return InkWell(
       onTap: () async {
@@ -417,7 +396,19 @@ class NewRideScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Container(
-          decoration: BoxDecoration(color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50, borderRadius: const BorderRadius.all(Radius.circular(15.0))),
+          decoration: BoxDecoration(
+            color: themeChange.getThem()
+                ? AppThemeData.surface50Dark
+                : AppThemeData.surface50,
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+            border: Border.all(
+              color: themeChange.getThem()
+                  ? AppThemeData.grey300Dark
+                  : AppThemeData.grey400,   // ← आपकी पसंद का color
+              width: 1.2,                  // ← border thickness
+            ),
+          ),
+
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Column(
@@ -434,17 +425,20 @@ class NewRideScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(width: 5),
-                      Expanded(child: Text(data.departName.toString().tr, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                      Expanded(
+                          child: Text(data.departName.toString().tr, maxLines: 2, overflow: TextOverflow.ellipsis)),
                       SizedBox(width: 8),
                       Container(
                         width: 120,
                         height: 34,
-                        decoration: BoxDecoration(color: Constant.statusColor(data), borderRadius: BorderRadius.circular(10)),
+                        decoration:
+                            BoxDecoration(color: Constant.statusColor(data), borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
                             Constant().capitalizeWords(data.statut.toString()).tr,
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Constant.statusTextColor(data), fontSize: 14, fontFamily: AppThemeData.medium),
+                            style: TextStyle(
+                                color: Constant.statusTextColor(data), fontSize: 14, fontFamily: AppThemeData.medium),
                           ),
                         ),
                       ),
@@ -471,7 +465,8 @@ class NewRideScreen extends StatelessWidget {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
-                              child: Text(data.stops![index].location.toString(), maxLines: 2, overflow: TextOverflow.ellipsis),
+                              child: Text(data.stops![index].location.toString(),
+                                  maxLines: 2, overflow: TextOverflow.ellipsis),
                             ),
                           ),
                         ],
@@ -487,7 +482,9 @@ class NewRideScreen extends StatelessWidget {
                     children: [
                       SvgPicture.asset("assets/icons/ic_destenation.svg", height: 24),
                       const SizedBox(width: 5),
-                      Expanded(child: Text(data.destinationName.toString().tr, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                      Expanded(
+                          child:
+                              Text(data.destinationName.toString().tr, maxLines: 2, overflow: TextOverflow.ellipsis)),
                     ],
                   ),
                 ),
@@ -575,14 +572,17 @@ class NewRideScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _infoColumn(
-                          title: "Distance".tr,
-                          value: '${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}',
-                        ),
+                            title: "Distance".tr,
+                            value:
+                                "${safeDouble(data.distance).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}"
+                            // '${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${Constant.distanceUnit}',
+                            ),
                         if (Constant.taxiVehicleCategoryId != data.tripCategory)
                           _infoColumn(title: "Passengers".tr, value: data.numberPoeple.toString()),
                         _infoColumn(title: "Duration".tr, value: data.duree.toString()),
                         if (Constant.taxiVehicleCategoryId != data.tripCategory || data.montant != '0')
-                          _infoColumn(title: "Trip Price".tr, value: Constant().amountShow(amount: data.montant.toString())),
+                          _infoColumn(
+                              title: "Trip Price".tr, value: Constant().amountShow(amount: data.montant.toString())),
                       ],
                     ),
                   ),
@@ -610,7 +610,11 @@ class NewRideScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${data.userInfo!.name}',
-                                      style: TextStyle(color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, fontSize: 16, fontFamily: AppThemeData.semiBold),
+                                      style: TextStyle(
+                                          color:
+                                              themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                          fontSize: 16,
+                                          fontFamily: AppThemeData.semiBold),
                                     ),
                                     Text(
                                       '${data.userInfo!.email}',
@@ -623,9 +627,16 @@ class NewRideScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${data.prenom.toString()} ${data.nom.toString()}',
-                                      style: TextStyle(color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, fontSize: 16, fontFamily: AppThemeData.semiBold),
+                                      style: TextStyle(
+                                          color:
+                                              themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                          fontSize: 16,
+                                          fontFamily: AppThemeData.semiBold),
                                     ),
-                                    StarRating(size: 18, rating: double.parse(data.moyenneDriver.toString()), color: AppThemeData.warning200),
+                                    StarRating(
+                                        size: 18,
+                                        rating: double.parse(data.moyenneDriver.toString()),
+                                        color: AppThemeData.warning200),
                                   ],
                                 ),
                         ),
@@ -633,7 +644,10 @@ class NewRideScreen extends StatelessWidget {
                       Row(
                         children: [
                           Visibility(
-                            visible: data.statut == "new" ||data.statut == "pending" ||  data.statut == "on ride" || data.statut == "confirmed",
+                            visible: data.statut == "new" ||
+                                data.statut == "pending" ||
+                                data.statut == "on ride" ||
+                                data.statut == "confirmed",
                             child: InkWell(
                                 onTap: () {
                                   Get.to(ConversationScreen(), arguments: {
@@ -677,7 +691,9 @@ class NewRideScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (data.statut == "completed" && (data.montant == "0" || data.montant == "" || data.montant == null) && Constant.taxiVehicleCategoryId == data.tripCategory)
+                if (data.statut == "completed" &&
+                    (data.montant == "0" || data.montant == "" || data.montant == null) &&
+                    Constant.taxiVehicleCategoryId == data.tripCategory)
                   SizedBox(
                     height: 60,
                     width: double.infinity,
@@ -692,7 +708,10 @@ class NewRideScreen extends StatelessWidget {
                               onPressed: () {},
                               icon: Text(
                                 "${Constant.currency}",
-                                style: TextStyle(fontSize: 16, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, fontFamily: AppThemeData.regular),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                    fontFamily: AppThemeData.regular),
                               ),
                             ),
                             controller: controller.ridepriceText.value,
@@ -715,7 +734,11 @@ class NewRideScreen extends StatelessWidget {
                             btnColor: AppThemeData.primary200,
                             txtColor: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
                             onPress: () {
-                              var bodyParams = {'ride_id': data.id.toString(), 'driver_id': data.idConducteur.toString(), 'price': controller.ridepriceText.value.text};
+                              var bodyParams = {
+                                'ride_id': data.id.toString(),
+                                'driver_id': data.idConducteur.toString(),
+                                'price': controller.ridepriceText.value.text
+                              };
                               controller.ridepriceText.value.clear();
                               controller.setPriceByDriver(bodyParams);
                             },
@@ -740,7 +763,8 @@ class NewRideScreen extends StatelessWidget {
                                   btnHeight: 45,
                                   btnWidthRatio: 1,
                                   title: data.statutPaiement == "yes" ? "paid".tr : "Not paid".tr,
-                                  btnColor: data.statutPaiement == "yes" ? AppThemeData.success300 : AppThemeData.success300,
+                                  btnColor:
+                                      data.statutPaiement == "yes" ? AppThemeData.success300 : AppThemeData.success300,
                                   txtColor: themeChange.getThem() ? AppThemeData.grey900 : AppThemeData.grey900Dark,
                                   onPress: () {},
                                 ),
@@ -812,14 +836,17 @@ class NewRideScreen extends StatelessWidget {
                           btnColor: themeChange.getThem() ? AppThemeData.grey900 : AppThemeData.grey900Dark,
                           txtColor: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark,
                           onPress: () async {
-                            Get.to(AddComplaintScreen(), arguments: {"isReviewScreen": false, "data": data, "ride_type": "ride"});
+                            Get.to(AddComplaintScreen(),
+                                arguments: {"isReviewScreen": false, "data": data, "ride_type": "ride"});
                           },
                         ),
                       ),
                       Row(
                         children: [
                           Visibility(
-                            visible: data.statut == "pending" || data.statut == "new" || data.statut == "confirmed" ? true : false,
+                            visible: data.statut == "pending" || data.statut == "new" || data.statut == "confirmed"
+                                ? true
+                                : false,
                             child: Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 5, left: 8, right: 8),
@@ -865,7 +892,8 @@ class NewRideScreen extends StatelessWidget {
                                             Map<String, String> bodyParams = {
                                               'id_ride': data.id.toString(),
                                               'id_user': data.idUserApp.toString(),
-                                              'driver_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                              'driver_name':
+                                                  '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                               'lat_conducteur': data.latitudeDepart.toString(),
                                               'lng_conducteur': data.longitudeDepart.toString(),
                                               'lat_client': data.latitudeArrivee.toString(),
@@ -936,7 +964,8 @@ class NewRideScreen extends StatelessWidget {
                                               Map<String, String> bodyParams = {
                                                 'id_ride': data.id.toString(),
                                                 'id_user': data.idUserApp.toString(),
-                                                'use_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                                'use_name':
+                                                    '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                                 'from_id': Preferences.getInt(Preferences.userId).toString(),
                                               };
                                               controller.setOnRideRequest(bodyParams).then((value) async {
@@ -970,17 +999,26 @@ class NewRideScreen extends StatelessWidget {
                                                 context: context,
                                                 builder: (context) {
                                                   return Dialog(
-                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                    shape:
+                                                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                                     elevation: 0,
                                                     backgroundColor: Colors.transparent,
                                                     child: Container(
                                                       height: 200,
-                                                      padding: const EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
+                                                      padding: const EdgeInsets.only(
+                                                          left: 10, top: 20, right: 10, bottom: 20),
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.rectangle,
-                                                        color: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+                                                        color: isDarkMode
+                                                            ? AppThemeData.surface50Dark
+                                                            : AppThemeData.surface50,
                                                         borderRadius: BorderRadius.circular(20),
-                                                        boxShadow: const [BoxShadow(color: Colors.black, offset: Offset(0, 10), blurRadius: 10)],
+                                                        boxShadow: const [
+                                                          BoxShadow(
+                                                              color: Colors.black,
+                                                              offset: Offset(0, 10),
+                                                              blurRadius: 10)
+                                                        ],
                                                       ),
                                                       child: Column(
                                                         children: [
@@ -991,13 +1029,18 @@ class NewRideScreen extends StatelessWidget {
                                                             defaultPinTheme: PinTheme(
                                                               height: 50,
                                                               width: 50,
-                                                              textStyle: const TextStyle(letterSpacing: 0.60, fontSize: 16),
+                                                              textStyle:
+                                                                  const TextStyle(letterSpacing: 0.60, fontSize: 16),
                                                               // margin: EdgeInsets.all(10),
                                                               decoration: BoxDecoration(
                                                                 borderRadius: BorderRadius.circular(10),
                                                                 shape: BoxShape.rectangle,
-                                                                color: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
-                                                                border: Border.all(color: AppThemeData.textFieldBoarderColor, width: 0.7),
+                                                                color: isDarkMode
+                                                                    ? AppThemeData.surface50Dark
+                                                                    : AppThemeData.surface50,
+                                                                border: Border.all(
+                                                                    color: AppThemeData.textFieldBoarderColor,
+                                                                    width: 0.7),
                                                               ),
                                                             ),
                                                             keyboardType: TextInputType.phone,
@@ -1014,18 +1057,33 @@ class NewRideScreen extends StatelessWidget {
                                                                   btnHeight: 45,
                                                                   btnWidthRatio: 1,
                                                                   btnColor: AppThemeData.primary200,
-                                                                  txtColor: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                                  txtColor: isDarkMode
+                                                                      ? AppThemeData.grey900Dark
+                                                                      : AppThemeData.grey900,
                                                                   onPress: () {
-                                                                    if (controller.otpController.text.toString().length == 6) {
-                                                                      controller.verifyOTP(userId: data.idUserApp!.toString(), rideId: data.id!.toString()).then((value) {
-                                                                        if (value != null && value['success'] == "success") {
+                                                                    if (controller.otpController.text
+                                                                            .toString()
+                                                                            .length ==
+                                                                        6) {
+                                                                      controller
+                                                                          .verifyOTP(
+                                                                              userId: data.idUserApp!.toString(),
+                                                                              rideId: data.id!.toString())
+                                                                          .then((value) {
+                                                                        if (value != null &&
+                                                                            value['success'] == "success") {
                                                                           Map<String, String> bodyParams = {
                                                                             'id_ride': data.id.toString(),
                                                                             'id_user': data.idUserApp.toString(),
-                                                                            'use_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
-                                                                            'from_id': Preferences.getInt(Preferences.userId).toString(),
+                                                                            'use_name':
+                                                                                '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                                                            'from_id':
+                                                                                Preferences.getInt(Preferences.userId)
+                                                                                    .toString(),
                                                                           };
-                                                                          controller.setOnRideRequest(bodyParams).then((value) {
+                                                                          controller
+                                                                              .setOnRideRequest(bodyParams)
+                                                                              .then((value) {
                                                                             if (value != null) {
                                                                               Get.back();
                                                                               showDialog(
@@ -1033,15 +1091,18 @@ class NewRideScreen extends StatelessWidget {
                                                                                 builder: (BuildContext context) {
                                                                                   return CustomDialogBox(
                                                                                     title: "On ride Successfully".tr,
-                                                                                    descriptions: "Ride Successfully On ride.".tr,
+                                                                                    descriptions:
+                                                                                        "Ride Successfully On ride.".tr,
                                                                                     text: "Ok".tr,
                                                                                     onPress: () async {
-                                                                                      ShowToastDialog.showLoader("Please wait");
+                                                                                      ShowToastDialog.showLoader(
+                                                                                          "Please wait");
                                                                                       await controller.getNewRide();
                                                                                       ShowToastDialog.closeLoader();
                                                                                       Get.back();
                                                                                     },
-                                                                                    img: Image.asset('assets/images/green_checked.png'),
+                                                                                    img: Image.asset(
+                                                                                        'assets/images/green_checked.png'),
                                                                                   );
                                                                                 },
                                                                               );
@@ -1062,9 +1123,15 @@ class NewRideScreen extends StatelessWidget {
                                                                   title: 'cancel'.tr,
                                                                   btnHeight: 45,
                                                                   btnWidthRatio: 1,
-                                                                  btnColor: isDarkMode ? AppThemeData.grey800 : AppThemeData.grey100,
-                                                                  txtColor: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                                  btnBorderColor: isDarkMode ? AppThemeData.grey800 : AppThemeData.grey100,
+                                                                  btnColor: isDarkMode
+                                                                      ? AppThemeData.grey800
+                                                                      : AppThemeData.grey100,
+                                                                  txtColor: isDarkMode
+                                                                      ? AppThemeData.grey900Dark
+                                                                      : AppThemeData.grey900,
+                                                                  btnBorderColor: isDarkMode
+                                                                      ? AppThemeData.grey800
+                                                                      : AppThemeData.grey100,
                                                                   onPress: () {
                                                                     Get.back();
                                                                   },
@@ -1150,7 +1217,8 @@ class NewRideScreen extends StatelessWidget {
                                             Map<String, String> bodyParams = {
                                               'id_ride': data.id.toString(),
                                               'id_user': data.idUserApp.toString(),
-                                              'driver_name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                              'driver_name':
+                                                  '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                               'from_id': Preferences.getInt(Preferences.userId).toString(),
                                             };
                                             controller.setCompletedRequest(bodyParams, data).then((value) {
@@ -1270,7 +1338,8 @@ class NewRideScreen extends StatelessWidget {
                                             Map<String, String> bodyParams = {
                                               'id_ride': data.id.toString(),
                                               'id_user': data.idUserApp.toString(),
-                                              'name': '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
+                                              'name':
+                                                  '${data.prenomConducteur.toString()} ${data.nomConducteur.toString()}',
                                               'from_id': Preferences.getInt(Preferences.userId).toString(),
                                               'user_cat': controller.userModel.value.userData!.userCat.toString(),
                                               'reason': resonController.text.toString(),
@@ -1338,6 +1407,19 @@ class NewRideScreen extends StatelessWidget {
       },
     );
   }
+
+  double safeDouble(dynamic value) {
+    if (value == null) return 0.0;
+
+    final str = value.toString().trim();
+
+    if (str.isEmpty || str.toLowerCase() == "null" || str.toLowerCase() == "nan" || str.toLowerCase() == "undefined") {
+      return 0.0;
+    }
+
+    return double.tryParse(str) ?? 0.0;
+  }
+
   Widget _infoColumn({required String title, required String value}) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),

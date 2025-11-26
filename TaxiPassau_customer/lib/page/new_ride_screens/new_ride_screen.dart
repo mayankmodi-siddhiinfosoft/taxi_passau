@@ -9,7 +9,11 @@ import 'package:taxipassau/page/review_screens/add_review_screen.dart';
 import 'package:taxipassau/themes/appbar_cust.dart';
 import 'package:taxipassau/themes/button_them.dart';
 import 'package:taxipassau/themes/constant_colors.dart';
+import 'package:taxipassau/themes/custom_alert_dialog.dart';
+import 'package:taxipassau/themes/custom_dialog_box.dart';
 import 'package:taxipassau/themes/responsive.dart';
+import 'package:taxipassau/themes/text_field_them.dart';
+import 'package:taxipassau/utils/Preferences.dart';
 import 'package:taxipassau/utils/dark_theme_provider.dart';
 import 'package:taxipassau/widget/StarRating.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -23,7 +27,7 @@ import 'package:text_scroll/text_scroll.dart';
 
 class NewRideScreen extends StatelessWidget {
   final String initialService;
-  const NewRideScreen({super.key, required this.initialService});
+  NewRideScreen({super.key, required this.initialService});
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +85,12 @@ class NewRideScreen extends StatelessWidget {
                                   dividerColor: Colors.transparent,
                                   labelColor: AppThemeData.primary200,
                                   automaticIndicatorColorAdjustment: true,
-                                  labelStyle: TextStyle(fontFamily: AppThemeData.medium, fontSize: 16, color: AppThemeData.primary200),
-                                  unselectedLabelStyle: TextStyle(fontFamily: AppThemeData.regular, fontSize: 16, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey400),
+                                  labelStyle: TextStyle(
+                                      fontFamily: AppThemeData.medium, fontSize: 16, color: AppThemeData.primary200),
+                                  unselectedLabelStyle: TextStyle(
+                                      fontFamily: AppThemeData.regular,
+                                      fontSize: 16,
+                                      color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey400),
                                   tabs: [
                                     Tab(
                                       text: 'New'.tr,
@@ -104,14 +112,16 @@ class NewRideScreen extends StatelessWidget {
                                         child: controller.isLoading.value
                                             ? SizedBox() //Constant.loader(context)
                                             : controller.newRideList.isEmpty
-                                                ? Constant.emptyView(context, "You have not booked any trip.\n Please book a cab now", true)
+                                                ? Constant.emptyView(context,
+                                                    "You have not booked any trip.\n Please book a cab now", true)
                                                 : ListView.builder(
                                                     itemCount: controller.newRideList.length,
                                                     shrinkWrap: true,
                                                     itemBuilder: (context, index) {
                                                       return Padding(
                                                         padding: const EdgeInsets.only(top: 24),
-                                                        child: newRideWidgets(controller, context, controller.newRideList[index]),
+                                                        child: newRideWidgets(
+                                                            controller, context, controller.newRideList[index]),
                                                       );
                                                     }),
                                       ),
@@ -131,7 +141,8 @@ class NewRideScreen extends StatelessWidget {
                                                     itemBuilder: (context, index) {
                                                       return Padding(
                                                         padding: const EdgeInsets.only(top: 24),
-                                                        child: newRideWidgets(controller, context, controller.completedRideList[index]),
+                                                        child: newRideWidgets(
+                                                            controller, context, controller.completedRideList[index]),
                                                       );
                                                     }),
                                       ),
@@ -150,7 +161,8 @@ class NewRideScreen extends StatelessWidget {
                                                     itemBuilder: (context, index) {
                                                       return Padding(
                                                         padding: const EdgeInsets.only(top: 24),
-                                                        child: newRideWidgets(controller, context, controller.rejectedRideList[index]),
+                                                        child: newRideWidgets(
+                                                            controller, context, controller.rejectedRideList[index]),
                                                       );
                                                     }),
                                       ),
@@ -176,9 +188,13 @@ class NewRideScreen extends StatelessWidget {
     final dashboardController = Get.find<DashBoardController>();
     return InkWell(
       onTap: () async {
-        await Get.to(TripHistoryScreen(initialService: dashboardController.selectedService.value,), arguments: {
-          "rideData": data,
-        })?.then((v) {
+        await Get.to(
+            TripHistoryScreen(
+              initialService: dashboardController.selectedService.value,
+            ),
+            arguments: {
+              "rideData": data,
+            })?.then((v) {
           controller.getNewRide();
         });
       },
@@ -234,15 +250,35 @@ class NewRideScreen extends StatelessWidget {
                     const Divider(),
                     Align(
                       alignment: Alignment.topRight,
-                      child: data.statut == "new" || data.statut == "pending"
-                          ? statusTile(title: 'New', bgColor: AppThemeData.primary50.withAlpha(200), txtColor: AppThemeData.primary200)
-                          : data.statut == "on ride"
-                              ? statusTile(title: 'Active', bgColor: AppThemeData.primary50.withAlpha(200), txtColor: AppThemeData.primary200)
-                              : data.statut == "confirmed"
-                                  ? statusTile(title: 'Confirmed', bgColor: AppThemeData.primary50.withAlpha(200), txtColor: AppThemeData.primary200)
-                                  : data.statut == "completed"
-                                      ? statusTile(title: 'Completed', bgColor: AppThemeData.success50.withAlpha(200), txtColor: AppThemeData.success300)
-                                      : statusTile(title: 'Rejected', bgColor: AppThemeData.error50.withAlpha(200), txtColor: AppThemeData.error200),
+                      child: data.statut == "new"
+                          ? statusTile(
+                              title: 'New',
+                              bgColor: AppThemeData.primary50.withAlpha(200),
+                              txtColor: AppThemeData.primary200)
+                          : data.statut == "pending"
+                              ? statusTile(
+                                  title: 'Pending',
+                                  bgColor: AppThemeData.primary50.withAlpha(200),
+                                  txtColor: AppThemeData.primary200)
+                              : data.statut == "on ride"
+                                  ? statusTile(
+                                      title: 'Active',
+                                      bgColor: AppThemeData.primary50.withAlpha(200),
+                                      txtColor: AppThemeData.primary200)
+                                  : data.statut == "confirmed"
+                                      ? statusTile(
+                                          title: 'Confirmed',
+                                          bgColor: AppThemeData.primary50.withAlpha(200),
+                                          txtColor: AppThemeData.primary200)
+                                      : data.statut == "completed"
+                                          ? statusTile(
+                                              title: 'Completed',
+                                              bgColor: AppThemeData.success50.withAlpha(200),
+                                              txtColor: AppThemeData.success300)
+                                          : statusTile(
+                                              title: 'Rejected',
+                                              bgColor: AppThemeData.error50.withAlpha(200),
+                                              txtColor: AppThemeData.error200),
                     ),
                   ],
                 ),
@@ -326,7 +362,10 @@ class NewRideScreen extends StatelessWidget {
                 ),
               ]),
             ),
-            (data.statut == "confirmed" && Constant.rideOtp.toString().toLowerCase() == 'yes'.toLowerCase() && data.rideType != 'driver') == true
+            (data.statut == "confirmed" &&
+                        Constant.rideOtp.toString().toLowerCase() == 'yes'.toLowerCase() &&
+                        data.rideType != 'driver') ==
+                    true
                 ? Column(
                     children: [
                       Divider(
@@ -377,7 +416,8 @@ class NewRideScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextScroll("${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${data.distanceUnit}",
+                          TextScroll(
+                              "${double.parse(data.distance.toString()).toStringAsFixed(int.parse(Constant.decimal!))} ${data.distanceUnit}",
                               mode: TextScrollMode.bouncing,
                               pauseBetween: const Duration(seconds: 2),
                               style: TextStyle(
@@ -527,7 +567,8 @@ class NewRideScreen extends StatelessWidget {
                           Row(
                             children: [
                               Visibility(
-                                  visible: data.statut == "new" || data.statut == "on ride" || data.statut == "confirmed",
+                                  visible:
+                                      data.statut == "new" || data.statut == "on ride" || data.statut == "confirmed",
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 10),
                                     child: InkWell(
@@ -556,7 +597,9 @@ class NewRideScreen extends StatelessWidget {
                                             height: 20,
                                             width: 20,
                                             colorFilter: ColorFilter.mode(
-                                              themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
+                                              themeChange.getThem()
+                                                  ? AppThemeData.surface50Dark
+                                                  : AppThemeData.surface50,
                                               BlendMode.srcIn,
                                             ),
                                           ),
@@ -632,6 +675,24 @@ class NewRideScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            data.statut == 'new' || data.statut == 'confirmed' || data.statut == 'pending'
+                ? Padding(
+                    padding: EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: ButtonThem.buildButton(
+                      context,
+                      btnColor: AppThemeData.error200,
+                      title: 'Cancel Ride'.tr,
+                      btnWidthRatio: 1,
+                      onPress: () async {
+                        buildShowBottomSheet(context, themeChange.getThem(), data, controller);
+                      },
+                    ),
+                  )
+                : SizedBox(),
+            const SizedBox(height: 20),
             Visibility(
               visible: data.statut == "completed",
               child: ButtonThem.buildBorderButton(
@@ -669,9 +730,13 @@ class NewRideScreen extends StatelessWidget {
                       if (data.statutPaiement == "yes") {
                         controller.getNewRide();
                       } else {
-                        await Get.to(TripHistoryScreen(initialService: dashboardController.selectedService.value,), arguments: {
-                          "rideData": data,
-                        })?.then((v) {
+                        await Get.to(
+                            TripHistoryScreen(
+                              initialService: dashboardController.selectedService.value,
+                            ),
+                            arguments: {
+                              "rideData": data,
+                            })?.then((v) {
                           controller.getNewRide();
                         });
                       }
@@ -704,6 +769,146 @@ class NewRideScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  final resonController = TextEditingController();
+
+  buildShowBottomSheet(BuildContext context, bool isDarkMode, RideData controller, NewRideController data) {
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+        context: context,
+        isDismissible: true,
+        isScrollControlled: true,
+        backgroundColor: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+              child: Padding(
+                padding: MediaQuery.of(context).viewInsets,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "Cancel Trip".tr,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: AppThemeData.semiBold,
+                          color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        "Write a reason for trip cancellation".tr,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: AppThemeData.regular,
+                          color: isDarkMode ? AppThemeData.grey400 : AppThemeData.grey300Dark,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: TextFieldWidget(
+                        maxLine: 3,
+                        controller: resonController,
+                        hintText: '',
+                        fontSize: 14,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: ButtonThem.buildButton(
+                                context,
+                                title: 'Cancel Trip'.tr,
+                                btnWidthRatio: 0.8,
+                                onPress: () async {
+                                  if (resonController.text.isNotEmpty) {
+                                    Get.back();
+                                    showDialog(
+                                      barrierColor: Colors.black26,
+                                      context: context,
+                                      builder: (context) {
+                                        return CustomAlertDialog(
+                                          title: "Do you want to cancel this booking?".tr,
+                                          onPressNegative: () {
+                                            Get.back();
+                                          },
+                                          onPressPositive: () {
+                                            Map<String, String> bodyParams = {
+                                              'id_ride': controller.id.toString(),
+                                              'id_user': controller.idConducteur.toString(),
+                                              'name': "${controller.prenom} ${controller.nom}",
+                                              'from_id': Preferences.getInt(Preferences.userId).toString(),
+                                              'user_cat': data.userModel.value.data!.userCat.toString(),
+                                              'reason': resonController.text.toString(),
+                                            };
+                                            data.canceledRide(bodyParams).then((value) {
+                                              Get.back();
+                                              if (value != null) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return CustomDialogBox(
+                                                        title: "Cancel Successfully".tr,
+                                                        descriptions: "Ride Successfully cancel.".tr,
+                                                        onPress: () {
+                                                          Get.back();
+                                                          Get.back();
+                                                        },
+                                                        img: Image.asset('assets/images/green_checked.png'),
+                                                      );
+                                                    });
+                                              }
+                                            });
+                                          },
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    ShowToastDialog.showToast("Please enter a reason");
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5, left: 10),
+                              child: ButtonThem.buildBorderButton(
+                                context,
+                                title: 'Close'.tr,
+                                btnWidthRatio: 0.8,
+                                btnColor: isDarkMode ? AppThemeData.surface50Dark : AppThemeData.surface50,
+                                txtColor: AppThemeData.primary200,
+                                btnBorderColor: AppThemeData.primary200,
+                                onPress: () async {
+                                  Get.back();
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          });
+        });
   }
 
   Widget statusTile({required String title, Color? bgColor, Color? txtColor}) {

@@ -152,7 +152,12 @@ class TripHistoryScreen extends StatelessWidget {
                                                         AppThemeData.primary50,
                                                     txtColor:
                                                         AppThemeData.primary200)
-                                                : controller.data.value.statut ==
+                                                :controller.data.value.statut == "pending"?statusTile(
+                                                title: 'Pending'.tr,
+                                                bgColor:
+                                                AppThemeData.primary50,
+                                                txtColor:
+                                                AppThemeData.primary200) :controller.data.value.statut ==
                                                         "on ride"
                                                     ? statusTile(
                                                         title: 'Active',
@@ -927,14 +932,14 @@ class TripHistoryScreen extends StatelessWidget {
                           left: 16, right: 16, top: 20, bottom: 10),
                       child: Column(
                         children: [
-                          if (controller.data.value.statut == 'new' ||
+                          if (controller.data.value.statut == 'new' ||controller.data.value.statut == 'pending' ||
                               controller.data.value.statut == 'on ride' ||
                               controller.data.value.statut == 'confirmed')
                             Row(
                               children: [
                                 controller.data.value.statut == 'new' ||
                                         controller.data.value.statut ==
-                                            'confirmed'
+                                            'confirmed'||controller.data.value.statut == 'pending'
                                     ? Expanded(
                                         child: ButtonThem.buildButton(
                                           context,
