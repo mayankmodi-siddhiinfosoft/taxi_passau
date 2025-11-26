@@ -81,6 +81,7 @@ dependencies:
   flutter_google_places_hoc081098: ^2.0.0
   in_app_review: ^2.0.10
   video_thumbnail: ^0.5.6
+  table_calendar: ^3.0.9
 
 
 dependency_overrides:

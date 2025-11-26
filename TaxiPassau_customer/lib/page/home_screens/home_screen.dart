@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:location/location.dart' hide LocationAccuracy;
 import 'package:provider/provider.dart';
 import 'package:taxipassau/constant/constant.dart';
@@ -130,7 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           dividerColor: Colors.transparent,
                                           labelColor: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
                                           automaticIndicatorColorAdjustment: true,
-                                          labelStyle: TextStyle(fontFamily: AppThemeData.medium, fontSize: 13, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                          labelStyle: TextStyle(
+                                              fontFamily: AppThemeData.medium, fontSize: 13, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                           unselectedLabelStyle: TextStyle(
                                             fontFamily: AppThemeData.regular,
                                             fontSize: 13,
@@ -240,7 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -269,7 +272,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     },
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.departureController,
@@ -278,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -287,7 +292,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -296,7 +302,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.destinationController,
@@ -305,7 +312,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -326,11 +334,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                     onTap: () async {
                                                                                       await Constant().placeSelectAPI(context).then((value) {
                                                                                         if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.multiStopListNew[index].editingController.text =
+                                                                                              value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude =
+                                                                                              value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude =
+                                                                                              value.result.geometry!.location.lng.toString();
                                                                                           controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                              index);
                                                                                         }
                                                                                       });
                                                                                     },
@@ -342,7 +354,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                         controller.getDirections();
                                                                                       },
                                                                                       child: Icon(Icons.close,
-                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                          size: 20,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
                                                                                     ),
                                                                                     prefix: IconButton(
                                                                                       onPressed: () {},
@@ -384,7 +397,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
-                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                      await controller
+                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                          .then((
                                                                         durationValue,
                                                                       ) async {
                                                                         if (durationValue != null) {
@@ -399,16 +414,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   return; // ← important (stop further ride booking)
                                                                                 }else {
                                                                                   if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                   } else {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
 
                                                                                   controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                   // Get.back();
                                                                                   controller.confirmWidgetVisible.value = false;
                                                                                   var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .where((stop) =>
+                                                                                          stop.latitude.isNotEmpty &&
+                                                                                          stop.longitude.isNotEmpty &&
+                                                                                          stop.editingController.text.isNotEmpty)
                                                                                       .toList();
 
                                                                                   controller.multiStopListNew = dataMulti;
@@ -416,13 +436,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   setState(() {});
 
                                                                                   await controller
-                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                      .getDriverDetails(
+                                                                                          Constant.taxiVehicleCategoryId,
+                                                                                          '${controller.departureLatLong.value.latitude}',
                                                                                           '${controller.departureLatLong.value.longitude}')
                                                                                       .then((value) {
                                                                                     if (value != null) {
                                                                                       if (value.success == "Success") {
                                                                                         if (value.data?.isNotEmpty == true) {
-                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                              driverData: value.data?.first);
                                                                                         }
                                                                                       }
                                                                                     }
@@ -430,27 +453,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 }
                                                                               } else {
                                                                                 if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                 } else {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                 }
                                                                                 controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                 controller.confirmWidgetVisible.value = false;
                                                                                 var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .where((stop) =>
+                                                                                        stop.latitude.isNotEmpty &&
+                                                                                        stop.longitude.isNotEmpty &&
+                                                                                        stop.editingController.text.isNotEmpty)
                                                                                     .toList();
 
                                                                                 controller.multiStopListNew = dataMulti;
                                                                                 controller.multiStopList = List.from(dataMulti);
                                                                                 setState(() {});
                                                                                 await controller
-                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                    .getDriverDetails(
+                                                                                        Constant.taxiVehicleCategoryId,
+                                                                                        '${controller.departureLatLong.value.latitude}',
                                                                                         '${controller.departureLatLong.value.longitude}')
                                                                                     .then((value) {
                                                                                   if (value != null) {
                                                                                     if (value.success == "Success") {
                                                                                       if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                            driverData: value.data?.first);
                                                                                       }
                                                                                     }
                                                                                   }
@@ -499,7 +530,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -539,7 +571,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -568,7 +601,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     },
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.departureController,
@@ -577,7 +611,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -586,7 +621,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -595,7 +631,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.destinationController,
@@ -604,7 +641,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -625,11 +663,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                     onTap: () async {
                                                                                       await Constant().placeSelectAPI(context).then((value) {
                                                                                         if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.multiStopListNew[index].editingController.text =
+                                                                                              value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude =
+                                                                                              value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude =
+                                                                                              value.result.geometry!.location.lng.toString();
                                                                                           controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                              index);
                                                                                         }
                                                                                       });
                                                                                     },
@@ -641,7 +683,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                         controller.getDirections();
                                                                                       },
                                                                                       child: Icon(Icons.close,
-                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                          size: 20,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
                                                                                     ),
                                                                                     prefix: IconButton(
                                                                                       onPressed: () {},
@@ -690,7 +733,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -705,7 +749,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
-                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                      await controller
+                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                          .then((
                                                                         durationValue,
                                                                       ) async {
                                                                         if (durationValue != null) {
@@ -720,16 +766,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   return; // ← important (stop further ride booking)
                                                                                 }else {
                                                                                   if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                   } else {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
 
                                                                                   controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                   // Get.back();
                                                                                   controller.confirmWidgetVisible.value = false;
                                                                                   var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .where((stop) =>
+                                                                                          stop.latitude.isNotEmpty &&
+                                                                                          stop.longitude.isNotEmpty &&
+                                                                                          stop.editingController.text.isNotEmpty)
                                                                                       .toList();
 
                                                                                   controller.multiStopListNew = dataMulti;
@@ -739,14 +790,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 }
                                                                               } else {
                                                                                 if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                 } else {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                 }
                                                                                 controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                 controller.confirmWidgetVisible.value = false;
                                                                                 var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .where((stop) =>
+                                                                                        stop.latitude.isNotEmpty &&
+                                                                                        stop.longitude.isNotEmpty &&
+                                                                                        stop.editingController.text.isNotEmpty)
                                                                                     .toList();
 
                                                                                 controller.multiStopListNew = dataMulti;
@@ -797,7 +853,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -837,7 +894,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -866,7 +924,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     },
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.departureController,
@@ -875,7 +934,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -884,7 +944,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -893,7 +954,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.destinationController,
@@ -902,7 +964,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -925,10 +988,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   },
                                                                   prefix: const Icon(Icons.calendar_month),
                                                                 ),
-
                                                                 const SizedBox(height: 12),
-
-// TIME PICKER
                                                                 TextFieldWidget(
                                                                   isReadOnly: true,
                                                                   controller: controller.timeController,
@@ -957,7 +1017,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
-                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                      await controller
+                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                          .then((
                                                                         durationValue,
                                                                       ) async {
                                                                         if (durationValue != null) {
@@ -972,16 +1034,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   return; // ← important (stop further ride booking)
                                                                                 }else {
                                                                                   if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                   } else {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
 
                                                                                   controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                   // Get.back();
                                                                                   controller.confirmWidgetVisible.value = false;
                                                                                   var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .where((stop) =>
+                                                                                          stop.latitude.isNotEmpty &&
+                                                                                          stop.longitude.isNotEmpty &&
+                                                                                          stop.editingController.text.isNotEmpty)
                                                                                       .toList();
 
                                                                                   controller.multiStopListNew = dataMulti;
@@ -989,7 +1056,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   setState(() {});
 
                                                                                   await controller
-                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                      .getDriverDetails(
+                                                                                          Constant.taxiVehicleCategoryId,
+                                                                                          '${controller.departureLatLong.value.latitude}',
                                                                                           '${controller.departureLatLong.value.longitude}')
                                                                                       .then((value) {
                                                                                     if (value != null) {
@@ -1006,21 +1075,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 }
                                                                               } else {
                                                                                 if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                 } else {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                 }
                                                                                 controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                 controller.confirmWidgetVisible.value = false;
                                                                                 var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .where((stop) =>
+                                                                                        stop.latitude.isNotEmpty &&
+                                                                                        stop.longitude.isNotEmpty &&
+                                                                                        stop.editingController.text.isNotEmpty)
                                                                                     .toList();
 
                                                                                 controller.multiStopListNew = dataMulti;
                                                                                 controller.multiStopList = List.from(dataMulti);
                                                                                 setState(() {});
                                                                                 await controller
-                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                    .getDriverDetails(
+                                                                                        Constant.taxiVehicleCategoryId,
+                                                                                        '${controller.departureLatLong.value.latitude}',
                                                                                         '${controller.departureLatLong.value.longitude}')
                                                                                     .then((value) {
                                                                                   if (value != null) {
@@ -1078,7 +1154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -1116,8 +1193,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 const SizedBox(height: 12),
                                                                 Container(
                                                                   width: double.infinity,
-                                                                  decoration:
-                                                                      BoxDecoration(border: Border.all(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
                                                                   child: ListView.separated(
                                                                     primary: false,
                                                                     padding: EdgeInsets.zero,
@@ -1170,7 +1247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               SvgPicture.asset(
                                                                                 'assets/icons/ic_right_arrow.svg',
                                                                                 fit: BoxFit.cover,
-                                                                                colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, BlendMode.srcIn),
+                                                                                colorFilter: ColorFilter.mode(
+                                                                                    themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, BlendMode.srcIn),
                                                                               ),
                                                                             ],
                                                                           ),
@@ -1215,7 +1293,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -1257,7 +1336,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -1286,7 +1366,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     },
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.departureController,
@@ -1295,7 +1376,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1304,7 +1386,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -1313,7 +1396,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.destinationController,
@@ -1322,7 +1406,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1343,11 +1428,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                     onTap: () async {
                                                                                       await Constant().placeSelectAPI(context).then((value) {
                                                                                         if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.multiStopListNew[index].editingController.text =
+                                                                                              value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude =
+                                                                                              value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude =
+                                                                                              value.result.geometry!.location.lng.toString();
                                                                                           controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                              index);
                                                                                         }
                                                                                       });
                                                                                     },
@@ -1359,7 +1448,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                         controller.getDirections();
                                                                                       },
                                                                                       child: Icon(Icons.close,
-                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                          size: 20,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
                                                                                     ),
                                                                                     prefix: IconButton(
                                                                                       onPressed: () {},
@@ -1401,7 +1491,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
-                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
+                                                                      await controller
+                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                          .then((
                                                                         durationValue,
                                                                       ) async {
                                                                         if (durationValue != null) {
@@ -1416,16 +1508,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   return; // ← important (stop further ride booking)
                                                                                 } else {
                                                                                   if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                   } else {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                    controller.distance.value =
+                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
 
                                                                                   controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                   // Get.back();
                                                                                   controller.confirmWidgetVisible.value = false;
                                                                                   var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                      .where((stop) =>
+                                                                                          stop.latitude.isNotEmpty &&
+                                                                                          stop.longitude.isNotEmpty &&
+                                                                                          stop.editingController.text.isNotEmpty)
                                                                                       .toList();
 
                                                                                   controller.multiStopListNew = dataMulti;
@@ -1433,13 +1530,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   setState(() {});
 
                                                                                   await controller
-                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                      .getDriverDetails(
+                                                                                          Constant.taxiVehicleCategoryId,
+                                                                                          '${controller.departureLatLong.value.latitude}',
                                                                                           '${controller.departureLatLong.value.longitude}')
                                                                                       .then((value) {
                                                                                     if (value != null) {
                                                                                       if (value.success == "Success") {
                                                                                         if (value.data?.isNotEmpty == true) {
-                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                              driverData: value.data?.first);
                                                                                         }
                                                                                       }
                                                                                     }
@@ -1447,27 +1547,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 }
                                                                               } else {
                                                                                 if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
                                                                                 } else {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                                  controller.distance.value =
+                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                 }
                                                                                 controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
                                                                                 controller.confirmWidgetVisible.value = false;
                                                                                 var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                                    .where((stop) =>
+                                                                                        stop.latitude.isNotEmpty &&
+                                                                                        stop.longitude.isNotEmpty &&
+                                                                                        stop.editingController.text.isNotEmpty)
                                                                                     .toList();
 
                                                                                 controller.multiStopListNew = dataMulti;
                                                                                 controller.multiStopList = List.from(dataMulti);
                                                                                 setState(() {});
                                                                                 await controller
-                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
+                                                                                    .getDriverDetails(
+                                                                                        Constant.taxiVehicleCategoryId,
+                                                                                        '${controller.departureLatLong.value.latitude}',
                                                                                         '${controller.departureLatLong.value.longitude}')
                                                                                     .then((value) {
                                                                                   if (value != null) {
                                                                                     if (value.success == "Success") {
                                                                                       if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi', driverData: value.data?.first);
+                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                            driverData: value.data?.first);
                                                                                       }
                                                                                     }
                                                                                   }
@@ -1516,7 +1624,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -1556,7 +1665,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -1585,7 +1695,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     },
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.departureController,
@@ -1594,7 +1705,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1603,7 +1715,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -1612,7 +1725,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.destinationController,
@@ -1621,7 +1735,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1642,11 +1757,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                     onTap: () async {
                                                                                       await Constant().placeSelectAPI(context).then((value) {
                                                                                         if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text = value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude = value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude = value.result.geometry!.location.lng.toString();
+                                                                                          controller.multiStopListNew[index].editingController.text =
+                                                                                              value.result.formattedAddress ?? '';
+                                                                                          controller.multiStopListNew[index].latitude =
+                                                                                              value.result.geometry!.location.lat.toString();
+                                                                                          controller.multiStopListNew[index].longitude =
+                                                                                              value.result.geometry!.location.lng.toString();
                                                                                           controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng), index);
+                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                              index);
                                                                                         }
                                                                                       });
                                                                                     },
@@ -1658,7 +1777,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                         controller.getDirections();
                                                                                       },
                                                                                       child: Icon(Icons.close,
-                                                                                          size: 20, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                                          size: 20,
+                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
                                                                                     ),
                                                                                     prefix: IconButton(
                                                                                       onPressed: () {},
@@ -1707,7 +1827,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1722,11 +1843,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
-                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
-                                                                        durationValue,
-                                                                      ) async {
+                                                                      await controller
+                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                          .then((durationValue) async {
                                                                         if (durationValue != null) {
                                                                           await controller.getUserPendingPayment().then((value) async {
+<<<<<<< HEAD
 
 
                                                                             if (value != null) {
@@ -1757,41 +1879,117 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   } else {
                                                                                     controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
+=======
+                                                                            double pendingAmount = 0.0;
+>>>>>>> main
 
-                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                  // Get.back();
-                                                                                  controller.confirmWidgetVisible.value = false;
-                                                                                  var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                                      .toList();
-
-                                                                                  controller.multiStopListNew = dataMulti;
-                                                                                  controller.multiStopList = List.from(dataMulti);
-                                                                                  setState(() {});
-                                                                                  tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
-                                                                                }
-                                                                              } else {
-                                                                                if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                } else {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                }
-                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                controller.confirmWidgetVisible.value = false;
-                                                                                var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                                    .toList();
-
-                                                                                controller.multiStopListNew = dataMulti;
-                                                                                controller.multiStopList = List.from(dataMulti);
-                                                                                setState(() {});
-                                                                                tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                            if (value != null &&
+                                                                                value['success'] == "success" &&
+                                                                                value['data'] is List &&
+                                                                                value['data'].isNotEmpty) {
+                                                                              // Sum all pending amounts
+                                                                              for (var item in value['data']) {
+                                                                                double amt = double.tryParse(item['amount'].toString()) ?? 0.0;
+                                                                                pendingAmount += amt;
                                                                               }
+                                                                            }
+
+                                                                            if (pendingAmount > 0.0) {
+                                                                              /// Show pending dialog if amount found > 0
+                                                                              _pendingPaymentDialog(context);
+                                                                            } else {
+                                                                              if (Constant.distanceUnit == "KM") {
+                                                                                controller.distance.value =
+                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                              } else {
+                                                                                controller.distance.value =
+                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                              }
+
+                                                                              controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+
+                                                                              controller.confirmWidgetVisible.value = false;
+
+                                                                              var dataMulti = controller.multiStopListNew
+                                                                                  .where((stop) =>
+                                                                                      stop.latitude.isNotEmpty &&
+                                                                                      stop.longitude.isNotEmpty &&
+                                                                                      stop.editingController.text.isNotEmpty)
+                                                                                  .toList();
+
+                                                                              controller.multiStopListNew = dataMulti;
+                                                                              controller.multiStopList = List.from(dataMulti);
+
+                                                                              setState(() {});
+                                                                              tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
                                                                             }
                                                                           });
                                                                         }
                                                                       });
                                                                     }
+                                                                    // else {
+                                                                    //   await controller
+                                                                    //       .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                    //       .then((
+                                                                    //     durationValue,
+                                                                    //   ) async {
+                                                                    //     if (durationValue != null) {
+                                                                    //       await controller.getUserPendingPayment().then((value) async {
+                                                                    //         if (value != null) {
+                                                                    //           if (value['success'] == "success") {
+                                                                    //             if (value['data']['amount'] != 0) {
+                                                                    //               _pendingPaymentDialog(context);
+                                                                    //             } else {
+                                                                    //               if (Constant.distanceUnit == "KM") {
+                                                                    //                 controller.distance.value =
+                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    //               } else {
+                                                                    //                 controller.distance.value =
+                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    //               }
+                                                                    //
+                                                                    //               controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    //               // Get.back();
+                                                                    //               controller.confirmWidgetVisible.value = false;
+                                                                    //               var dataMulti = controller.multiStopListNew
+                                                                    //                   .where((stop) =>
+                                                                    //                       stop.latitude.isNotEmpty &&
+                                                                    //                       stop.longitude.isNotEmpty &&
+                                                                    //                       stop.editingController.text.isNotEmpty)
+                                                                    //                   .toList();
+                                                                    //
+                                                                    //               controller.multiStopListNew = dataMulti;
+                                                                    //               controller.multiStopList = List.from(dataMulti);
+                                                                    //               setState(() {});
+                                                                    //               tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                    //             }
+                                                                    //           } else {
+                                                                    //             if (Constant.distanceUnit == "KM") {
+                                                                    //               controller.distance.value =
+                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    //             } else {
+                                                                    //               controller.distance.value =
+                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    //             }
+                                                                    //             controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    //             controller.confirmWidgetVisible.value = false;
+                                                                    //             var dataMulti = controller.multiStopListNew
+                                                                    //                 .where((stop) =>
+                                                                    //                     stop.latitude.isNotEmpty &&
+                                                                    //                     stop.longitude.isNotEmpty &&
+                                                                    //                     stop.editingController.text.isNotEmpty)
+                                                                    //                 .toList();
+                                                                    //
+                                                                    //             controller.multiStopListNew = dataMulti;
+                                                                    //             controller.multiStopList = List.from(dataMulti);
+                                                                    //             setState(() {});
+                                                                    //             tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                    //           }
+                                                                    //         }
+                                                                    //       });
+                                                                    //     }
+                                                                    //   });
+                                                                    // }
                                                                   },
                                                                 ),
                                                                 const SizedBox(height: 20),
@@ -1830,7 +2028,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -1870,7 +2069,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -1899,7 +2099,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     },
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.departureController,
@@ -1908,7 +2109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1917,7 +2119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     await Constant().placeSelectAPI(context).then((value) {
                                                                       if (value != null) {
                                                                         controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller.setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                                        controller
+                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
                                                                       }
                                                                     });
                                                                   },
@@ -1926,7 +2129,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                   controller: controller.destinationController,
@@ -1935,7 +2139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     onPressed: () {},
                                                                     icon: SvgPicture.asset(
                                                                       'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                                      colorFilter: ColorFilter.mode(
+                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1987,6 +2192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
                                                                       ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
                                                                     } else {
+<<<<<<< HEAD
                                                                       await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
                                                                         durationValue,
                                                                       ) async {
@@ -2008,71 +2214,180 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   } else {
                                                                                     controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
                                                                                   }
+=======
+                                                                      try {
+                                                                        var durationValue = await controller.getDurationDistance(
+                                                                            controller.departureLatLong.value, controller.destinationLatLong.value);
+>>>>>>> main
 
-                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                  // Get.back();
-                                                                                  controller.confirmWidgetVisible.value = false;
-                                                                                  var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                                      .toList();
+                                                                        log("getDurationDistance :: $durationValue");
 
-                                                                                  controller.multiStopListNew = dataMulti;
-                                                                                  controller.multiStopList = List.from(dataMulti);
-                                                                                  setState(() {});
-                                                                                  log("getDurationDistance :: 33 :: $value}");
-                                                                                  await controller
-                                                                                      .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
-                                                                                          '${controller.departureLatLong.value.longitude}')
-                                                                                      .then((value) {
-                                                                                    log("getDurationDistance :: 33 :: $value}");
-                                                                                    if (value != null) {
-                                                                                      if (value.success == "Success") {
-                                                                                        if (value.data?.isNotEmpty == true) {
-                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
-                                                                                              driverData: value.data?.first,
-                                                                                              selectedDate: controller.selectedDate.value,
-                                                                                              selectedTime: controller.selectedTime.value);
-                                                                                        }
-                                                                                      }
-                                                                                    }
-                                                                                  });
-                                                                                }
-                                                                              } else {
-                                                                                if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                } else {
-                                                                                  controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                }
-                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                controller.confirmWidgetVisible.value = false;
-                                                                                var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) => stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                                    .toList();
+                                                                        if (durationValue == null) return;
 
-                                                                                controller.multiStopListNew = dataMulti;
-                                                                                controller.multiStopList = List.from(dataMulti);
-                                                                                setState(() {});
-                                                                                await controller
-                                                                                    .getDriverDetails(Constant.taxiVehicleCategoryId, '${controller.departureLatLong.value.latitude}',
-                                                                                        '${controller.departureLatLong.value.longitude}')
-                                                                                    .then((value) {
-                                                                                  if (value != null) {
-                                                                                    if (value.success == "Success") {
-                                                                                      if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
-                                                                                            driverData: value.data?.first,
-                                                                                            selectedDate: controller.selectedDate.value,
-                                                                                            selectedTime: controller.selectedTime.value);
-                                                                                      }
-                                                                                    }
-                                                                                  }
-                                                                                });
-                                                                              }
-                                                                            }
+                                                                        var pendingValue = await controller.getUserPendingPayment();
+
+                                                                        bool hasPendingPayment = false;
+
+                                                                        if (pendingValue != null && pendingValue['success'] == "success" && pendingValue['data'] is List) {
+                                                                          List pendingList = pendingValue['data'];
+
+                                                                          hasPendingPayment = pendingList.any((item) {
+                                                                            double amt = double.tryParse(item['amount'].toString()) ?? 0.0;
+                                                                            return amt > 0;
                                                                           });
                                                                         }
-                                                                      });
+
+                                                                        if (hasPendingPayment) {
+                                                                          log("⚠ Pending Payment Found!");
+                                                                          // _pendingPaymentDialog(context);
+                                                                          return;
+                                                                        }
+
+                                                                        /// Distance Calculation
+                                                                        if (Constant.distanceUnit == "KM") {
+                                                                          controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.0;
+                                                                        } else {
+                                                                          controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                        }
+
+                                                                        controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+
+                                                                        controller.confirmWidgetVisible.value = false;
+
+                                                                        var dataMulti = controller.multiStopListNew
+                                                                            .where((stop) =>
+                                                                                stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                            .toList();
+
+                                                                        controller.multiStopListNew = dataMulti;
+                                                                        controller.multiStopList = List.from(dataMulti);
+
+                                                                        setState(() {});
+
+                                                                        log("⏳ Checking driver availability...");
+
+                                                                        var driverValue = await controller.getDriverDetails(
+                                                                          Constant.taxiVehicleCategoryId,
+                                                                          '${controller.departureLatLong.value.latitude}',
+                                                                          '${controller.departureLatLong.value.longitude}',
+                                                                        );
+
+                                                                        if (driverValue != null && driverValue.success == "Success" && driverValue.data?.isNotEmpty == true) {
+                                                                          tripOptionBottomSheet(
+                                                                            context,
+                                                                            themeChange.getThem(),
+                                                                            controller,
+                                                                            'schedule_ride',
+                                                                            driverData: driverValue.data!.first,
+                                                                            selectedDate: controller.selectedDate.value,
+                                                                            selectedTime: controller.selectedTime.value,
+                                                                          );
+                                                                        } else {
+                                                                          log("❌ No driver found!");
+                                                                        }
+                                                                      } catch (e, s) {
+                                                                        log("🔥 Error: $e");
+                                                                        log("Stack: $s");
+                                                                      }
                                                                     }
+                                                                    // else {
+                                                                    //   await controller
+                                                                    //       .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                                    //       .then((
+                                                                    //     durationValue,
+                                                                    //   ) async {
+                                                                    //     log("getDurationDistance :: 11 :: $durationValue");
+                                                                    //     if (durationValue != null) {
+                                                                    //       await controller.getUserPendingPayment().then((value) async {
+                                                                    //         if (value != null) {
+                                                                    //           if (value['success'] == "success") {
+                                                                    //             if (value['data']['amount'] != 0) {
+                                                                    //               // _pendingPaymentDialog(context);
+                                                                    //             } else {
+                                                                    //               if (Constant.distanceUnit == "KM") {
+                                                                    //                 controller.distance.value =
+                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    //               } else {
+                                                                    //                 controller.distance.value =
+                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    //               }
+                                                                    //
+                                                                    //               controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    //               // Get.back();
+                                                                    //               controller.confirmWidgetVisible.value = false;
+                                                                    //               var dataMulti = controller.multiStopListNew
+                                                                    //                   .where((stop) =>
+                                                                    //                       stop.latitude.isNotEmpty &&
+                                                                    //                       stop.longitude.isNotEmpty &&
+                                                                    //                       stop.editingController.text.isNotEmpty)
+                                                                    //                   .toList();
+                                                                    //
+                                                                    //               controller.multiStopListNew = dataMulti;
+                                                                    //               controller.multiStopList = List.from(dataMulti);
+                                                                    //               setState(() {});
+                                                                    //               log("getDurationDistance :: 33 :: $value}");
+                                                                    //               await controller
+                                                                    //                   .getDriverDetails(
+                                                                    //                       Constant.taxiVehicleCategoryId,
+                                                                    //                       '${controller.departureLatLong.value.latitude}',
+                                                                    //                       '${controller.departureLatLong.value.longitude}')
+                                                                    //                   .then((value) {
+                                                                    //                 log("getDurationDistance :: 33 :: $value}");
+                                                                    //                 if (value != null) {
+                                                                    //                   if (value.success == "Success") {
+                                                                    //                     if (value.data?.isNotEmpty == true) {
+                                                                    //                       tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                    //                           driverData: value.data?.first,
+                                                                    //                           selectedDate: controller.selectedDate.value,
+                                                                    //                           selectedTime: controller.selectedTime.value);
+                                                                    //                     }
+                                                                    //                   }
+                                                                    //                 }
+                                                                    //               });
+                                                                    //             }
+                                                                    //           } else {
+                                                                    //             if (Constant.distanceUnit == "KM") {
+                                                                    //               controller.distance.value =
+                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    //             } else {
+                                                                    //               controller.distance.value =
+                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    //             }
+                                                                    //             controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    //             controller.confirmWidgetVisible.value = false;
+                                                                    //             var dataMulti = controller.multiStopListNew
+                                                                    //                 .where((stop) =>
+                                                                    //                     stop.latitude.isNotEmpty &&
+                                                                    //                     stop.longitude.isNotEmpty &&
+                                                                    //                     stop.editingController.text.isNotEmpty)
+                                                                    //                 .toList();
+                                                                    //
+                                                                    //             controller.multiStopListNew = dataMulti;
+                                                                    //             controller.multiStopList = List.from(dataMulti);
+                                                                    //             setState(() {});
+                                                                    //             await controller
+                                                                    //                 .getDriverDetails(
+                                                                    //                     Constant.taxiVehicleCategoryId,
+                                                                    //                     '${controller.departureLatLong.value.latitude}',
+                                                                    //                     '${controller.departureLatLong.value.longitude}')
+                                                                    //                 .then((value) {
+                                                                    //               if (value != null) {
+                                                                    //                 if (value.success == "Success") {
+                                                                    //                   if (value.data?.isNotEmpty == true) {
+                                                                    //                     tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                    //                         driverData: value.data?.first,
+                                                                    //                         selectedDate: controller.selectedDate.value,
+                                                                    //                         selectedTime: controller.selectedTime.value);
+                                                                    //                   }
+                                                                    //                 }
+                                                                    //               }
+                                                                    //             });
+                                                                    //           }
+                                                                    //         }
+                                                                    //       });
+                                                                    //     }
+                                                                    //   });
+                                                                    // }
                                                                   },
                                                                 ),
                                                                 const SizedBox(height: 20),
@@ -2111,7 +2426,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                   Text(
                                                                                     controller.bannerModel.value.data?[i].description ?? '',
                                                                                     maxLines: 2,
-                                                                                    style: TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                                    style:
+                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                                   ),
                                                                                 ],
                                                                               ),
@@ -2181,7 +2497,8 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               _scaffoldKey.currentState?.openDrawer();
             },
-            icon: SvgPicture.asset("assets/icons/ic_menu_fill.svg", colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn)),
+            icon:
+                SvgPicture.asset("assets/icons/ic_menu_fill.svg", colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn)),
           ),
           hintText: 'your_current_location'.tr,
           controller: controller.currentLocationController,
@@ -2224,7 +2541,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       icon: Transform(
                         alignment: Alignment.center,
                         transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
-                        child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
+                        child: SvgPicture.asset('assets/icons/ic_left.svg',
+                            colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                       ),
                     ),
                     Padding(
@@ -2269,7 +2587,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   'Selected Date'.tr,
-                                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                                  style: TextStyle(
+                                                      fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                                 ),
                                               ],
                                             ),
@@ -2299,7 +2618,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   'Selected Time'.tr,
-                                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                                  style: TextStyle(
+                                                      fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                                 ),
                                               ],
                                             ),
@@ -2333,7 +2653,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     onPressed: () {},
                                                     icon: Text(
                                                       String.fromCharCode(index + 65),
-                                                      style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey500),
+                                                      style: TextStyle(
+                                                          fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey500),
                                                     ),
                                                   ),
                                                   hintText: "Where do you want to stop?".tr,
@@ -2384,7 +2705,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   'Total Distances'.tr,
-                                                  style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                                  style: TextStyle(
+                                                      fontSize: 16, fontFamily: AppThemeData.regular, color: isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                                 ),
                                               ],
                                             ),
@@ -2481,10 +2803,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(top: 10),
                             child: ButtonThem.buildButton(
                               context,
-                              title: type == 'taxi' ? "Book now".tr : "Select Vehicle".tr,
+                              title: type == 'taxi' || type == 'schedule_ride' ? "Book now".tr : "Select Vehicle".tr,
                               btnColor: AppThemeData.primary200,
                               onPress: () async {
-                                if (passengerController.text.isEmpty && type != 'taxi') {
+                                if (passengerController.text.isEmpty && type != 'taxi' && type != 'schedule_ride') {
                                   ShowToastDialog.showToast("Please Enter Passenger".tr);
                                 } else {
                                   if (type == 'taxi') {
@@ -2518,6 +2840,47 @@ class _HomeScreenState extends State<HomeScreen> {
                                           controller.getDirections();
                                           Get.to(const RideBookingSuccessScreen());
                                         }
+                                      }
+                                    });
+                                  } else if (type == 'schedule_ride') {
+                                    DateTime selectedDateTime = DateFormat("dd-MM-yyyy hh:mm a").parse("${controller.dateController.text} ${controller.timeController.text}");
+
+                                    String formattedDateTime = DateFormat("yyyy-MM-dd HH:mm:ss").format(selectedDateTime);
+
+                                    Map<String, dynamic> bodyParams = {
+                                      'action': 'book',
+                                      'type': 'schedule_ride',
+                                      'customer_id': Preferences.getInt(Preferences.userId).toString(),
+                                      'start_lat': controller.departureLatLong.value.latitude.toString(),
+                                      'start_lng': controller.departureLatLong.value.longitude.toString(),
+                                      'end_lat': controller.destinationLatLong.value.latitude.toString(),
+                                      'end_lng': controller.destinationLatLong.value.longitude.toString(),
+                                      'payment_method': '5',
+                                      'distance': controller.distance.value.toString(),
+                                      'distance_unit': Constant.distanceUnit.toString(),
+                                      'duree': controller.duration.toString(),
+                                      'id_conducteur': driverData?.id.toString(),
+                                      'depart_name': controller.departureController.text,
+                                      'destination_name': controller.destinationController.text,
+                                      'trip_category': Constant.taxiVehicleCategoryId,
+                                      'schedule_date_time': formattedDateTime,
+                                    };
+
+                                    controller.bookScheduleRide(bodyParams).then((value) async {
+                                      if (value != null && value['success'] == true) {
+                                        Get.back();
+                                        controller.departureController.clear();
+                                        controller.destinationController.clear();
+                                        controller.polyLines.value = {};
+                                        controller.departureLatLong.value = const LatLng(0, 0);
+                                        controller.destinationLatLong.value = const LatLng(0, 0);
+                                        passengerController.clear();
+                                        controller.markers.clear();
+                                        controller.clearData();
+                                        controller.getDirections();
+                                        Get.to(const RideBookingSuccessScreen(
+                                          initialService: 'schedule_ride',
+                                        ));
                                       }
                                     });
                                   } else {
@@ -2611,7 +2974,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Transform(
                     alignment: Alignment.center,
                     transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
-                    child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
+                    child: SvgPicture.asset('assets/icons/ic_left.svg',
+                        colorFilter: ColorFilter.mode(themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -2636,7 +3000,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(width: 10),
                                       Text(
                                         'Total Distances'.tr,
-                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                        style: TextStyle(
+                                            fontSize: 16, fontFamily: AppThemeData.regular, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                       ),
                                     ],
                                   ),
@@ -2659,7 +3024,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(width: 10),
                                       Text(
                                         'About Passengers'.tr,
-                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.regular, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                        style: TextStyle(
+                                            fontSize: 16, fontFamily: AppThemeData.regular, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
                                       ),
                                     ],
                                   ),
@@ -2852,7 +3218,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             // }
 
                             await controller
-                                .getDriverDetails(controller.vehicleData.value.id ?? '', '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
+                                .getDriverDetails(
+                                    controller.vehicleData.value.id ?? '', '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
                                 .then((value) {
                               if (value != null) {
                                 if (value.success == "Success") {
@@ -2890,7 +3257,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  conformDataBottomSheet(BuildContext context, VehicleCategoryModel vehicleCategoryModel, DriverData driverModel, double tripPrice, bool isDarkMode, HomeController controller, String type) {
+  conformDataBottomSheet(
+      BuildContext context, VehicleCategoryModel vehicleCategoryModel, DriverData driverModel, double tripPrice, bool isDarkMode, HomeController controller, String type) {
     return showModalBottomSheet(
       barrierColor: isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
       isDismissible: true,
@@ -2921,7 +3289,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Transform(
                       alignment: Alignment.center,
                       transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
-                      child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
+                      child: SvgPicture.asset('assets/icons/ic_left.svg',
+                          colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -3445,7 +3814,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _paymentMethodDialog(BuildContext context, VehicleCategoryModel vehicleCategoryModel, double tripPrice, DriverData driverData, bool isDarkMode, HomeController controller, String type) {
+  _paymentMethodDialog(
+      BuildContext context, VehicleCategoryModel vehicleCategoryModel, double tripPrice, DriverData driverData, bool isDarkMode, HomeController controller, String type) {
     return showModalBottomSheet(
       barrierColor: isDarkMode ? AppThemeData.grey800.withAlpha(200) : Colors.black26,
       isDismissible: true,
@@ -3482,7 +3852,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Transform(
                           alignment: Alignment.center,
                           transform: Directionality.of(context) == TextDirection.rtl ? Matrix4.rotationY(3.14159) : Matrix4.identity(),
-                          child: SvgPicture.asset('assets/icons/ic_left.svg', colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
+                          child: SvgPicture.asset('assets/icons/ic_left.svg',
+                              colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey900Dark : AppThemeData.grey900, BlendMode.srcIn)),
                         ),
                       ),
                       const SizedBox(height: 16),

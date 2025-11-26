@@ -5,8 +5,15 @@ import 'package:taxipassau/themes/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../schedule_ride_screen/schedule_ride_screen.dart';
+
 class RideBookingSuccessScreen extends StatelessWidget {
-  const RideBookingSuccessScreen({super.key});
+  final String? initialService;
+
+  const RideBookingSuccessScreen({
+    super.key,
+    this.initialService,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,15 @@ class RideBookingSuccessScreen extends StatelessWidget {
               btnColor: AppThemeData.secondary200,
               txtColor: AppThemeData.grey900,
               onPress: () async {
+<<<<<<< HEAD
                 Get.off( NewRideScreen(initialService: '',));
+=======
+                initialService == 'schedule_ride'
+                    ? Get.off(ScheduleRideScreen())
+                    : Get.off(const NewRideScreen(
+                        initialService: '',
+                      ));
+>>>>>>> main
               },
             ),
             const SizedBox(height: 20),
