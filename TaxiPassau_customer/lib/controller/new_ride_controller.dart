@@ -23,8 +23,10 @@ class NewRideController extends GetxController {
   getUsrData() {
     userModel.value = Constant.getUserData();
   }
+
   @override
-  void onInit() {getUsrData();
+  void onInit() {
+    getUsrData();
     getNewRide(isinit: true);
     timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       getNewRide();
@@ -87,7 +89,7 @@ class NewRideController extends GetxController {
       showLog("API :: responseStatus :: ${response.statusCode} ");
       showLog("API :: responseBody :: ${response.body} ");
       Map<String, dynamic> responseBody = json.decode(response.body);
-      if (response.statusCode == 200 && responseBody['success'] == "success") {
+      if (response.statusCode == 200 && responseBody['success'] == true) {
         isLoading.value = false;
 
         RideModel model = RideModel.fromJson(responseBody);
@@ -97,6 +99,9 @@ class NewRideController extends GetxController {
         rejectedRideList.clear();
         log("newRideList :: ${model.data}");
         for (var ride in model.data!) {
+          // Skip schedule rides
+          if (ride.rideType == "schedule_ride") continue;
+
           if (ride.statut == "pending" || ride.statut == "new" || ride.statut == "on ride" || ride.statut == "confirmed") {
             log("newRideList :: ${ride.statut} :: ${ride.id}");
             newRideList.add(ride);
@@ -106,6 +111,17 @@ class NewRideController extends GetxController {
             rejectedRideList.add(ride);
           }
         }
+
+        // for (var ride in model.data!) {
+        //   if (ride.statut == "pending" || ride.statut == "new" || ride.statut == "on ride" || ride.statut == "confirmed") {
+        //     log("newRideList :: ${ride.statut} :: ${ride.id}");
+        //     newRideList.add(ride);
+        //   } else if (ride.statut == "completed") {
+        //     completedRideList.add(ride);
+        //   } else if (ride.statut == "rejected") {
+        //     rejectedRideList.add(ride);
+        //   }
+        // }
         update();
         ShowToastDialog.closeLoader();
       } else {

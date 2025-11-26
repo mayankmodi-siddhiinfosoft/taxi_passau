@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../controller/schedule_ride_controller.dart';
-import '../../model/schedule_ride_model.dart' as rd;
+import '../../model/ride_model.dart';
 import '../../themes/constant_colors.dart';
 import '../../utils/dark_theme_provider.dart';
 import '../completed/trip_history_screen.dart';
@@ -17,7 +17,7 @@ class ScheduleRideScreen extends StatelessWidget {
     return GetBuilder<ScheduleRideController>(
       init: ScheduleRideController(),
       builder: (controller) {
-        List<rd.RideData> rides = controller.getRidesByDate(controller.selectedDay);
+        List<RideData> rides = controller.getRidesByDate(controller.selectedDay);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
@@ -54,7 +54,7 @@ class ScheduleRideScreen extends StatelessWidget {
                     : ListView.builder(
                         itemCount: rides.length,
                         itemBuilder: (_, index) {
-                          rd.RideData ride = rides[index];
+                          RideData ride = rides[index];
                           return Card(
                             color: themeChange.getThem() ? AppThemeData.grey200Dark : AppThemeData.grey200,
                             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

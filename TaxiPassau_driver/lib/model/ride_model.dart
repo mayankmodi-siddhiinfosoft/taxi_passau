@@ -92,6 +92,17 @@ class RideData {
   List<TaxModel>? taxModel;
   String? tripCategory;
   String? idPaymentMethod;
+  String? feelSafe;
+  String? carDriverConfirmed;
+  String? otpCreated;
+  String? deletedAt;
+  String? updatedAt;
+  String? dispatcherId;
+  String? rejectedDriverId;
+  String? pickupDate;
+  String? pickupTime;
+  String? statutCourse;
+  String? idConducteurAccepter;
 
   RideData(
       {this.id,
@@ -152,7 +163,18 @@ class RideData {
       this.existingUserId,
       this.adminCommission,
       this.tripCategory,
-      this.idPaymentMethod});
+      this.idPaymentMethod,
+      this.feelSafe,
+      this.carDriverConfirmed,
+      this.otpCreated,
+      this.deletedAt,
+      this.updatedAt,
+      this.dispatcherId,
+      this.rejectedDriverId,
+      this.pickupDate,
+      this.pickupTime,
+      this.statutCourse,
+      this.idConducteurAccepter});
 
   RideData.fromJson(Map<String, dynamic> json) {
     List<TaxModel>? taxList = [];
@@ -231,6 +253,18 @@ class RideData {
     taxModel = taxList;
     tripCategory = json['trip_category'].toString();
     idPaymentMethod = json['id_payment_method'] ?? '';
+    feelSafe = json['feel_safe']?.toString();
+    feelSafeDriver = json['feel_safe_driver']?.toString();
+    carDriverConfirmed = json['car_driver_confirmed']?.toString();
+    otpCreated = json['otp_created']?.toString();
+    deletedAt = json['deleted_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+    dispatcherId = json['dispatcher_id']?.toString();
+    rejectedDriverId = json['rejected_driver_id']?.toString();
+    pickupDate = json['pickup_date']?.toString();
+    pickupTime = json['pickup_time']?.toString();
+    statutCourse = json['statut_course']?.toString();
+    idConducteurAccepter = json['id_conducteur_accepter']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -301,7 +335,30 @@ class RideData {
     data['tax'] = taxModel?.map((v) => v.toJson()).toList();
     data['trip_category'] = tripCategory;
     data['id_payment_method'] = idPaymentMethod ?? '';
+    data['feel_safe'] = feelSafe;
+    data['feel_safe_driver'] = feelSafeDriver;
+    data['car_driver_confirmed'] = carDriverConfirmed;
+    data['otp_created'] = otpCreated;
+    data['deleted_at'] = deletedAt;
+    data['updated_at'] = updatedAt;
+    data['dispatcher_id'] = dispatcherId;
+    data['rejected_driver_id'] = rejectedDriverId;
+    data['pickup_date'] = pickupDate;
+    data['pickup_time'] = pickupTime;
+    data['statut_course'] = statutCourse;
+    data['id_conducteur_accepter'] = idConducteurAccepter;
     return data;
+  }
+
+  DateTime? get scheduleDateTime {
+    if (pickupDate == null || pickupDate!.isEmpty || pickupTime == null || pickupTime!.isEmpty) return null;
+
+    try {
+      final dateTimeString = "${pickupDate!} ${pickupTime!}";
+      return DateTime.parse(dateTimeString);
+    } catch (e) {
+      return null;
+    }
   }
 }
 

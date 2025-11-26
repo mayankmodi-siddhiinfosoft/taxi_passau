@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../controller/dash_board_controller.dart';
 import '../../controller/schedule_ride_controller.dart';
+import '../../model/ride_model.dart';
 import '../../themes/appbar_cust.dart';
 import '../../themes/constant_colors.dart';
 import '../../utils/dark_theme_provider.dart';
 import '../completed_ride_screens/trip_history_screen.dart';
-import 'package:taxipassau/model/schedule_ride_model.dart' as rd;
 
 class ScheduleRideScreen extends StatelessWidget {
   const ScheduleRideScreen({super.key});
@@ -20,7 +20,7 @@ class ScheduleRideScreen extends StatelessWidget {
     return GetBuilder<ScheduleRideController>(
       init: ScheduleRideController(),
       builder: (controller) {
-        List<rd.RideData> rides = controller.getRidesByDate(controller.selectedDay);
+        List<RideData> rides = controller.getRidesByDate(controller.selectedDay);
         return Scaffold(
           appBar: CustomAppbar(
             bgColor: AppThemeData.primary200,
@@ -57,7 +57,7 @@ class ScheduleRideScreen extends StatelessWidget {
                     : ListView.builder(
                         itemCount: rides.length,
                         itemBuilder: (_, index) {
-                          rd.RideData ride = rides[index];
+                          RideData ride = rides[index];
                           return Card(
                             color: themeChange.getThem() ? AppThemeData.grey200Dark : AppThemeData.grey200,
                             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -75,10 +75,10 @@ class ScheduleRideScreen extends StatelessWidget {
                               ),
                               trailing: const Icon(Icons.arrow_forward_ios),
                               onTap: () async {
-                                Get.snackbar(
-                                  "Ride Details",
-                                  "${ride.pickupDate} → ${ride.destinationName}",
-                                );
+                                // Get.snackbar(
+                                //   "Ride Details",
+                                //   "${ride.pickupDate} → ${ride.destinationName}",
+                                // );
                                 await Get.to(
                                     TripHistoryScreen(
                                       initialService: dashboardController.selectedService.value,

@@ -128,5 +128,4 @@ class API {
 
 //set text driver api
   static const setPriceAPI = "${baseUrl}taxi/setPrice";
-  static const scheduleRide = "${baseUrl}user/schedule-rides";
 }

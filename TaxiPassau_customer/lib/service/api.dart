@@ -11,7 +11,11 @@ class API {
     HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
     'apikey': apiKey,
   };
-  static Map<String, String> header = {HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8', 'apikey': apiKey, 'accesstoken': Preferences.getString(Preferences.accesstoken)};
+  static Map<String, String> header = {
+    HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+    'apikey': apiKey,
+    'accesstoken': Preferences.getString(Preferences.accesstoken)
+  };
 
   static const userSignUP = "${baseUrl}user";
   static const editProfile = "${baseUrl}update-user-profile";
@@ -66,6 +70,7 @@ class API {
   static const paymentSetting = "${baseUrl}payment-settings";
   static const payRequestWallet = "${baseUrl}pay-requete-wallet";
   static const payRequestCash = "${baseUrl}payment-by-cash-log-save";
+
   // static const payRequestCash = "${baseUrl}payment-by-cash";
   static const payRequestTransaction = "${baseUrl}pay-requete";
   static const addReview = "${baseUrl}note";
@@ -79,6 +84,7 @@ class API {
   static const privacyPolicy = "${baseUrl}privacy-policy";
   static const termsOfCondition = "${baseUrl}terms-of-condition";
   static const referralAmount = "${baseUrl}get-referral";
+
   //Parcel API
   static const getParcelCategory = "${baseUrl}get-parcel-category";
   static const bookParcel = "${baseUrl}parcel-register";

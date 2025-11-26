@@ -1,7 +1,8 @@
 import 'package:taxipassau/model/tax_model.dart';
 
 class RideModel {
-  String? success;
+  // String? success;
+  bool? success;
   String? error;
   String? message;
   List<RideData>? data;
@@ -81,57 +82,86 @@ class RideData {
   String? moyenneDriver;
   String? rideType;
   List<TaxModel>? taxModel;
+  String? ageChildren1;
+  String? ageChildren2;
+  String? ageChildren3;
+  String? feelSafe;
+  String? feelSafeDriver;
+  String? carDriverConfirmed;
+  String? otpCreated;
+  String? deletedAt;
+  String? updatedAt;
+  String? dispatcherId;
+  String? rejectedDriverId;
+  String? pickupDate;
+  String? pickupTime;
+  String? statutCourse;
+  String? idConducteurAccepter;
 
-  RideData({
-    this.id,
-    this.idUserApp,
-    this.departName,
-    this.distanceUnit,
-    this.destinationName,
-    this.latitudeDepart,
-    this.longitudeDepart,
-    this.latitudeArrivee,
-    this.longitudeArrivee,
-    this.numberPoeple,
-    this.place,
-    this.statut,
-    this.idConducteur,
-    this.creer,
-    this.trajet,
-    this.tripObjective,
-    this.tripCategory,
-    this.nom,
-    this.prenom,
-    this.otp,
-    this.distance,
-    this.phone,
-    this.nomConducteur,
-    this.prenomConducteur,
-    this.driverPhone,
-    this.photoPath,
-    this.dateRetour,
-    this.heureRetour,
-    this.statutRound,
-    this.montant,
-    this.duree,
-    this.statutPaiement,
-    this.payment,
-    this.paymentImage,
-    this.idVehicule,
-    this.brand,
-    this.model,
-    this.carMake,
-    this.milage,
-    this.km,
-    this.color,
-    this.numberplate,
-    this.passenger,
-    this.stops,
-    this.moyenne,
-    this.taxModel,
-    this.rideType,
-    this.moyenneDriver,
-  });
+  RideData(
+      {this.id,
+      this.idUserApp,
+      this.departName,
+      this.distanceUnit,
+      this.destinationName,
+      this.latitudeDepart,
+      this.longitudeDepart,
+      this.latitudeArrivee,
+      this.longitudeArrivee,
+      this.numberPoeple,
+      this.place,
+      this.statut,
+      this.idConducteur,
+      this.creer,
+      this.trajet,
+      this.tripObjective,
+      this.tripCategory,
+      this.nom,
+      this.prenom,
+      this.otp,
+      this.distance,
+      this.phone,
+      this.nomConducteur,
+      this.prenomConducteur,
+      this.driverPhone,
+      this.photoPath,
+      this.dateRetour,
+      this.heureRetour,
+      this.statutRound,
+      this.montant,
+      this.duree,
+      this.statutPaiement,
+      this.payment,
+      this.paymentImage,
+      this.idVehicule,
+      this.brand,
+      this.model,
+      this.carMake,
+      this.milage,
+      this.km,
+      this.color,
+      this.numberplate,
+      this.passenger,
+      this.stops,
+      this.moyenne,
+      this.taxModel,
+      this.rideType,
+      this.moyenneDriver,
+      this.ageChildren1,
+      this.ageChildren2,
+      this.ageChildren3,
+      this.feelSafe,
+      this.feelSafeDriver,
+      this.carDriverConfirmed,
+      this.otpCreated,
+      this.deletedAt,
+      this.updatedAt,
+      this.dispatcherId,
+      this.rejectedDriverId,
+      this.pickupDate,
+      this.pickupTime,
+      this.statutCourse,
+      this.idConducteurAccepter});
 
   RideData.fromJson(Map<String, dynamic> json) {
     List<TaxModel>? taxList = [];
@@ -197,6 +227,21 @@ class RideData {
     moyenneDriver = json['moyenne_driver'].toString();
     taxModel = taxList;
     rideType = json['ride_type'].toString();
+    ageChildren1 = json['age_children1']?.toString();
+    ageChildren2 = json['age_children2']?.toString();
+    ageChildren3 = json['age_children3']?.toString();
+    feelSafe = json['feel_safe']?.toString();
+    feelSafeDriver = json['feel_safe_driver']?.toString();
+    carDriverConfirmed = json['car_driver_confirmed']?.toString();
+    otpCreated = json['otp_created']?.toString();
+    deletedAt = json['deleted_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+    dispatcherId = json['dispatcher_id']?.toString();
+    rejectedDriverId = json['rejected_driver_id']?.toString();
+    pickupDate = json['pickup_date']?.toString();
+    pickupTime = json['pickup_time']?.toString();
+    statutCourse = json['statut_course']?.toString();
+    idConducteurAccepter = json['id_conducteur_accepter']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -254,7 +299,33 @@ class RideData {
       data['stops'] = [];
     }
     data['tax'] = taxModel?.map((v) => v.toJson()).toList();
+    data['age_children1'] = ageChildren1;
+    data['age_children2'] = ageChildren2;
+    data['age_children3'] = ageChildren3;
+    data['feel_safe'] = feelSafe;
+    data['feel_safe_driver'] = feelSafeDriver;
+    data['car_driver_confirmed'] = carDriverConfirmed;
+    data['otp_created'] = otpCreated;
+    data['deleted_at'] = deletedAt;
+    data['updated_at'] = updatedAt;
+    data['dispatcher_id'] = dispatcherId;
+    data['rejected_driver_id'] = rejectedDriverId;
+    data['pickup_date'] = pickupDate;
+    data['pickup_time'] = pickupTime;
+    data['statut_course'] = statutCourse;
+    data['id_conducteur_accepter'] = idConducteurAccepter;
     return data;
+  }
+
+  DateTime? get scheduleDateTime {
+    if (pickupDate == null || pickupDate!.isEmpty || pickupTime == null || pickupTime!.isEmpty) return null;
+
+    try {
+      final dateTimeString = "${pickupDate!} ${pickupTime!}";
+      return DateTime.parse(dateTimeString);
+    } catch (e) {
+      return null;
+    }
   }
 }
 

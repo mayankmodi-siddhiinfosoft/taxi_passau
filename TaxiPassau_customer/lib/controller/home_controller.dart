@@ -518,36 +518,91 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     }
   }
 
-  Future<dynamic> getUserPendingPayment() async {
+  // Future<dynamic> getUserPendingPayment() async {
+  //   try {
+  //     Map<String, dynamic> bodyParams = {'user_id': Preferences.getInt(Preferences.userId)};
+  //     final response = await http.post(Uri.parse(API.userPendingPayment), headers: API.header, body: jsonEncode(bodyParams));
+  //     showLog("API :: URL :: '${API.userPendingPayment}");
+  //     showLog("API :: Body :: '${jsonEncode(bodyParams)}");
+  //     showLog("API :: Request Header :: ${API.header.toString()} ");
+  //     showLog("API :: responseStatus :: ${response.statusCode} ");
+  //     showLog("API :: responseBody :: ${response.body} ");
+  //     Map<String, dynamic> responseBody = json.decode(response.body);
+  //     if (response.statusCode == 200) {
+  //       return responseBody;
+  //     } else {
+  //       ShowToastDialog.showToast('Something want wrong. Please try again later');
+  //       throw Exception('Failed to load album');
+  //     }
+  //   } on TimeoutException catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //     ShowToastDialog.showToast(e.message.toString());
+  //   } on SocketException catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //     ShowToastDialog.showToast(e.message.toString());
+  //   } on Error catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //     ShowToastDialog.showToast(e.toString());
+  //   } catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //     ShowToastDialog.showToast(e.toString());
+  //   }
+  //   return null;
+  // }
+
+  Future<Map<String, dynamic>?> getUserPendingPayment() async {
     try {
-      Map<String, dynamic> bodyParams = {'user_id': Preferences.getInt(Preferences.userId)};
-      final response = await http.post(Uri.parse(API.userPendingPayment), headers: API.header, body: jsonEncode(bodyParams));
+      Map<String, dynamic> bodyParams = {
+        'user_id': Preferences.getInt(Preferences.userId).toString(),
+      };
+
+      final response = await http.post(
+        Uri.parse(API.userPendingPayment),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
+
       showLog("API :: URL :: '${API.userPendingPayment}");
       showLog("API :: Body :: '${jsonEncode(bodyParams)}");
       showLog("API :: Request Header :: ${API.header.toString()} ");
       showLog("API :: responseStatus :: ${response.statusCode} ");
       showLog("API :: responseBody :: ${response.body} ");
-      Map<String, dynamic> responseBody = json.decode(response.body);
-      if (response.statusCode == 200) {
-        return responseBody;
-      } else {
-        ShowToastDialog.showToast('Something want wrong. Please try again later');
-        throw Exception('Failed to load album');
+
+      if (response.statusCode != 200) {
+        ShowToastDialog.showToast('Something went wrong. Please try again later');
+        return null;
       }
-    } on TimeoutException catch (e) {
-      ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast(e.message.toString());
-    } on SocketException catch (e) {
-      ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast(e.message.toString());
-    } on Error catch (e) {
-      ShowToastDialog.closeLoader();
-      ShowToastDialog.showToast(e.toString());
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      /// Normalize success value
+      bool isSuccess = false;
+      if (responseBody['success'] is bool) {
+        isSuccess = responseBody['success'];
+      } else if (responseBody['success'] is String) {
+        isSuccess = responseBody['success'].toString().toLowerCase() == "success";
+      }
+
+      /// Extract payment amount safely
+      double pendingAmount = 0;
+      var data = responseBody['data'];
+
+      if (data is List && data.isNotEmpty) {
+        pendingAmount = double.tryParse(data.first['amount'].toString()) ?? 0;
+      } else if (data is Map) {
+        pendingAmount = double.tryParse(data['amount'].toString()) ?? 0;
+      }
+
+      /// Return clean formatted data
+      return {
+        "success": isSuccess,
+        "pending_amount": pendingAmount,
+      };
     } catch (e) {
       ShowToastDialog.closeLoader();
       ShowToastDialog.showToast(e.toString());
+      return null;
     }
-    return null;
   }
 
   Future<VehicleCategoryModel?> getVehicleCategory() async {
@@ -775,7 +830,6 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
       return null;
     }
   }
-
 
   // Future<dynamic> bookScheduleRide(Map<String, dynamic> bodyParams) async {
   //   try {
