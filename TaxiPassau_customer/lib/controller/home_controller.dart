@@ -73,6 +73,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   RxBool midtrans = false.obs;
   RxBool isHomePageLoading = false.obs;
   RxString walletAmount = '0'.obs;
+
   @override
   void onInit() {
     setInitData();
@@ -132,6 +133,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   }
 
   Rx<Location> currentLocation = Location().obs;
+
   Future<bool> _checkLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
@@ -207,6 +209,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   }
 
   GoogleMapController? mapController;
+
   setDepartureMarker(LatLng departure) {
     departureLatLong.value = departure;
 
@@ -269,6 +272,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
 
   Rx<LatLng> departureLatLong = const LatLng(0.0, 0.0).obs;
   Rx<LatLng> destinationLatLong = const LatLng(0.0, 0.0).obs;
+
   getDirections() async {
     if (Constant.homeScreenType != 'OlaHome') {
       List<PolylineWayPoint> wayPointList = [];
@@ -299,6 +303,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   }
 
   RxMap<PolylineId, Polyline> polyLines = <PolylineId, Polyline>{}.obs;
+
   addPolyLine(List<LatLng> polylineCoordinates) {
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
@@ -733,6 +738,87 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     }
     return null;
   }
+
+  Future<dynamic> bookScheduleRide(Map<String, dynamic> bodyParams) async {
+    try {
+      ShowToastDialog.showLoader("Please wait");
+      final response = await http.post(
+        Uri.parse(API.bookScheduleRide),
+        headers: API.header,
+        body: jsonEncode(bodyParams),
+      );
+
+      showLog("API :: URL :: ${API.bookScheduleRide}");
+      showLog("API :: Request Body :: ${jsonEncode(bodyParams)} ");
+      showLog("API :: Request Header :: ${API.header.toString()} ");
+      showLog("API :: responseStatus :: ${response.statusCode} ");
+      showLog("API :: responseBody :: ${response.body} ");
+
+      Map<String, dynamic> responseBody = json.decode(response.body);
+
+      ShowToastDialog.closeLoader();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (responseBody['success'] == true) {
+          return responseBody;
+        } else {
+          ShowToastDialog.showToast(responseBody['message'] ?? "Failed");
+          return null;
+        }
+      } else {
+        ShowToastDialog.showToast(responseBody['message'] ?? "Something went wrong");
+        return null;
+      }
+    } catch (e) {
+      ShowToastDialog.closeLoader();
+      ShowToastDialog.showToast(e.toString());
+      return null;
+    }
+  }
+
+
+  // Future<dynamic> bookScheduleRide(Map<String, dynamic> bodyParams) async {
+  //   try {
+  //     ShowToastDialog.showLoader("Please wait");
+  //     final response = await http.post(Uri.parse(API.bookScheduleRide), headers: API.header, body: jsonEncode(bodyParams));
+  //     showLog("API :: URL :: ${API.bookScheduleRide}");
+  //     showLog("API :: Request Body :: ${jsonEncode(bodyParams)} ");
+  //     showLog("API :: Request Header :: ${API.header.toString()} ");
+  //     showLog("API :: responseStatus :: ${response.statusCode} ");
+  //     showLog("API :: responseBody :: ${response.body} ");
+  //     Map<String, dynamic> responseBody = json.decode(response.body);
+  //
+  //     if (response.statusCode == 201) {
+  //       ShowToastDialog.closeLoader();
+  //       if (responseBody['success'].toString().toLowerCase() == 'failed') {
+  //         ShowToastDialog.showToast(responseBody['error'].toString());
+  //       } else {
+  //         return responseBody;
+  //       }
+  //     } else {
+  //       ShowToastDialog.closeLoader();
+  //       ShowToastDialog.showToast('Something want wrong. Please try again later');
+  //       throw Exception('Failed to load album');
+  //     }
+  //   } on TimeoutException catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //
+  //     ShowToastDialog.showToast(e.message.toString());
+  //   } on SocketException catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //
+  //     ShowToastDialog.showToast(e.message.toString());
+  //   } on Error catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //
+  //     ShowToastDialog.showToast(e.toString());
+  //   } catch (e) {
+  //     ShowToastDialog.closeLoader();
+  //
+  //     ShowToastDialog.showToast(e.toString());
+  //   }
+  //   return null;
+  // }
 
   double calculateTripPrice({required double distance, required double minimumDeliveryChargesWithin, required double minimumDeliveryCharges, required double deliveryCharges}) {
     double cout = 0.0;
