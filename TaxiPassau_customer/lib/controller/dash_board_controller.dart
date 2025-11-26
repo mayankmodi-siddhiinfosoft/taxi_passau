@@ -28,6 +28,8 @@ import 'package:provider/provider.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:taxipassau/constant/logdata.dart';
 
+import '../page/schedule_ride_screen/schedule_ride_screen.dart';
+
 class DashBoardController extends GetxController {
   RxInt selectedDrawerIndex = 0.obs;
   RxBool darkModel = false.obs;
@@ -65,6 +67,7 @@ class DashBoardController extends GetxController {
     drawerItems = [
       DrawerItem('Home'.tr, 'assets/icons/ic_home.svg'),
       DrawerItem('All Rides'.tr, 'assets/icons/ic_parcel.svg', section: '${'Ride'.tr}${Constant.parcelActive.toString() == "yes" ? ' and Parcel Management'.tr : ''}'),
+      DrawerItem('Schedule Rides'.tr, 'assets/icons/ic_parcel.svg'),
       DrawerItem('Favourite Rides'.tr, 'assets/icons/ic_rent.svg'),
       DrawerItem('Rent Ride History'.tr, 'assets/icons/ic_fav.svg'),
       if (Constant.parcelActive.toString() == "yes") DrawerItem('Parcel History'.tr, 'assets/icons/ic_car.svg'),
@@ -83,24 +86,76 @@ class DashBoardController extends GetxController {
 
   var drawerItems = [];
   final InAppReview inAppReview = InAppReview.instance;
+
   onSelectItem(int index) async {
     final dashboardController = Get.find<DashBoardController>();
     Get.back();
     if (Constant.parcelActive.toString() == "yes") {
       if (index == 1) {
-        Get.to(NewRideScreen(initialService: dashboardController.selectedService.value,));
+        Get.to(NewRideScreen(
+          initialService: dashboardController.selectedService.value,
+        ));
       } else if (index == 2) {
-        Get.to(const FavoriteRideScreen());
+        Get.to(ScheduleRideScreen());
       } else if (index == 3) {
-        Get.to(const RentedVehicleScreen());
+        Get.to(const FavoriteRideScreen());
       } else if (index == 4) {
+        Get.to(const RentedVehicleScreen());
+      } else if (index == 5) {
         Get.to(const AllParcelScreen());
+      } else if (index == 6) {
+        Get.to(WalletScreen());
+      } else if (index == 7) {
+        Get.to(MyProfileScreen());
+      } else if (index == 8) {
+        Get.to(ChangePasswordScreen());
+      } else if (index == 9) {
+        Get.to(const ReferralScreen());
+      } else if (index == 10) {
+        Get.to(const LocalizationScreens(
+          intentType: "dashBoard",
+        ));
+      } else if (index == 11) {
+        Get.to(const TermsOfServiceScreen());
+      } else if (index == 12) {
+        Get.to(const PrivacyPolicyScreen());
+      } else if (index == 13) {
+      } else if (index == 14) {
+        try {
+          if (await inAppReview.isAvailable()) {
+            inAppReview.requestReview();
+          } else {
+            log(":::::::::InAppReview:::::::::::");
+            inAppReview.openStoreListing();
+          }
+        } catch (e) {
+          log("Error triggering in-app review: $e");
+        }
+      } else if (index == 15) {
+        Preferences.clearKeyData(Preferences.isLogin);
+        Preferences.clearKeyData(Preferences.user);
+        Preferences.clearKeyData(Preferences.userId);
+        Get.offAll(() => const LoginScreen());
+      } else {
+        selectedDrawerIndex.value = index;
+      }
+    } else {
+      if (index == 1) {
+        Get.to(NewRideScreen(
+          initialService: dashboardController.selectedService.value,
+        ));
+      } else if (index == 2) {
+        Get.to(const ScheduleRideScreen());
+      } else if (index == 3) {
+        Get.to(const FavoriteRideScreen());
+      } else if (index == 4) {
+        Get.to(const RentedVehicleScreen());
       } else if (index == 5) {
         Get.to(WalletScreen());
       } else if (index == 6) {
         Get.to(MyProfileScreen());
       } else if (index == 7) {
-        Get.to(ChangePasswordScreen());
+        Get.to(ChangePasswordScreen);
       } else if (index == 8) {
         Get.to(const ReferralScreen());
       } else if (index == 9) {
@@ -123,51 +178,8 @@ class DashBoardController extends GetxController {
         } catch (e) {
           log("Error triggering in-app review: $e");
         }
-      } else if (index == 14) {
-        Preferences.clearKeyData(Preferences.isLogin);
-        Preferences.clearKeyData(Preferences.user);
-        Preferences.clearKeyData(Preferences.userId);
-        Get.offAll(() => const LoginScreen());
       } else {
-        selectedDrawerIndex.value = index;
-      }
-    } else {
-      if (index == 1) {
-        Get.to(NewRideScreen(initialService: dashboardController.selectedService.value,));
-      } else if (index == 2) {
-        Get.to(const FavoriteRideScreen());
-      } else if (index == 3) {
-        Get.to(const RentedVehicleScreen());
-      } else if (index == 4) {
-        Get.to(WalletScreen());
-      } else if (index == 5) {
-        Get.to(MyProfileScreen());
-      } else if (index == 6) {
-        Get.to(ChangePasswordScreen);
-      } else if (index == 7) {
-        Get.to(const ReferralScreen());
-      } else if (index == 8) {
-        Get.to(const LocalizationScreens(
-          intentType: "dashBoard",
-        ));
-      } else if (index == 9) {
-        Get.to(const TermsOfServiceScreen());
-      } else if (index == 10) {
-        Get.to(const PrivacyPolicyScreen());
-      } else if (index == 11) {
-      } else if (index == 12) {
-        try {
-          if (await inAppReview.isAvailable()) {
-            inAppReview.requestReview();
-          } else {
-            log(":::::::::InAppReview:::::::::::");
-            inAppReview.openStoreListing();
-          }
-        } catch (e) {
-          log("Error triggering in-app review: $e");
-        }
-      } else {
-        if (index == 13) {
+        if (index == 14) {
           Preferences.clearKeyData(Preferences.isLogin);
           Preferences.clearKeyData(Preferences.user);
           Preferences.clearKeyData(Preferences.userId);

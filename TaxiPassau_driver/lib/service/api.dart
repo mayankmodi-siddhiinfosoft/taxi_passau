@@ -8,7 +8,11 @@ class API {
   static const apiKey = "base64:FaIzdZuj9oH+4tI0voIqqdnnR5Pok5if3F7Gfef/AL0=";
 
   static Map<String, String> authheader = {HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8', 'apikey': apiKey};
-  static Map<String, String> header = {HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8', 'apikey': apiKey, 'accesstoken': Preferences.getString(Preferences.accesstoken)};
+  static Map<String, String> header = {
+    HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+    'apikey': apiKey,
+    'accesstoken': Preferences.getString(Preferences.accesstoken)
+  };
 
   static const userSignUP = "${baseUrl}user";
   static const userLogin = "${baseUrl}user-login";
@@ -121,6 +125,8 @@ class API {
   static const getSubscriptionPlans = "${baseUrl}get-subscription-plans";
   static const getSubscriptionHistory = "${baseUrl}get-subscription-history";
   static const setSubscription = "${baseUrl}set-subscription";
+
 //set text driver api
   static const setPriceAPI = "${baseUrl}taxi/setPrice";
+  static const scheduleRide = "${baseUrl}user/schedule-rides";
 }
