@@ -2776,7 +2776,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     Map<String, dynamic> bodyParams = {
                                       'action': 'book',
-                                      'ride_type': 'schedule_ride',
+                                      'type': 'schedule_ride',
                                       'customer_id': Preferences.getInt(Preferences.userId).toString(),
                                       'start_lat': controller.departureLatLong.value.latitude.toString(),
                                       'start_lng': controller.departureLatLong.value.longitude.toString(),

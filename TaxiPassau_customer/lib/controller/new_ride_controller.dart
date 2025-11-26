@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:taxipassau/constant/logdata.dart';
 import 'package:taxipassau/constant/show_toast_dialog.dart';
 import 'package:taxipassau/model/ride_model.dart';
@@ -13,7 +12,6 @@ import 'package:http/http.dart' as http;
 
 class NewRideController extends GetxController {
   var isLoading = true.obs;
-  // var rideList = <RideData>[].obs;
   var newRideList = <RideData>[].obs;
   var completedRideList = <RideData>[].obs;
   var rejectedRideList = <RideData>[].obs;

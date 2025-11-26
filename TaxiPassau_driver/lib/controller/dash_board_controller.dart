@@ -33,6 +33,8 @@ import 'package:taxipassau_driver/page/wallet/wallet_screen.dart';
 import 'package:taxipassau_driver/service/api.dart';
 import 'package:taxipassau_driver/utils/Preferences.dart';
 
+import '../page/schedule_ride_screen/schedule_ride_screen.dart';
+
 class DashBoardController extends GetxController {
   Location location = Location();
   late StreamSubscription<LocationData> locationSubscription;
@@ -95,6 +97,11 @@ class DashBoardController extends GetxController {
               "${"Rides".tr}${(Constant.parcelActive.toString() == "yes" && userModel.value.userData?.parcelDelivery.toString() == "yes") ? " & Parcels:".tr : ":"}",
           navigate: () {
         Get.back();
+      }),
+      DrawerItem('Schedule Rides'.tr, 'assets/icons/ic_car.svg',
+          navigate: () {
+        Get.back();
+        Get.to(ScheduleRideScreen());
       }),
       if (Constant.parcelActive.toString() == "yes" &&
           userModel.value.userData?.parcelDelivery.toString() == "yes")

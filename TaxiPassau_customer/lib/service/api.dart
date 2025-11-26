@@ -49,6 +49,7 @@ class API {
   static const getPaymentMethod = "${baseUrl}payment-method";
   static const bookRides = "${baseUrl}requete-register";
   static const bookScheduleRide = "${baseUrl}rides/book-or-accept";
+  static const scheduleRide = "${baseUrl}user/schedule-rides";
   static const bookTaxiRides = "${baseUrl}rides/book";
   static const userAllRides = "${baseUrl}user-all-rides";
   static const newRide = "${baseUrl}requete-userapp";

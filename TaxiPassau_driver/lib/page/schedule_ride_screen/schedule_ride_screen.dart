@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../controller/dash_board_controller.dart';
 import '../../controller/schedule_ride_controller.dart';
-import '../../themes/appbar_cust.dart';
+import '../../model/schedule_ride_model.dart' as rd;
 import '../../themes/constant_colors.dart';
 import '../../utils/dark_theme_provider.dart';
-import '../completed_ride_screens/trip_history_screen.dart';
-import 'package:taxipassau/model/schedule_ride_model.dart' as rd;
+import '../completed/trip_history_screen.dart';
 
 class ScheduleRideScreen extends StatelessWidget {
   const ScheduleRideScreen({super.key});
@@ -16,15 +14,14 @@ class ScheduleRideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-    final dashboardController = Get.find<DashBoardController>();
     return GetBuilder<ScheduleRideController>(
       init: ScheduleRideController(),
       builder: (controller) {
         List<rd.RideData> rides = controller.getRidesByDate(controller.selectedDay);
         return Scaffold(
-          appBar: CustomAppbar(
-            bgColor: AppThemeData.primary200,
-            title: 'Schedule Rides'.tr,
+          appBar: AppBar(
+            backgroundColor: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
+            title: Text('Schedule Rides'.tr),
           ),
           body: Column(
             children: [
@@ -79,13 +76,9 @@ class ScheduleRideScreen extends StatelessWidget {
                                   "Ride Details",
                                   "${ride.pickupDate} → ${ride.destinationName}",
                                 );
-                                await Get.to(
-                                    TripHistoryScreen(
-                                      initialService: dashboardController.selectedService.value,
-                                    ),
-                                    arguments: {
-                                      "rideData": ride,
-                                    })?.then((v) {
+                                await Get.to(TripHistoryScreen(), arguments: {
+                                  "rideData": ride,
+                                })?.then((v) {
                                   controller.fetchScheduledRides();
                                 });
                               },

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import '../constant/logdata.dart';
 import '../constant/show_toast_dialog.dart';
-import 'package:taxipassau/constant/logdata.dart';
-import 'package:taxipassau/service/api.dart';
-import 'package:taxipassau/utils/Preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-import 'package:taxipassau/model/schedule_ride_model.dart' as rd;
+import '../../model/schedule_ride_model.dart' as rd;
+import '../service/api.dart';
+import '../utils/Preferences.dart';
+
 
 class ScheduleRideController extends GetxController {
   DateTime focusedDay = DateTime.now();
@@ -35,7 +36,6 @@ class ScheduleRideController extends GetxController {
       showLog("API :: URL :: ${API.scheduleRide} ");
       showLog("API :: Header :: ${API.header.toString()} ");
       showLog("API :: responseStatus :: ${response.statusCode} ");
-      showLog("API :: Body :: ${jsonEncode({"customer_id": Preferences.getInt(Preferences.userId)})} ");
       showLog("API :: responseBody :: ${response.body} ");
 
       if (response.statusCode == 200) {
@@ -70,7 +70,9 @@ class ScheduleRideController extends GetxController {
     return scheduledRides.where((ride) {
       final rideDateTime = ride.scheduleDateTime;
       if (rideDateTime == null) return false;
-      return rideDateTime.year == date.year && rideDateTime.month == date.month && rideDateTime.day == date.day;
+      return rideDateTime.year == date.year &&
+          rideDateTime.month == date.month &&
+          rideDateTime.day == date.day;
     }).toList();
   }
 
