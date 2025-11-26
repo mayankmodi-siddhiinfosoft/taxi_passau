@@ -2,11 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-<<<<<<< HEAD
-
 import 'package:taxipassau/constant/constant.dart';
-=======
->>>>>>> main
 import 'package:taxipassau/constant/logdata.dart';
 import 'package:taxipassau/constant/show_toast_dialog.dart';
 import 'package:taxipassau/model/ride_model.dart';

@@ -71,2392 +71,2319 @@ class _HomeScreenState extends State<HomeScreen> {
               controller.isHomePageLoading.value
                   ? LoadingScreen(controller: controller)
                   : setRouteWidget(
-                      Column(
-                        children: [
-                          Constant.homeScreenType == 'OlaHome' ? SafeArea(child: SizedBox(height: 30)) : SizedBox(),
-                          if (Constant.homeScreenType != 'OlaHome')
-                            Expanded(
-                              flex: 1,
-                              child: Stack(
-                                children: [
-                                  GoogleMap(
-                                    zoomControlsEnabled: false,
-                                    myLocationButtonEnabled: false,
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    compassEnabled: false,
-                                    initialCameraPosition: CameraPosition(target: controller.center, zoom: 14.0),
-                                    minMaxZoomPreference: const MinMaxZoomPreference(8.0, 20.0),
-                                    buildingsEnabled: false,
-                                    onMapCreated: (GoogleMapController mapcontrollerdata) async {
-                                      controller.mapController = mapcontrollerdata;
-                                      LocationData location = await controller.currentLocation.value.getLocation();
-                                      controller.mapController!.moveCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0), 14));
-                                    },
-                                    polylines: Set<Polyline>.of(controller.polyLines.values),
-                                    myLocationEnabled: true,
-                                    markers: controller.markers.values.toSet(),
-                                  ),
-                                  SafeArea(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                                      child: appBarHome(controller: controller, isDarkMode: themeChange.getThem()),
-                                    ),
-                                  ),
-                                ],
+                Column(
+                  children: [
+                    Constant.homeScreenType == 'OlaHome' ? SafeArea(child: SizedBox(height: 30)) : SizedBox(),
+                    if (Constant.homeScreenType != 'OlaHome')
+                      Expanded(
+                        flex: 1,
+                        child: Stack(
+                          children: [
+                            GoogleMap(
+                              zoomControlsEnabled: false,
+                              myLocationButtonEnabled: false,
+                              padding: const EdgeInsets.only(top: 8.0),
+                              compassEnabled: false,
+                              initialCameraPosition: CameraPosition(target: controller.center, zoom: 14.0),
+                              minMaxZoomPreference: const MinMaxZoomPreference(8.0, 20.0),
+                              buildingsEnabled: false,
+                              onMapCreated: (GoogleMapController mapcontrollerdata) async {
+                                controller.mapController = mapcontrollerdata;
+                                LocationData location = await controller.currentLocation.value.getLocation();
+                                controller.mapController!.moveCamera(CameraUpdate.newLatLngZoom(LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0), 14));
+                              },
+                              polylines: Set<Polyline>.of(controller.polyLines.values),
+                              myLocationEnabled: true,
+                              markers: controller.markers.values.toSet(),
+                            ),
+                            SafeArea(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: appBarHome(controller: controller, isDarkMode: themeChange.getThem()),
                               ),
                             ),
-                          Column(
-                            children: [
-                              if (Constant.homeScreenType == 'OlaHome') appBarHome(controller: controller, isDarkMode: themeChange.getThem()),
-                              Container(
-                                padding: EdgeInsets.only(top: Constant.homeScreenType == 'OlaHome' ? 10 : 0),
-                                height: Responsive.height(Constant.homeScreenType != 'OlaHome' ? 44 : 86, context),
-                                color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
-                                child: Theme(
-                                  data: ThemeData(
-                                    useMaterial3: true,
-                                    // Optional: use this only if you're using Material 3
-                                    tabBarTheme: TabBarThemeData(indicatorColor: AppThemeData.primary200),
+                          ],
+                        ),
+                      ),
+                    Column(
+                      children: [
+                        if (Constant.homeScreenType == 'OlaHome') appBarHome(controller: controller, isDarkMode: themeChange.getThem()),
+                        Container(
+                          padding: EdgeInsets.only(top: Constant.homeScreenType == 'OlaHome' ? 10 : 0),
+                          height: Responsive.height(Constant.homeScreenType != 'OlaHome' ? 44 : 86, context),
+                          color: themeChange.getThem() ? AppThemeData.surface50Dark : AppThemeData.surface50,
+                          child: Theme(
+                            data: ThemeData(
+                              useMaterial3: true,
+                              // Optional: use this only if you're using Material 3
+                              tabBarTheme: TabBarThemeData(indicatorColor: AppThemeData.primary200),
+                            ),
+                            child: DefaultTabController(
+                              length: Constant.parcelActive.toString() == "yes" ? 4 : 3,
+                              child: Column(
+                                children: [
+                                  TabBar(
+                                    controller: controller.tabController,
+                                    isScrollable: false,
+                                    indicatorSize: TabBarIndicatorSize.tab,
+                                    indicatorColor: AppThemeData.primary200,
+                                    indicatorWeight: 0.1,
+                                    dividerColor: Colors.transparent,
+                                    labelColor: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                    automaticIndicatorColorAdjustment: true,
+                                    labelStyle: TextStyle(
+                                        fontFamily: AppThemeData.medium, fontSize: 13, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
+                                    unselectedLabelStyle: TextStyle(
+                                      fontFamily: AppThemeData.regular,
+                                      fontSize: 13,
+                                      color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                    ),
+                                    // onTap: (index) {
+                                    //   if (index == 0 || index == 1) {
+                                    //     controller.destinationController
+                                    //         .text = '';
+                                    //     controller.destinationLatLong
+                                    //         .value = const LatLng(0, 0);
+                                    //     controller.polyLines.value = {};
+                                    //     passengerController.clear();
+                                    //     controller.markers.clear();
+                                    //     controller.clearData();
+                                    //   }
+                                    // },
+                                    onTap: (index) {
+                                      // Clear old ride data
+                                      if (index == 0 || index == 1) {
+                                        controller.destinationController.text = '';
+                                        controller.destinationLatLong.value = const LatLng(0, 0);
+                                        controller.polyLines.value = {};
+                                        passengerController.clear();
+                                        controller.markers.clear();
+                                        controller.clearData();
+                                      }
+
+                                      final dashboardController = Get.find<DashBoardController>();
+                                      Future.delayed(Duration(milliseconds: 50), () {
+                                        switch (index) {
+                                          case 0:
+                                            dashboardController.selectedService.value = "Taxi";
+                                            break;
+                                          case 1:
+                                            dashboardController.selectedService.value = "Ride Booking";
+                                            break;
+                                          case 2:
+                                            dashboardController.selectedService.value = "Schedule Ride";
+                                            break;
+                                          case 3:
+                                            dashboardController.selectedService.value = "Parcel Service";
+                                            break;
+                                        }
+                                      });
+                                    },
+                                    tabs: Constant.parcelActive.toString() == "yes"
+                                        ? [
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Taxi'.tr,
+                                      ),
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Ride Booking'.tr,
+                                      ),
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Schedule Ride'.tr,
+                                      ),
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_parcel_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Parcel Service'.tr,
+                                      ),
+                                    ]
+                                        : [
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Taxi'.tr,
+                                      ),
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Ride Booking'.tr,
+                                      ),
+                                      Tab(
+                                        icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
+                                        text: 'Schedule Ride'.tr,
+                                      ),
+                                    ],
                                   ),
-                                  child: DefaultTabController(
-                                    length: Constant.parcelActive.toString() == "yes" ? 4 : 3,
-                                    child: Column(
-                                      children: [
-                                        TabBar(
-                                          controller: controller.tabController,
-                                          isScrollable: false,
-                                          indicatorSize: TabBarIndicatorSize.tab,
-                                          indicatorColor: AppThemeData.primary200,
-                                          indicatorWeight: 0.1,
-                                          dividerColor: Colors.transparent,
-                                          labelColor: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                          automaticIndicatorColorAdjustment: true,
-                                          labelStyle: TextStyle(
-                                              fontFamily: AppThemeData.medium, fontSize: 13, color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900),
-                                          unselectedLabelStyle: TextStyle(
-                                            fontFamily: AppThemeData.regular,
-                                            fontSize: 13,
-                                            color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                          ),
-                                          // onTap: (index) {
-                                          //   if (index == 0 || index == 1) {
-                                          //     controller.destinationController
-                                          //         .text = '';
-                                          //     controller.destinationLatLong
-                                          //         .value = const LatLng(0, 0);
-                                          //     controller.polyLines.value = {};
-                                          //     passengerController.clear();
-                                          //     controller.markers.clear();
-                                          //     controller.clearData();
-                                          //   }
-                                          // },
-                                          onTap: (index) {
-                                            // Clear old ride data
-                                            if (index == 0 || index == 1) {
-                                              controller.destinationController.text = '';
-                                              controller.destinationLatLong.value = const LatLng(0, 0);
-                                              controller.polyLines.value = {};
-                                              passengerController.clear();
-                                              controller.markers.clear();
-                                              controller.clearData();
-                                            }
-
-                                            final dashboardController = Get.find<DashBoardController>();
-                                            Future.delayed(Duration(milliseconds: 50), () {
-                                              switch (index) {
-                                                case 0:
-                                                  dashboardController.selectedService.value = "Taxi";
-                                                  break;
-                                                case 1:
-                                                  dashboardController.selectedService.value = "Ride Booking";
-                                                  break;
-                                                case 2:
-                                                  dashboardController.selectedService.value = "Schedule Ride";
-                                                  break;
-                                                case 3:
-                                                  dashboardController.selectedService.value = "Parcel Service";
-                                                  break;
-                                              }
-                                            });
-                                          },
-                                          tabs: Constant.parcelActive.toString() == "yes"
-                                              ? [
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Taxi'.tr,
+                                  Expanded(
+                                    child: TabBarView(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      controller: controller.tabController,
+                                      children: Constant.parcelActive.toString() == "yes"
+                                          ? [
+                                        SizedBox(
+                                          child: SingleChildScrollView(
+                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                Text(
+                                                  "Enter Destination".tr,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: AppThemeData.semiBold,
+                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
                                                   ),
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Ride Booking'.tr,
-                                                  ),
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Schedule Ride'.tr,
-                                                  ),
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_parcel_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Parcel Service'.tr,
-                                                  ),
-                                                ]
-                                              : [
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Taxi'.tr,
-                                                  ),
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Ride Booking'.tr,
-                                                  ),
-                                                  Tab(
-                                                    icon: SvgPicture.asset('assets/icons/ic_booking_icon.svg', width: 45, height: 45, fit: BoxFit.cover),
-                                                    text: 'Schedule Ride'.tr,
-                                                  ),
-                                                ],
-                                        ),
-                                        Expanded(
-                                          child: TabBarView(
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            controller: controller.tabController,
-                                            children: Constant.parcelActive.toString() == "yes"
-                                                ? [
-                                                    SizedBox(
-                                                      child: SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20),
-                                                            Text(
-                                                              "Enter Destination".tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily: AppThemeData.semiBold,
-                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(height: 12),
-                                                            Column(
-                                                              children: [
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () async {
-                                                                      LocationPermission permission = await Geolocator.checkPermission();
-                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-                                                                        permission = await Geolocator.requestPermission();
-                                                                      }
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Column(
+                                                  children: [
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.departureController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () async {
+                                                          LocationPermission permission = await Geolocator.checkPermission();
+                                                          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                            permission = await Geolocator.requestPermission();
+                                                          }
 
-                                                                      Position position = await Geolocator.getCurrentPosition(
-                                                                        desiredAccuracy: LocationAccuracy.high,
-                                                                      );
+                                                          Position position = await Geolocator.getCurrentPosition(
+                                                            desiredAccuracy: LocationAccuracy.high,
+                                                          );
 
-                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
-                                                                        position.latitude,
-                                                                        position.longitude,
-                                                                      );
-                                                                      Placemark place = placemarks.first;
+                                                          List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                            position.latitude,
+                                                            position.longitude,
+                                                          );
+                                                          Placemark place = placemarks.first;
 
-                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+                                                          String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
 
-                                                                      controller.departureController.text = address;
-                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
-                                                                    },
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.departureController,
-                                                                  hintText: 'Pick Up Location'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.destinationController,
-                                                                  hintText: 'Where you want to go?'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ReorderableListView(
-                                                                  shrinkWrap: true,
-                                                                  physics: const NeverScrollableScrollPhysics(),
-                                                                  children: <Widget>[
-                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
-                                                                      Container(
-                                                                        key: ValueKey(controller.multiStopListNew[index]),
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: TextFieldWidget(
-                                                                                    onTap: () async {
-                                                                                      await Constant().placeSelectAPI(context).then((value) {
-                                                                                        if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text =
-                                                                                              value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude =
-                                                                                              value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude =
-                                                                                              value.result.geometry!.location.lng.toString();
-                                                                                          controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
-                                                                                              index);
-                                                                                        }
-                                                                                      });
-                                                                                    },
-                                                                                    isReadOnly: true,
-                                                                                    suffix: InkWell(
-                                                                                      onTap: () {
-                                                                                        controller.removeStops(index);
-                                                                                        controller.markers.remove("Stop $index");
-                                                                                        controller.getDirections();
-                                                                                      },
-                                                                                      child: Icon(Icons.close,
-                                                                                          size: 20,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
-                                                                                    ),
-                                                                                    prefix: IconButton(
-                                                                                      onPressed: () {},
-                                                                                      icon: Text(
-                                                                                        String.fromCharCode(index + 65),
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 16,
-                                                                                          fontFamily: AppThemeData.regular,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                    hintText: "Where do you want to stop?".tr,
-                                                                                    controller: controller.multiStopListNew[index].editingController,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                  ],
-                                                                  onReorder: (int oldIndex, int newIndex) {
-                                                                    if (oldIndex < newIndex) {
-                                                                      newIndex -= 1;
-                                                                    }
-                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
-                                                                    controller.multiStopListNew.insert(newIndex, item);
-                                                                  },
-                                                                ),
-                                                                ButtonThem.buildButton(
-                                                                  context,
-                                                                  title: 'Search Destination'.tr,
-                                                                  onPress: () async {
-                                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                                    log(controller.departureLatLong.value.toString());
-                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else {
-                                                                      await controller
-                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                          .then((
-                                                                        durationValue,
-                                                                      ) async {
-                                                                        if (durationValue != null) {
-                                                                          await controller.getUserPendingPayment().then((value) async {
-                                                                            if (value != null) {
-                                                                              if (value['success'] == "success") {
-                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
-                                                                                double amount = double.tryParse(amountStr) ?? 0;
-
-                                                                                if (amount >= 0) {
-                                                                                  _pendingPaymentDialog(context);
-                                                                                  return; // ← important (stop further ride booking)
-                                                                                }else {
-                                                                                  if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                  } else {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                  }
-
-                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                  // Get.back();
-                                                                                  controller.confirmWidgetVisible.value = false;
-                                                                                  var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) =>
-                                                                                          stop.latitude.isNotEmpty &&
-                                                                                          stop.longitude.isNotEmpty &&
-                                                                                          stop.editingController.text.isNotEmpty)
-                                                                                      .toList();
-
-                                                                                  controller.multiStopListNew = dataMulti;
-                                                                                  controller.multiStopList = List.from(dataMulti);
-                                                                                  setState(() {});
-
-                                                                                  await controller
-                                                                                      .getDriverDetails(
-                                                                                          Constant.taxiVehicleCategoryId,
-                                                                                          '${controller.departureLatLong.value.latitude}',
-                                                                                          '${controller.departureLatLong.value.longitude}')
-                                                                                      .then((value) {
-                                                                                    if (value != null) {
-                                                                                      if (value.success == "Success") {
-                                                                                        if (value.data?.isNotEmpty == true) {
-                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
-                                                                                              driverData: value.data?.first);
-                                                                                        }
-                                                                                      }
-                                                                                    }
-                                                                                  });
-                                                                                }
-                                                                              } else {
-                                                                                if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                } else {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                }
-                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                controller.confirmWidgetVisible.value = false;
-                                                                                var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) =>
-                                                                                        stop.latitude.isNotEmpty &&
-                                                                                        stop.longitude.isNotEmpty &&
-                                                                                        stop.editingController.text.isNotEmpty)
-                                                                                    .toList();
-
-                                                                                controller.multiStopListNew = dataMulti;
-                                                                                controller.multiStopList = List.from(dataMulti);
-                                                                                setState(() {});
-                                                                                await controller
-                                                                                    .getDriverDetails(
-                                                                                        Constant.taxiVehicleCategoryId,
-                                                                                        '${controller.departureLatLong.value.latitude}',
-                                                                                        '${controller.departureLatLong.value.longitude}')
-                                                                                    .then((value) {
-                                                                                  if (value != null) {
-                                                                                    if (value.success == "Success") {
-                                                                                      if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
-                                                                                            driverData: value.data?.first);
-                                                                                      }
-                                                                                    }
-                                                                                  }
-                                                                                });
-                                                                              }
-                                                                            }
-                                                                          });
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
+                                                          controller.departureController.text = address;
+                                                          controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.departureController,
+                                                      hintText: 'Pick Up Location'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      child: SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20),
-                                                            Text(
-                                                              "Enter Destination".tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily: AppThemeData.semiBold,
-                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(height: 12),
-                                                            Column(
-                                                              children: [
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () async {
-                                                                      LocationPermission permission = await Geolocator.checkPermission();
-                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-                                                                        permission = await Geolocator.requestPermission();
-                                                                      }
-
-                                                                      Position position = await Geolocator.getCurrentPosition(
-                                                                        desiredAccuracy: LocationAccuracy.high,
-                                                                      );
-
-                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
-                                                                        position.latitude,
-                                                                        position.longitude,
-                                                                      );
-                                                                      Placemark place = placemarks.first;
-
-                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                      controller.departureController.text = address;
-                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
-                                                                    },
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.departureController,
-                                                                  hintText: 'Pick Up Location'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.destinationController,
-                                                                  hintText: 'Where you want to go?'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ReorderableListView(
-                                                                  shrinkWrap: true,
-                                                                  physics: const NeverScrollableScrollPhysics(),
-                                                                  children: <Widget>[
-                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
-                                                                      Container(
-                                                                        key: ValueKey(controller.multiStopListNew[index]),
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: TextFieldWidget(
-                                                                                    onTap: () async {
-                                                                                      await Constant().placeSelectAPI(context).then((value) {
-                                                                                        if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text =
-                                                                                              value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude =
-                                                                                              value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude =
-                                                                                              value.result.geometry!.location.lng.toString();
-                                                                                          controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
-                                                                                              index);
-                                                                                        }
-                                                                                      });
-                                                                                    },
-                                                                                    isReadOnly: true,
-                                                                                    suffix: InkWell(
-                                                                                      onTap: () {
-                                                                                        controller.removeStops(index);
-                                                                                        controller.markers.remove("Stop $index");
-                                                                                        controller.getDirections();
-                                                                                      },
-                                                                                      child: Icon(Icons.close,
-                                                                                          size: 20,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
-                                                                                    ),
-                                                                                    prefix: IconButton(
-                                                                                      onPressed: () {},
-                                                                                      icon: Text(
-                                                                                        String.fromCharCode(index + 65),
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 16,
-                                                                                          fontFamily: AppThemeData.regular,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                    hintText: "Where do you want to stop?".tr,
-                                                                                    controller: controller.multiStopListNew[index].editingController,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                  ],
-                                                                  onReorder: (int oldIndex, int newIndex) {
-                                                                    if (oldIndex < newIndex) {
-                                                                      newIndex -= 1;
-                                                                    }
-                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
-                                                                    controller.multiStopListNew.insert(newIndex, item);
-                                                                  },
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  textColor: AppThemeData.warning200,
-                                                                  hintColor: AppThemeData.warning200,
-                                                                  isReadOnly: true,
-                                                                  onTap: () {
-                                                                    controller.addStops();
-                                                                    setState(() {});
-                                                                  },
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: Container(height: 14, width: 14, color: AppThemeData.warning200),
-                                                                  ),
-                                                                  controller: TextEditingController(text: 'Add Stop'.tr),
-                                                                  hintText: 'Add Stop'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ButtonThem.buildButton(
-                                                                  context,
-                                                                  title: 'Search Destination'.tr,
-                                                                  onPress: () async {
-                                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                                    log(controller.departureLatLong.value.toString());
-                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else {
-                                                                      await controller
-                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                          .then((
-                                                                        durationValue,
-                                                                      ) async {
-                                                                        if (durationValue != null) {
-                                                                          await controller.getUserPendingPayment().then((value) async {
-                                                                            if (value != null) {
-                                                                              if (value['success'] == "success") {
-                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
-                                                                                double amount = double.tryParse(amountStr) ?? 0;
-
-                                                                                if (amount >= 0) {
-                                                                                  _pendingPaymentDialog(context);
-                                                                                  return; // ← important (stop further ride booking)
-                                                                                }else {
-                                                                                  if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                  } else {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                  }
-
-                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                  // Get.back();
-                                                                                  controller.confirmWidgetVisible.value = false;
-                                                                                  var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) =>
-                                                                                          stop.latitude.isNotEmpty &&
-                                                                                          stop.longitude.isNotEmpty &&
-                                                                                          stop.editingController.text.isNotEmpty)
-                                                                                      .toList();
-
-                                                                                  controller.multiStopListNew = dataMulti;
-                                                                                  controller.multiStopList = List.from(dataMulti);
-                                                                                  setState(() {});
-                                                                                  tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
-                                                                                }
-                                                                              } else {
-                                                                                if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                } else {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                }
-                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                controller.confirmWidgetVisible.value = false;
-                                                                                var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) =>
-                                                                                        stop.latitude.isNotEmpty &&
-                                                                                        stop.longitude.isNotEmpty &&
-                                                                                        stop.editingController.text.isNotEmpty)
-                                                                                    .toList();
-
-                                                                                controller.multiStopListNew = dataMulti;
-                                                                                controller.multiStopList = List.from(dataMulti);
-                                                                                setState(() {});
-                                                                                tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
-                                                                              }
-                                                                            }
-                                                                          });
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.destinationController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.destinationController,
+                                                      hintText: 'Where you want to go?'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      child: SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20),
-                                                            Text(
-                                                              "Enter Destination".tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily: AppThemeData.semiBold,
-                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(height: 12),
-                                                            Column(
-                                                              children: [
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () async {
-                                                                      LocationPermission permission = await Geolocator.checkPermission();
-                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-                                                                        permission = await Geolocator.requestPermission();
-                                                                      }
-
-                                                                      Position position = await Geolocator.getCurrentPosition(
-                                                                        desiredAccuracy: LocationAccuracy.high,
-                                                                      );
-
-                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
-                                                                        position.latitude,
-                                                                        position.longitude,
-                                                                      );
-                                                                      Placemark place = placemarks.first;
-
-                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                      controller.departureController.text = address;
-                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
-                                                                    },
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.departureController,
-                                                                  hintText: 'Pick Up Location'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.destinationController,
-                                                                  hintText: 'Where you want to go?'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  isReadOnly: true,
-                                                                  controller: controller.dateController,
-                                                                  hintText: "Select Date".tr,
-                                                                  onTap: () async {
-                                                                    DateTime? pickedDate = await showDatePicker(
-                                                                      context: context,
-                                                                      initialDate: DateTime.now(),
-                                                                      firstDate: DateTime.now(),
-                                                                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                                                                    );
-
-                                                                    if (pickedDate != null) {
-                                                                      controller.dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-                                                                      controller.selectedDate.value = pickedDate;
-                                                                    }
-                                                                  },
-                                                                  prefix: const Icon(Icons.calendar_month),
-                                                                ),
-                                                                const SizedBox(height: 12),
-                                                                TextFieldWidget(
-                                                                  isReadOnly: true,
-                                                                  controller: controller.timeController,
-                                                                  hintText: "Select Time".tr,
-                                                                  onTap: () async {
-                                                                    TimeOfDay? pickedTime = await showTimePicker(
-                                                                      context: context,
-                                                                      initialTime: TimeOfDay.now(),
-                                                                    );
-
-                                                                    if (pickedTime != null) {
-                                                                      controller.timeController.text = pickedTime.format(context);
-                                                                      controller.selectedTime.value = pickedTime;
-                                                                    }
-                                                                  },
-                                                                  prefix: const Icon(Icons.access_time),
-                                                                ),
-                                                                ButtonThem.buildButton(
-                                                                  context,
-                                                                  title: 'Search Destination'.tr,
-                                                                  onPress: () async {
-                                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                                    log(controller.departureLatLong.value.toString());
-                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else {
-                                                                      await controller
-                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                          .then((
-                                                                        durationValue,
-                                                                      ) async {
-                                                                        if (durationValue != null) {
-                                                                          await controller.getUserPendingPayment().then((value) async {
-                                                                            if (value != null) {
-                                                                              if (value['success'] == "success") {
-                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
-                                                                                double amount = double.tryParse(amountStr) ?? 0;
-
-                                                                                if (amount >= 0) {
-                                                                                  _pendingPaymentDialog(context);
-                                                                                  return; // ← important (stop further ride booking)
-                                                                                }else {
-                                                                                  if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                  } else {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                  }
-
-                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                  // Get.back();
-                                                                                  controller.confirmWidgetVisible.value = false;
-                                                                                  var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) =>
-                                                                                          stop.latitude.isNotEmpty &&
-                                                                                          stop.longitude.isNotEmpty &&
-                                                                                          stop.editingController.text.isNotEmpty)
-                                                                                      .toList();
-
-                                                                                  controller.multiStopListNew = dataMulti;
-                                                                                  controller.multiStopList = List.from(dataMulti);
-                                                                                  setState(() {});
-
-                                                                                  await controller
-                                                                                      .getDriverDetails(
-                                                                                          Constant.taxiVehicleCategoryId,
-                                                                                          '${controller.departureLatLong.value.latitude}',
-                                                                                          '${controller.departureLatLong.value.longitude}')
-                                                                                      .then((value) {
-                                                                                    if (value != null) {
-                                                                                      if (value.success == "Success") {
-                                                                                        if (value.data?.isNotEmpty == true) {
-                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
-                                                                                              driverData: value.data?.first,
-                                                                                              selectedDate: controller.selectedDate.value,
-                                                                                              selectedTime: controller.selectedTime.value);
-                                                                                        }
-                                                                                      }
-                                                                                    }
-                                                                                  });
-                                                                                }
-                                                                              } else {
-                                                                                if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                } else {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                }
-                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                controller.confirmWidgetVisible.value = false;
-                                                                                var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) =>
-                                                                                        stop.latitude.isNotEmpty &&
-                                                                                        stop.longitude.isNotEmpty &&
-                                                                                        stop.editingController.text.isNotEmpty)
-                                                                                    .toList();
-
-                                                                                controller.multiStopListNew = dataMulti;
-                                                                                controller.multiStopList = List.from(dataMulti);
-                                                                                setState(() {});
-                                                                                await controller
-                                                                                    .getDriverDetails(
-                                                                                        Constant.taxiVehicleCategoryId,
-                                                                                        '${controller.departureLatLong.value.latitude}',
-                                                                                        '${controller.departureLatLong.value.longitude}')
-                                                                                    .then((value) {
-                                                                                  if (value != null) {
-                                                                                    if (value.success == "Success") {
-                                                                                      if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
-                                                                                            driverData: value.data?.first,
-                                                                                            selectedDate: controller.selectedDate.value,
-                                                                                            selectedTime: controller.selectedTime.value);
-                                                                                      }
-                                                                                    }
-                                                                                  }
-                                                                                });
-                                                                              }
-                                                                            }
-                                                                          });
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      child: GetX<ParcelServiceController>(
-                                                        init: ParcelServiceController(),
-                                                        builder: (parcelServiceController) {
-                                                          return SingleChildScrollView(
-                                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                    ReorderableListView(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      children: <Widget>[
+                                                        for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                          Container(
+                                                            key: ValueKey(controller.multiStopListNew[index]),
                                                             child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                const SizedBox(height: 20),
-                                                                Text(
-                                                                  "Select what are you sending?".tr,
-                                                                  style: TextStyle(
-                                                                    fontSize: 18,
-                                                                    fontFamily: AppThemeData.semiBold,
-                                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(height: 12),
-                                                                Container(
-                                                                  width: double.infinity,
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border.all(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
-                                                                  child: ListView.separated(
-                                                                    primary: false,
-                                                                    padding: EdgeInsets.zero,
-                                                                    separatorBuilder: (context, index) =>
-                                                                        Container(height: 1, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300),
-                                                                    shrinkWrap: true,
-                                                                    itemCount: parcelServiceController.parcelCategoryList.length,
-                                                                    itemBuilder: (BuildContext context, int index) {
-                                                                      return InkWell(
-                                                                        splashColor: Colors.transparent,
-                                                                        onTap: () {
-                                                                          parcelServiceController.selectedParcelCategory.value = parcelServiceController.parcelCategoryList[index];
-                                                                          Get.to(() => const BookParcelScreen());
+                                                                Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: TextFieldWidget(
+                                                                        onTap: () async {
+                                                                          await Constant().placeSelectAPI(context).then((value) {
+                                                                            if (value != null) {
+                                                                              controller.multiStopListNew[index].editingController.text =
+                                                                                  value.result.formattedAddress ?? '';
+                                                                              controller.multiStopListNew[index].latitude =
+                                                                                  value.result.geometry!.location.lat.toString();
+                                                                              controller.multiStopListNew[index].longitude =
+                                                                                  value.result.geometry!.location.lng.toString();
+                                                                              controller.setStopMarker(
+                                                                                  LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                  index);
+                                                                            }
+                                                                          });
                                                                         },
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                                                                          child: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Row(
-                                                                                children: [
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                                                    child: CachedNetworkImage(
-                                                                                      imageUrl: parcelServiceController.parcelCategoryList[index].image.toString(),
-                                                                                      height: 25,
-                                                                                      width: 25,
-                                                                                      imageBuilder: (context, imageProvider) => Container(
-                                                                                        decoration: BoxDecoration(
-                                                                                          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-                                                                                        ),
-                                                                                      ),
-                                                                                      placeholder: (context, url) => Constant.loader(context),
-                                                                                      errorWidget: (context, url, error) =>
-                                                                                          Image.asset("assets/images/appIcon.png", height: 25, width: 25, fit: BoxFit.cover),
-                                                                                      fit: BoxFit.cover,
-                                                                                    ),
-                                                                                  ),
-                                                                                  const SizedBox(width: 6),
-                                                                                  Text(
-                                                                                    parcelServiceController.parcelCategoryList[index].title.toString(),
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 16,
-                                                                                      fontFamily: AppThemeData.medium,
-                                                                                      color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              SvgPicture.asset(
-                                                                                'assets/icons/ic_right_arrow.svg',
-                                                                                fit: BoxFit.cover,
-                                                                                colorFilter: ColorFilter.mode(
-                                                                                    themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, BlendMode.srcIn),
-                                                                              ),
-                                                                            ],
+                                                                        isReadOnly: true,
+                                                                        suffix: InkWell(
+                                                                          onTap: () {
+                                                                            controller.removeStops(index);
+                                                                            controller.markers.remove("Stop $index");
+                                                                            controller.getDirections();
+                                                                          },
+                                                                          child: Icon(Icons.close,
+                                                                              size: 20,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                        ),
+                                                                        prefix: IconButton(
+                                                                          onPressed: () {},
+                                                                          icon: Text(
+                                                                            String.fromCharCode(index + 65),
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontFamily: AppThemeData.regular,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                            ),
                                                                           ),
                                                                         ),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data?[i].image ?? '',
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
+                                                                        hintText: "Where do you want to stop?".tr,
+                                                                        controller: controller.multiStopListNew[index].editingController,
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ],
+                                                            ),
+                                                          ),
+                                                      ],
+                                                      onReorder: (int oldIndex, int newIndex) {
+                                                        if (oldIndex < newIndex) {
+                                                          newIndex -= 1;
+                                                        }
+                                                        final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                        controller.multiStopListNew.insert(newIndex, item);
+                                                      },
+                                                    ),
+                                                    ButtonThem.buildButton(
+                                                      context,
+                                                      title: 'Search Destination'.tr,
+                                                      onPress: () async {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        log(controller.departureLatLong.value.toString());
+                                                        if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else {
+                                                          await controller
+                                                              .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                              .then((
+                                                              durationValue,
+                                                              ) async {
+                                                            if (durationValue != null) {
+                                                              await controller.getUserPendingPayment().then((value) async {
+                                                                if (value != null) {
+                                                                  if (value['success'] == "success") {
+                                                                    if (value['data']['amount'] != 0) {
+                                                                      _pendingPaymentDialog(context);
+                                                                    } else {
+                                                                      if (Constant.distanceUnit == "KM") {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                      } else {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                      }
+
+                                                                      controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                      // Get.back();
+                                                                      controller.confirmWidgetVisible.value = false;
+                                                                      var dataMulti = controller.multiStopListNew
+                                                                          .where((stop) =>
+                                                                      stop.latitude.isNotEmpty &&
+                                                                          stop.longitude.isNotEmpty &&
+                                                                          stop.editingController.text.isNotEmpty)
+                                                                          .toList();
+
+                                                                      controller.multiStopListNew = dataMulti;
+                                                                      controller.multiStopList = List.from(dataMulti);
+                                                                      setState(() {});
+
+                                                                      await controller
+                                                                          .getDriverDetails(
+                                                                          Constant.taxiVehicleCategoryId,
+                                                                          '${controller.departureLatLong.value.latitude}',
+                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                          .then((value) {
+                                                                        if (value != null) {
+                                                                          if (value.success == "Success") {
+                                                                            if (value.data?.isNotEmpty == true) {
+                                                                              tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                  driverData: value.data?.first);
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  } else {
+                                                                    if (Constant.distanceUnit == "KM") {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    } else {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    }
+                                                                    controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    controller.confirmWidgetVisible.value = false;
+                                                                    var dataMulti = controller.multiStopListNew
+                                                                        .where((stop) =>
+                                                                    stop.latitude.isNotEmpty &&
+                                                                        stop.longitude.isNotEmpty &&
+                                                                        stop.editingController.text.isNotEmpty)
+                                                                        .toList();
+
+                                                                    controller.multiStopListNew = dataMulti;
+                                                                    controller.multiStopList = List.from(dataMulti);
+                                                                    setState(() {});
+                                                                    await controller
+                                                                        .getDriverDetails(
+                                                                        Constant.taxiVehicleCategoryId,
+                                                                        '${controller.departureLatLong.value.latitude}',
+                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                        .then((value) {
+                                                                      if (value != null) {
+                                                                        if (value.success == "Success") {
+                                                                          if (value.data?.isNotEmpty == true) {
+                                                                            tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                driverData: value.data?.first);
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    });
+                                                                  }
+                                                                }
+                                                              });
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: SingleChildScrollView(
+                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                Text(
+                                                  "Enter Destination".tr,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: AppThemeData.semiBold,
+                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Column(
+                                                  children: [
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.departureController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () async {
+                                                          LocationPermission permission = await Geolocator.checkPermission();
+                                                          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                            permission = await Geolocator.requestPermission();
+                                                          }
+
+                                                          Position position = await Geolocator.getCurrentPosition(
+                                                            desiredAccuracy: LocationAccuracy.high,
+                                                          );
+
+                                                          List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                            position.latitude,
+                                                            position.longitude,
+                                                          );
+                                                          Placemark place = placemarks.first;
+
+                                                          String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                          controller.departureController.text = address;
+                                                          controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.departureController,
+                                                      hintText: 'Pick Up Location'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.destinationController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.destinationController,
+                                                      hintText: 'Where you want to go?'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ReorderableListView(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      children: <Widget>[
+                                                        for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                          Container(
+                                                            key: ValueKey(controller.multiStopListNew[index]),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: TextFieldWidget(
+                                                                        onTap: () async {
+                                                                          await Constant().placeSelectAPI(context).then((value) {
+                                                                            if (value != null) {
+                                                                              controller.multiStopListNew[index].editingController.text =
+                                                                                  value.result.formattedAddress ?? '';
+                                                                              controller.multiStopListNew[index].latitude =
+                                                                                  value.result.geometry!.location.lat.toString();
+                                                                              controller.multiStopListNew[index].longitude =
+                                                                                  value.result.geometry!.location.lng.toString();
+                                                                              controller.setStopMarker(
+                                                                                  LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                  index);
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                        isReadOnly: true,
+                                                                        suffix: InkWell(
+                                                                          onTap: () {
+                                                                            controller.removeStops(index);
+                                                                            controller.markers.remove("Stop $index");
+                                                                            controller.getDirections();
+                                                                          },
+                                                                          child: Icon(Icons.close,
+                                                                              size: 20,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                        ),
+                                                                        prefix: IconButton(
+                                                                          onPressed: () {},
+                                                                          icon: Text(
+                                                                            String.fromCharCode(index + 65),
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontFamily: AppThemeData.regular,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        hintText: "Where do you want to stop?".tr,
+                                                                        controller: controller.multiStopListNew[index].editingController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                      ],
+                                                      onReorder: (int oldIndex, int newIndex) {
+                                                        if (oldIndex < newIndex) {
+                                                          newIndex -= 1;
+                                                        }
+                                                        final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                        controller.multiStopListNew.insert(newIndex, item);
+                                                      },
+                                                    ),
+                                                    TextFieldWidget(
+                                                      textColor: AppThemeData.warning200,
+                                                      hintColor: AppThemeData.warning200,
+                                                      isReadOnly: true,
+                                                      onTap: () {
+                                                        controller.addStops();
+                                                        setState(() {});
+                                                      },
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Container(height: 14, width: 14, color: AppThemeData.warning200),
+                                                      ),
+                                                      controller: TextEditingController(text: 'Add Stop'.tr),
+                                                      hintText: 'Add Stop'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ButtonThem.buildButton(
+                                                      context,
+                                                      title: 'Search Destination'.tr,
+                                                      onPress: () async {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        log(controller.departureLatLong.value.toString());
+                                                        if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else {
+                                                          await controller
+                                                              .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                              .then((
+                                                              durationValue,
+                                                              ) async {
+                                                            if (durationValue != null) {
+                                                              await controller.getUserPendingPayment().then((value) async {
+                                                                if (value != null) {
+                                                                  if (value['success'] == "success") {
+                                                                    if (value['data']['amount'] != 0) {
+                                                                      _pendingPaymentDialog(context);
+                                                                    } else {
+                                                                      if (Constant.distanceUnit == "KM") {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                      } else {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                      }
+
+                                                                      controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                      // Get.back();
+                                                                      controller.confirmWidgetVisible.value = false;
+                                                                      var dataMulti = controller.multiStopListNew
+                                                                          .where((stop) =>
+                                                                      stop.latitude.isNotEmpty &&
+                                                                          stop.longitude.isNotEmpty &&
+                                                                          stop.editingController.text.isNotEmpty)
+                                                                          .toList();
+
+                                                                      controller.multiStopListNew = dataMulti;
+                                                                      controller.multiStopList = List.from(dataMulti);
+                                                                      setState(() {});
+                                                                      tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                    }
+                                                                  } else {
+                                                                    if (Constant.distanceUnit == "KM") {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    } else {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    }
+                                                                    controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    controller.confirmWidgetVisible.value = false;
+                                                                    var dataMulti = controller.multiStopListNew
+                                                                        .where((stop) =>
+                                                                    stop.latitude.isNotEmpty &&
+                                                                        stop.longitude.isNotEmpty &&
+                                                                        stop.editingController.text.isNotEmpty)
+                                                                        .toList();
+
+                                                                    controller.multiStopListNew = dataMulti;
+                                                                    controller.multiStopList = List.from(dataMulti);
+                                                                    setState(() {});
+                                                                    tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                  }
+                                                                }
+                                                              });
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: SingleChildScrollView(
+                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                Text(
+                                                  "Enter Destination".tr,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: AppThemeData.semiBold,
+                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Column(
+                                                  children: [
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.departureController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () async {
+                                                          LocationPermission permission = await Geolocator.checkPermission();
+                                                          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                            permission = await Geolocator.requestPermission();
+                                                          }
+
+                                                          Position position = await Geolocator.getCurrentPosition(
+                                                            desiredAccuracy: LocationAccuracy.high,
+                                                          );
+
+                                                          List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                            position.latitude,
+                                                            position.longitude,
+                                                          );
+                                                          Placemark place = placemarks.first;
+
+                                                          String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                          controller.departureController.text = address;
+                                                          controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.departureController,
+                                                      hintText: 'Pick Up Location'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.destinationController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.destinationController,
+                                                      hintText: 'Where you want to go?'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      isReadOnly: true,
+                                                      controller: controller.dateController,
+                                                      hintText: "Select Date".tr,
+                                                      onTap: () async {
+                                                        DateTime? pickedDate = await showDatePicker(
+                                                          context: context,
+                                                          initialDate: DateTime.now(),
+                                                          firstDate: DateTime.now(),
+                                                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                                                        );
+
+                                                        if (pickedDate != null) {
+                                                          controller.dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                                                          controller.selectedDate.value = pickedDate;
+                                                        }
+                                                      },
+                                                      prefix: const Icon(Icons.calendar_month),
+                                                    ),
+                                                    const SizedBox(height: 12),
+                                                    TextFieldWidget(
+                                                      isReadOnly: true,
+                                                      controller: controller.timeController,
+                                                      hintText: "Select Time".tr,
+                                                      onTap: () async {
+                                                        TimeOfDay? pickedTime = await showTimePicker(
+                                                          context: context,
+                                                          initialTime: TimeOfDay.now(),
+                                                        );
+
+                                                        if (pickedTime != null) {
+                                                          controller.timeController.text = pickedTime.format(context);
+                                                          controller.selectedTime.value = pickedTime;
+                                                        }
+                                                      },
+                                                      prefix: const Icon(Icons.access_time),
+                                                    ),
+                                                    ButtonThem.buildButton(
+                                                      context,
+                                                      title: 'Search Destination'.tr,
+                                                      onPress: () async {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        log(controller.departureLatLong.value.toString());
+                                                        if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else {
+                                                          await controller
+                                                              .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                              .then((
+                                                              durationValue,
+                                                              ) async {
+                                                            if (durationValue != null) {
+                                                              await controller.getUserPendingPayment().then((value) async {
+                                                                if (value != null) {
+                                                                  if (value['success'] == "success") {
+                                                                    if (value['data']['amount'] != 0) {
+                                                                      _pendingPaymentDialog(context);
+                                                                    } else {
+                                                                      if (Constant.distanceUnit == "KM") {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                      } else {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                      }
+
+                                                                      controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                      // Get.back();
+                                                                      controller.confirmWidgetVisible.value = false;
+                                                                      var dataMulti = controller.multiStopListNew
+                                                                          .where((stop) =>
+                                                                      stop.latitude.isNotEmpty &&
+                                                                          stop.longitude.isNotEmpty &&
+                                                                          stop.editingController.text.isNotEmpty)
+                                                                          .toList();
+
+                                                                      controller.multiStopListNew = dataMulti;
+                                                                      controller.multiStopList = List.from(dataMulti);
+                                                                      setState(() {});
+
+                                                                      await controller
+                                                                          .getDriverDetails(
+                                                                          Constant.taxiVehicleCategoryId,
+                                                                          '${controller.departureLatLong.value.latitude}',
+                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                          .then((value) {
+                                                                        if (value != null) {
+                                                                          if (value.success == "Success") {
+                                                                            if (value.data?.isNotEmpty == true) {
+                                                                              tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                                  driverData: value.data?.first,
+                                                                                  selectedDate: controller.selectedDate.value,
+                                                                                  selectedTime: controller.selectedTime.value);
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  } else {
+                                                                    if (Constant.distanceUnit == "KM") {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    } else {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    }
+                                                                    controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    controller.confirmWidgetVisible.value = false;
+                                                                    var dataMulti = controller.multiStopListNew
+                                                                        .where((stop) =>
+                                                                    stop.latitude.isNotEmpty &&
+                                                                        stop.longitude.isNotEmpty &&
+                                                                        stop.editingController.text.isNotEmpty)
+                                                                        .toList();
+
+                                                                    controller.multiStopListNew = dataMulti;
+                                                                    controller.multiStopList = List.from(dataMulti);
+                                                                    setState(() {});
+                                                                    await controller
+                                                                        .getDriverDetails(
+                                                                        Constant.taxiVehicleCategoryId,
+                                                                        '${controller.departureLatLong.value.latitude}',
+                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                        .then((value) {
+                                                                      if (value != null) {
+                                                                        if (value.success == "Success") {
+                                                                          if (value.data?.isNotEmpty == true) {
+                                                                            tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                                                driverData: value.data?.first,
+                                                                                selectedDate: controller.selectedDate.value,
+                                                                                selectedTime: controller.selectedTime.value);
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    });
+                                                                  }
+                                                                }
+                                                              });
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: GetX<ParcelServiceController>(
+                                            init: ParcelServiceController(),
+                                            builder: (parcelServiceController) {
+                                              return SingleChildScrollView(
+                                                padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const SizedBox(height: 20),
+                                                    Text(
+                                                      "Select what are you sending?".tr,
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily: AppThemeData.semiBold,
+                                                        color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 12),
+                                                    Container(
+                                                      width: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300, width: 1)),
+                                                      child: ListView.separated(
+                                                        primary: false,
+                                                        padding: EdgeInsets.zero,
+                                                        separatorBuilder: (context, index) =>
+                                                            Container(height: 1, color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey300),
+                                                        shrinkWrap: true,
+                                                        itemCount: parcelServiceController.parcelCategoryList.length,
+                                                        itemBuilder: (BuildContext context, int index) {
+                                                          return InkWell(
+                                                            splashColor: Colors.transparent,
+                                                            onTap: () {
+                                                              parcelServiceController.selectedParcelCategory.value = parcelServiceController.parcelCategoryList[index];
+                                                              Get.to(() => const BookParcelScreen());
+                                                            },
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                                        child: CachedNetworkImage(
+                                                                          imageUrl: parcelServiceController.parcelCategoryList[index].image.toString(),
+                                                                          height: 25,
+                                                                          width: 25,
+                                                                          imageBuilder: (context, imageProvider) => Container(
+                                                                            decoration: BoxDecoration(
+                                                                              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                                                            ),
+                                                                          ),
+                                                                          placeholder: (context, url) => Constant.loader(context),
+                                                                          errorWidget: (context, url, error) =>
+                                                                              Image.asset("assets/images/appIcon.png", height: 25, width: 25, fit: BoxFit.cover),
+                                                                          fit: BoxFit.cover,
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(width: 6),
+                                                                      Text(
+                                                                        parcelServiceController.parcelCategoryList[index].title.toString(),
+                                                                        style: TextStyle(
+                                                                          fontSize: 16,
+                                                                          fontFamily: AppThemeData.medium,
+                                                                          color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SvgPicture.asset(
+                                                                    'assets/icons/ic_right_arrow.svg',
+                                                                    fit: BoxFit.cover,
+                                                                    colorFilter: ColorFilter.mode(
+                                                                        themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500, BlendMode.srcIn),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           );
                                                         },
                                                       ),
-                                                    )
-                                                  ]
-                                                : [
-                                                    SizedBox(
-                                                      child: SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20),
-                                                            Text(
-                                                              "Enter Destination".tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily: AppThemeData.semiBold,
-                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(height: 12),
-                                                            Column(
-                                                              children: [
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () async {
-                                                                      LocationPermission permission = await Geolocator.checkPermission();
-                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-                                                                        permission = await Geolocator.requestPermission();
-                                                                      }
-
-                                                                      Position position = await Geolocator.getCurrentPosition(
-                                                                        desiredAccuracy: LocationAccuracy.high,
-                                                                      );
-
-                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
-                                                                        position.latitude,
-                                                                        position.longitude,
-                                                                      );
-                                                                      Placemark place = placemarks.first;
-
-                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                      controller.departureController.text = address;
-                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
-                                                                    },
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.departureController,
-                                                                  hintText: 'Pick Up Location'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.destinationController,
-                                                                  hintText: 'Where you want to go?'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ReorderableListView(
-                                                                  shrinkWrap: true,
-                                                                  physics: const NeverScrollableScrollPhysics(),
-                                                                  children: <Widget>[
-                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
-                                                                      Container(
-                                                                        key: ValueKey(controller.multiStopListNew[index]),
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: TextFieldWidget(
-                                                                                    onTap: () async {
-                                                                                      await Constant().placeSelectAPI(context).then((value) {
-                                                                                        if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text =
-                                                                                              value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude =
-                                                                                              value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude =
-                                                                                              value.result.geometry!.location.lng.toString();
-                                                                                          controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
-                                                                                              index);
-                                                                                        }
-                                                                                      });
-                                                                                    },
-                                                                                    isReadOnly: true,
-                                                                                    suffix: InkWell(
-                                                                                      onTap: () {
-                                                                                        controller.removeStops(index);
-                                                                                        controller.markers.remove("Stop $index");
-                                                                                        controller.getDirections();
-                                                                                      },
-                                                                                      child: Icon(Icons.close,
-                                                                                          size: 20,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
-                                                                                    ),
-                                                                                    prefix: IconButton(
-                                                                                      onPressed: () {},
-                                                                                      icon: Text(
-                                                                                        String.fromCharCode(index + 65),
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 16,
-                                                                                          fontFamily: AppThemeData.regular,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                    hintText: "Where do you want to stop?".tr,
-                                                                                    controller: controller.multiStopListNew[index].editingController,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                  ],
-                                                                  onReorder: (int oldIndex, int newIndex) {
-                                                                    if (oldIndex < newIndex) {
-                                                                      newIndex -= 1;
-                                                                    }
-                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
-                                                                    controller.multiStopListNew.insert(newIndex, item);
-                                                                  },
-                                                                ),
-                                                                ButtonThem.buildButton(
-                                                                  context,
-                                                                  title: 'Search Destination'.tr,
-                                                                  onPress: () async {
-                                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                                    log(controller.departureLatLong.value.toString());
-                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else {
-                                                                      await controller
-                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                          .then((
-                                                                        durationValue,
-                                                                      ) async {
-                                                                        if (durationValue != null) {
-                                                                          await controller.getUserPendingPayment().then((value) async {
-                                                                            if (value != null) {
-                                                                              if (value['success'] == "success") {
-                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
-                                                                                double amount = double.tryParse(amountStr) ?? 0;
-
-                                                                                if (amount >= 0) {
-                                                                                  _pendingPaymentDialog(context);
-                                                                                  return; // ← important (stop further ride booking)
-                                                                                } else {
-                                                                                  if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                  } else {
-                                                                                    controller.distance.value =
-                                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                  }
-
-                                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                  // Get.back();
-                                                                                  controller.confirmWidgetVisible.value = false;
-                                                                                  var dataMulti = controller.multiStopListNew
-                                                                                      .where((stop) =>
-                                                                                          stop.latitude.isNotEmpty &&
-                                                                                          stop.longitude.isNotEmpty &&
-                                                                                          stop.editingController.text.isNotEmpty)
-                                                                                      .toList();
-
-                                                                                  controller.multiStopListNew = dataMulti;
-                                                                                  controller.multiStopList = List.from(dataMulti);
-                                                                                  setState(() {});
-
-                                                                                  await controller
-                                                                                      .getDriverDetails(
-                                                                                          Constant.taxiVehicleCategoryId,
-                                                                                          '${controller.departureLatLong.value.latitude}',
-                                                                                          '${controller.departureLatLong.value.longitude}')
-                                                                                      .then((value) {
-                                                                                    if (value != null) {
-                                                                                      if (value.success == "Success") {
-                                                                                        if (value.data?.isNotEmpty == true) {
-                                                                                          tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
-                                                                                              driverData: value.data?.first);
-                                                                                        }
-                                                                                      }
-                                                                                    }
-                                                                                  });
-                                                                                }
-                                                                              } else {
-                                                                                if (Constant.distanceUnit == "KM") {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                } else {
-                                                                                  controller.distance.value =
-                                                                                      durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                }
-                                                                                controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                                controller.confirmWidgetVisible.value = false;
-                                                                                var dataMulti = controller.multiStopListNew
-                                                                                    .where((stop) =>
-                                                                                        stop.latitude.isNotEmpty &&
-                                                                                        stop.longitude.isNotEmpty &&
-                                                                                        stop.editingController.text.isNotEmpty)
-                                                                                    .toList();
-
-                                                                                controller.multiStopListNew = dataMulti;
-                                                                                controller.multiStopList = List.from(dataMulti);
-                                                                                setState(() {});
-                                                                                await controller
-                                                                                    .getDriverDetails(
-                                                                                        Constant.taxiVehicleCategoryId,
-                                                                                        '${controller.departureLatLong.value.latitude}',
-                                                                                        '${controller.departureLatLong.value.longitude}')
-                                                                                    .then((value) {
-                                                                                  if (value != null) {
-                                                                                    if (value.success == "Success") {
-                                                                                      if (value.data?.isNotEmpty == true) {
-                                                                                        tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
-                                                                                            driverData: value.data?.first);
-                                                                                      }
-                                                                                    }
-                                                                                  }
-                                                                                });
-                                                                              }
-                                                                            }
-                                                                          });
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
                                                     ),
-                                                    SizedBox(
-                                                      child: SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20),
-                                                            Text(
-                                                              "Enter Destination".tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily: AppThemeData.semiBold,
-                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(height: 12),
-                                                            Column(
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
                                                               children: [
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () async {
-                                                                      LocationPermission permission = await Geolocator.checkPermission();
-                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-                                                                        permission = await Geolocator.requestPermission();
-                                                                      }
-
-                                                                      Position position = await Geolocator.getCurrentPosition(
-                                                                        desiredAccuracy: LocationAccuracy.high,
-                                                                      );
-
-                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
-                                                                        position.latitude,
-                                                                        position.longitude,
-                                                                      );
-                                                                      Placemark place = placemarks.first;
-
-                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                      controller.departureController.text = address;
-                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
-                                                                    },
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.departureController,
-                                                                  hintText: 'Pick Up Location'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data?[i].image ?? '',
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
                                                                 ),
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.destinationController,
-                                                                  hintText: 'Where you want to go?'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ReorderableListView(
-                                                                  shrinkWrap: true,
-                                                                  physics: const NeverScrollableScrollPhysics(),
-                                                                  children: <Widget>[
-                                                                    for (int index = 0; index < controller.multiStopListNew.length; index += 1)
-                                                                      Container(
-                                                                        key: ValueKey(controller.multiStopListNew[index]),
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: TextFieldWidget(
-                                                                                    onTap: () async {
-                                                                                      await Constant().placeSelectAPI(context).then((value) {
-                                                                                        if (value != null) {
-                                                                                          controller.multiStopListNew[index].editingController.text =
-                                                                                              value.result.formattedAddress ?? '';
-                                                                                          controller.multiStopListNew[index].latitude =
-                                                                                              value.result.geometry!.location.lat.toString();
-                                                                                          controller.multiStopListNew[index].longitude =
-                                                                                              value.result.geometry!.location.lng.toString();
-                                                                                          controller.setStopMarker(
-                                                                                              LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
-                                                                                              index);
-                                                                                        }
-                                                                                      });
-                                                                                    },
-                                                                                    isReadOnly: true,
-                                                                                    suffix: InkWell(
-                                                                                      onTap: () {
-                                                                                        controller.removeStops(index);
-                                                                                        controller.markers.remove("Stop $index");
-                                                                                        controller.getDirections();
-                                                                                      },
-                                                                                      child: Icon(Icons.close,
-                                                                                          size: 20,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
-                                                                                    ),
-                                                                                    prefix: IconButton(
-                                                                                      onPressed: () {},
-                                                                                      icon: Text(
-                                                                                        String.fromCharCode(index + 65),
-                                                                                        style: TextStyle(
-                                                                                          fontSize: 16,
-                                                                                          fontFamily: AppThemeData.regular,
-                                                                                          color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                    hintText: "Where do you want to stop?".tr,
-                                                                                    controller: controller.multiStopListNew[index].editingController,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
                                                                       ),
-                                                                  ],
-                                                                  onReorder: (int oldIndex, int newIndex) {
-                                                                    if (oldIndex < newIndex) {
-                                                                      newIndex -= 1;
-                                                                    }
-                                                                    final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
-                                                                    controller.multiStopListNew.insert(newIndex, item);
-                                                                  },
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  textColor: AppThemeData.warning200,
-                                                                  hintColor: AppThemeData.warning200,
-                                                                  isReadOnly: true,
-                                                                  onTap: () {
-                                                                    controller.addStops();
-                                                                    setState(() {});
-                                                                  },
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: Container(height: 14, width: 14, color: AppThemeData.warning200),
-                                                                  ),
-                                                                  controller: TextEditingController(text: 'Add Stop'.tr),
-                                                                  hintText: 'Add Stop'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ButtonThem.buildButton(
-                                                                  context,
-                                                                  title: 'Search Destination'.tr,
-                                                                  onPress: () async {
-                                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                                    log(controller.departureLatLong.value.toString());
-                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else {
-                                                                      await controller
-                                                                          .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                          .then((durationValue) async {
-                                                                        if (durationValue != null) {
-                                                                          await controller.getUserPendingPayment().then((value) async {
-<<<<<<< HEAD
-
-
-                                                                            if (value != null) {
-                                                                              if (value['success'] == "success") {
-                                                                                // String amountStr = value['data']['amount']?.toString() ?? "0";
-                                                                                // double amount = double.tryParse(amountStr) ?? 0;
-                                                                                //
-                                                                                // if (amount > 0) {
-                                                                                //   _pendingPaymentDialog(context);
-                                                                                //   return; // ← important (stop further ride booking)
-                                                                                // }
-                                                                                var dataList = value['data'];
-                                                                                if (dataList is List && dataList.isNotEmpty) {
-                                                                                  var item = dataList.first;
-
-                                                                                  double amount = double.tryParse(item['amount']?.toString() ?? "0") ?? 0;
-                                                                                  String status = item['statut']?.toString() ?? "";
-
-                                                                                  // 🔥 Only block if status is pending AND amount > 0
-                                                                                  if (status == "pending" && amount > 0) {
-                                                                                    _pendingPaymentDialog(context);
-                                                                                    return; // STOP booking ride
-                                                                                  }
-                                                                                }
-                                                                                else {
-                                                                                  if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                  } else {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                  }
-=======
-                                                                            double pendingAmount = 0.0;
->>>>>>> main
-
-                                                                            if (value != null &&
-                                                                                value['success'] == "success" &&
-                                                                                value['data'] is List &&
-                                                                                value['data'].isNotEmpty) {
-                                                                              // Sum all pending amounts
-                                                                              for (var item in value['data']) {
-                                                                                double amt = double.tryParse(item['amount'].toString()) ?? 0.0;
-                                                                                pendingAmount += amt;
-                                                                              }
-                                                                            }
-
-                                                                            if (pendingAmount > 0.0) {
-                                                                              /// Show pending dialog if amount found > 0
-                                                                              _pendingPaymentDialog(context);
-                                                                            } else {
-                                                                              if (Constant.distanceUnit == "KM") {
-                                                                                controller.distance.value =
-                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                              } else {
-                                                                                controller.distance.value =
-                                                                                    durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                              }
-
-                                                                              controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-
-                                                                              controller.confirmWidgetVisible.value = false;
-
-                                                                              var dataMulti = controller.multiStopListNew
-                                                                                  .where((stop) =>
-                                                                                      stop.latitude.isNotEmpty &&
-                                                                                      stop.longitude.isNotEmpty &&
-                                                                                      stop.editingController.text.isNotEmpty)
-                                                                                  .toList();
-
-                                                                              controller.multiStopListNew = dataMulti;
-                                                                              controller.multiStopList = List.from(dataMulti);
-
-                                                                              setState(() {});
-                                                                              tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
-                                                                            }
-                                                                          });
-                                                                        }
-                                                                      });
-                                                                    }
-                                                                    // else {
-                                                                    //   await controller
-                                                                    //       .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                    //       .then((
-                                                                    //     durationValue,
-                                                                    //   ) async {
-                                                                    //     if (durationValue != null) {
-                                                                    //       await controller.getUserPendingPayment().then((value) async {
-                                                                    //         if (value != null) {
-                                                                    //           if (value['success'] == "success") {
-                                                                    //             if (value['data']['amount'] != 0) {
-                                                                    //               _pendingPaymentDialog(context);
-                                                                    //             } else {
-                                                                    //               if (Constant.distanceUnit == "KM") {
-                                                                    //                 controller.distance.value =
-                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                    //               } else {
-                                                                    //                 controller.distance.value =
-                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                    //               }
-                                                                    //
-                                                                    //               controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                    //               // Get.back();
-                                                                    //               controller.confirmWidgetVisible.value = false;
-                                                                    //               var dataMulti = controller.multiStopListNew
-                                                                    //                   .where((stop) =>
-                                                                    //                       stop.latitude.isNotEmpty &&
-                                                                    //                       stop.longitude.isNotEmpty &&
-                                                                    //                       stop.editingController.text.isNotEmpty)
-                                                                    //                   .toList();
-                                                                    //
-                                                                    //               controller.multiStopListNew = dataMulti;
-                                                                    //               controller.multiStopList = List.from(dataMulti);
-                                                                    //               setState(() {});
-                                                                    //               tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
-                                                                    //             }
-                                                                    //           } else {
-                                                                    //             if (Constant.distanceUnit == "KM") {
-                                                                    //               controller.distance.value =
-                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                    //             } else {
-                                                                    //               controller.distance.value =
-                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                    //             }
-                                                                    //             controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                    //             controller.confirmWidgetVisible.value = false;
-                                                                    //             var dataMulti = controller.multiStopListNew
-                                                                    //                 .where((stop) =>
-                                                                    //                     stop.latitude.isNotEmpty &&
-                                                                    //                     stop.longitude.isNotEmpty &&
-                                                                    //                     stop.editingController.text.isNotEmpty)
-                                                                    //                 .toList();
-                                                                    //
-                                                                    //             controller.multiStopListNew = dataMulti;
-                                                                    //             controller.multiStopList = List.from(dataMulti);
-                                                                    //             setState(() {});
-                                                                    //             tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
-                                                                    //           }
-                                                                    //         }
-                                                                    //       });
-                                                                    //     }
-                                                                    //   });
-                                                                    // }
-                                                                  },
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
                                                                       ),
-                                                                    );
-                                                                  },
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      child: SingleChildScrollView(
-                                                        padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20),
-                                                            Text(
-                                                              "Enter Destination".tr,
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontFamily: AppThemeData.semiBold,
-                                                                color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(height: 12),
-                                                            Column(
-                                                              children: [
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.departureController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () async {
-                                                                      LocationPermission permission = await Geolocator.checkPermission();
-                                                                      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-                                                                        permission = await Geolocator.requestPermission();
-                                                                      }
-
-                                                                      Position position = await Geolocator.getCurrentPosition(
-                                                                        desiredAccuracy: LocationAccuracy.high,
-                                                                      );
-
-                                                                      List<Placemark> placemarks = await placemarkFromCoordinates(
-                                                                        position.latitude,
-                                                                        position.longitude,
-                                                                      );
-                                                                      Placemark place = placemarks.first;
-
-                                                                      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-
-                                                                      controller.departureController.text = address;
-                                                                      controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
-                                                                    },
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.departureController,
-                                                                  hintText: 'Pick Up Location'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  onTap: () async {
-                                                                    await Constant().placeSelectAPI(context).then((value) {
-                                                                      if (value != null) {
-                                                                        controller.destinationController.text = value.result.formattedAddress.toString();
-                                                                        controller
-                                                                            .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  isReadOnly: true,
-                                                                  prefix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_location.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                  controller: controller.destinationController,
-                                                                  hintText: 'Where you want to go?'.tr,
-                                                                  suffix: IconButton(
-                                                                    onPressed: () {},
-                                                                    icon: SvgPicture.asset(
-                                                                      'assets/icons/ic_right_arrow.svg',
-                                                                      colorFilter: ColorFilter.mode(
-                                                                          themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                TextFieldWidget(
-                                                                  isReadOnly: true,
-                                                                  controller: controller.dateController,
-                                                                  hintText: "Select Date".tr,
-                                                                  onTap: () async {
-                                                                    DateTime? pickedDate = await showDatePicker(
-                                                                      context: context,
-                                                                      initialDate: DateTime.now(),
-                                                                      firstDate: DateTime.now(),
-                                                                      lastDate: DateTime.now().add(const Duration(days: 365)),
-                                                                    );
-
-                                                                    if (pickedDate != null) {
-                                                                      controller.dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-                                                                      controller.selectedDate.value = pickedDate;
-                                                                    }
-                                                                  },
-                                                                  prefix: const Icon(Icons.calendar_month),
-                                                                ),
-                                                                const SizedBox(height: 12),
-                                                                TextFieldWidget(
-                                                                  isReadOnly: true,
-                                                                  controller: controller.timeController,
-                                                                  hintText: "Select Time".tr,
-                                                                  onTap: () async {
-                                                                    TimeOfDay? pickedTime = await showTimePicker(
-                                                                      context: context,
-                                                                      initialTime: TimeOfDay.now(),
-                                                                    );
-
-                                                                    if (pickedTime != null) {
-                                                                      controller.timeController.text = pickedTime.format(context);
-                                                                      controller.selectedTime.value = pickedTime;
-                                                                    }
-                                                                  },
-                                                                  prefix: const Icon(Icons.access_time),
-                                                                ),
-                                                                ButtonThem.buildButton(
-                                                                  context,
-                                                                  title: 'Search Destination'.tr,
-                                                                  onPress: () async {
-                                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                                    log(controller.departureLatLong.value.toString());
-                                                                    if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
-                                                                      ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
-                                                                    } else {
-<<<<<<< HEAD
-                                                                      await controller.getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value).then((
-                                                                        durationValue,
-                                                                      ) async {
-                                                                        log("getDurationDistance :: 11 :: $durationValue");
-                                                                        if (durationValue != null) {
-                                                                          await controller.getUserPendingPayment().then((value) async {
-                                                                            if (value != null) {
-                                                                              if (value['success'] == "success") {
-                                                                                String amountStr = value['data']['amount']?.toString() ?? "0";
-                                                                                double amount = double.tryParse(amountStr) ?? 0;
-
-                                                                                if (amount >= 0) {
-                                                                                  _pendingPaymentDialog(context);
-                                                                                  return; // ← important (stop further ride booking)
-                                                                                }
-                                                                                else {
-                                                                                  if (Constant.distanceUnit == "KM") {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                                  } else {
-                                                                                    controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                                  }
-=======
-                                                                      try {
-                                                                        var durationValue = await controller.getDurationDistance(
-                                                                            controller.departureLatLong.value, controller.destinationLatLong.value);
->>>>>>> main
-
-                                                                        log("getDurationDistance :: $durationValue");
-
-                                                                        if (durationValue == null) return;
-
-                                                                        var pendingValue = await controller.getUserPendingPayment();
-
-                                                                        bool hasPendingPayment = false;
-
-                                                                        if (pendingValue != null && pendingValue['success'] == "success" && pendingValue['data'] is List) {
-                                                                          List pendingList = pendingValue['data'];
-
-                                                                          hasPendingPayment = pendingList.any((item) {
-                                                                            double amt = double.tryParse(item['amount'].toString()) ?? 0.0;
-                                                                            return amt > 0;
-                                                                          });
-                                                                        }
-
-                                                                        if (hasPendingPayment) {
-                                                                          log("⚠ Pending Payment Found!");
-                                                                          // _pendingPaymentDialog(context);
-                                                                          return;
-                                                                        }
-
-                                                                        /// Distance Calculation
-                                                                        if (Constant.distanceUnit == "KM") {
-                                                                          controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.0;
-                                                                        } else {
-                                                                          controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                        }
-
-                                                                        controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-
-                                                                        controller.confirmWidgetVisible.value = false;
-
-                                                                        var dataMulti = controller.multiStopListNew
-                                                                            .where((stop) =>
-                                                                                stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
-                                                                            .toList();
-
-                                                                        controller.multiStopListNew = dataMulti;
-                                                                        controller.multiStopList = List.from(dataMulti);
-
-                                                                        setState(() {});
-
-                                                                        log("⏳ Checking driver availability...");
-
-                                                                        var driverValue = await controller.getDriverDetails(
-                                                                          Constant.taxiVehicleCategoryId,
-                                                                          '${controller.departureLatLong.value.latitude}',
-                                                                          '${controller.departureLatLong.value.longitude}',
-                                                                        );
-
-                                                                        if (driverValue != null && driverValue.success == "Success" && driverValue.data?.isNotEmpty == true) {
-                                                                          tripOptionBottomSheet(
-                                                                            context,
-                                                                            themeChange.getThem(),
-                                                                            controller,
-                                                                            'schedule_ride',
-                                                                            driverData: driverValue.data!.first,
-                                                                            selectedDate: controller.selectedDate.value,
-                                                                            selectedTime: controller.selectedTime.value,
-                                                                          );
-                                                                        } else {
-                                                                          log("❌ No driver found!");
-                                                                        }
-                                                                      } catch (e, s) {
-                                                                        log("🔥 Error: $e");
-                                                                        log("Stack: $s");
-                                                                      }
-                                                                    }
-                                                                    // else {
-                                                                    //   await controller
-                                                                    //       .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
-                                                                    //       .then((
-                                                                    //     durationValue,
-                                                                    //   ) async {
-                                                                    //     log("getDurationDistance :: 11 :: $durationValue");
-                                                                    //     if (durationValue != null) {
-                                                                    //       await controller.getUserPendingPayment().then((value) async {
-                                                                    //         if (value != null) {
-                                                                    //           if (value['success'] == "success") {
-                                                                    //             if (value['data']['amount'] != 0) {
-                                                                    //               // _pendingPaymentDialog(context);
-                                                                    //             } else {
-                                                                    //               if (Constant.distanceUnit == "KM") {
-                                                                    //                 controller.distance.value =
-                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                    //               } else {
-                                                                    //                 controller.distance.value =
-                                                                    //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                    //               }
-                                                                    //
-                                                                    //               controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                    //               // Get.back();
-                                                                    //               controller.confirmWidgetVisible.value = false;
-                                                                    //               var dataMulti = controller.multiStopListNew
-                                                                    //                   .where((stop) =>
-                                                                    //                       stop.latitude.isNotEmpty &&
-                                                                    //                       stop.longitude.isNotEmpty &&
-                                                                    //                       stop.editingController.text.isNotEmpty)
-                                                                    //                   .toList();
-                                                                    //
-                                                                    //               controller.multiStopListNew = dataMulti;
-                                                                    //               controller.multiStopList = List.from(dataMulti);
-                                                                    //               setState(() {});
-                                                                    //               log("getDurationDistance :: 33 :: $value}");
-                                                                    //               await controller
-                                                                    //                   .getDriverDetails(
-                                                                    //                       Constant.taxiVehicleCategoryId,
-                                                                    //                       '${controller.departureLatLong.value.latitude}',
-                                                                    //                       '${controller.departureLatLong.value.longitude}')
-                                                                    //                   .then((value) {
-                                                                    //                 log("getDurationDistance :: 33 :: $value}");
-                                                                    //                 if (value != null) {
-                                                                    //                   if (value.success == "Success") {
-                                                                    //                     if (value.data?.isNotEmpty == true) {
-                                                                    //                       tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
-                                                                    //                           driverData: value.data?.first,
-                                                                    //                           selectedDate: controller.selectedDate.value,
-                                                                    //                           selectedTime: controller.selectedTime.value);
-                                                                    //                     }
-                                                                    //                   }
-                                                                    //                 }
-                                                                    //               });
-                                                                    //             }
-                                                                    //           } else {
-                                                                    //             if (Constant.distanceUnit == "KM") {
-                                                                    //               controller.distance.value =
-                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
-                                                                    //             } else {
-                                                                    //               controller.distance.value =
-                                                                    //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
-                                                                    //             }
-                                                                    //             controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
-                                                                    //             controller.confirmWidgetVisible.value = false;
-                                                                    //             var dataMulti = controller.multiStopListNew
-                                                                    //                 .where((stop) =>
-                                                                    //                     stop.latitude.isNotEmpty &&
-                                                                    //                     stop.longitude.isNotEmpty &&
-                                                                    //                     stop.editingController.text.isNotEmpty)
-                                                                    //                 .toList();
-                                                                    //
-                                                                    //             controller.multiStopListNew = dataMulti;
-                                                                    //             controller.multiStopList = List.from(dataMulti);
-                                                                    //             setState(() {});
-                                                                    //             await controller
-                                                                    //                 .getDriverDetails(
-                                                                    //                     Constant.taxiVehicleCategoryId,
-                                                                    //                     '${controller.departureLatLong.value.latitude}',
-                                                                    //                     '${controller.departureLatLong.value.longitude}')
-                                                                    //                 .then((value) {
-                                                                    //               if (value != null) {
-                                                                    //                 if (value.success == "Success") {
-                                                                    //                   if (value.data?.isNotEmpty == true) {
-                                                                    //                     tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
-                                                                    //                         driverData: value.data?.first,
-                                                                    //                         selectedDate: controller.selectedDate.value,
-                                                                    //                         selectedTime: controller.selectedTime.value);
-                                                                    //                   }
-                                                                    //                 }
-                                                                    //               }
-                                                                    //             });
-                                                                    //           }
-                                                                    //         }
-                                                                    //       });
-                                                                    //     }
-                                                                    //   });
-                                                                    // }
-                                                                  },
-                                                                ),
-                                                                const SizedBox(height: 20),
-                                                                ListView.builder(
-                                                                  padding: EdgeInsets.zero,
-                                                                  primary: false,
-                                                                  shrinkWrap: true,
-                                                                  itemCount: controller.bannerModel.value.data?.length,
-                                                                  itemBuilder: (BuildContext context, int i) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets.only(bottom: 20),
-                                                                      child: Center(
-                                                                        child: Stack(
-                                                                          alignment: Alignment.bottomLeft,
-                                                                          children: [
-                                                                            CachedNetworkImage(
-                                                                              filterQuality: FilterQuality.high,
-                                                                              width: Responsive.width(100, context),
-                                                                              height: 180,
-                                                                              imageUrl: controller.bannerModel.value.data![i].image.toString(),
-                                                                              fit: BoxFit.fill,
-                                                                              placeholder: (context, url) => Constant.loader(context),
-                                                                              errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                                              child: Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].title ?? '',
-                                                                                    maxLines: 1,
-                                                                                    style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                  const SizedBox(height: 2),
-                                                                                  Text(
-                                                                                    controller.bannerModel.value.data?[i].description ?? '',
-                                                                                    maxLines: 2,
-                                                                                    style:
-                                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
+                                                          ),
+                                                        );
+                                                      },
                                                     ),
                                                   ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      ]
+                                          : [
+                                        SizedBox(
+                                          child: SingleChildScrollView(
+                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                Text(
+                                                  "Enter Destination".tr,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: AppThemeData.semiBold,
+                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Column(
+                                                  children: [
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.departureController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () async {
+                                                          LocationPermission permission = await Geolocator.checkPermission();
+                                                          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                            permission = await Geolocator.requestPermission();
+                                                          }
+
+                                                          Position position = await Geolocator.getCurrentPosition(
+                                                            desiredAccuracy: LocationAccuracy.high,
+                                                          );
+
+                                                          List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                            position.latitude,
+                                                            position.longitude,
+                                                          );
+                                                          Placemark place = placemarks.first;
+
+                                                          String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                          controller.departureController.text = address;
+                                                          controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.departureController,
+                                                      hintText: 'Pick Up Location'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.destinationController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.destinationController,
+                                                      hintText: 'Where you want to go?'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ReorderableListView(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      children: <Widget>[
+                                                        for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                          Container(
+                                                            key: ValueKey(controller.multiStopListNew[index]),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: TextFieldWidget(
+                                                                        onTap: () async {
+                                                                          await Constant().placeSelectAPI(context).then((value) {
+                                                                            if (value != null) {
+                                                                              controller.multiStopListNew[index].editingController.text =
+                                                                                  value.result.formattedAddress ?? '';
+                                                                              controller.multiStopListNew[index].latitude =
+                                                                                  value.result.geometry!.location.lat.toString();
+                                                                              controller.multiStopListNew[index].longitude =
+                                                                                  value.result.geometry!.location.lng.toString();
+                                                                              controller.setStopMarker(
+                                                                                  LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                  index);
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                        isReadOnly: true,
+                                                                        suffix: InkWell(
+                                                                          onTap: () {
+                                                                            controller.removeStops(index);
+                                                                            controller.markers.remove("Stop $index");
+                                                                            controller.getDirections();
+                                                                          },
+                                                                          child: Icon(Icons.close,
+                                                                              size: 20,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                        ),
+                                                                        prefix: IconButton(
+                                                                          onPressed: () {},
+                                                                          icon: Text(
+                                                                            String.fromCharCode(index + 65),
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontFamily: AppThemeData.regular,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        hintText: "Where do you want to stop?".tr,
+                                                                        controller: controller.multiStopListNew[index].editingController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                      ],
+                                                      onReorder: (int oldIndex, int newIndex) {
+                                                        if (oldIndex < newIndex) {
+                                                          newIndex -= 1;
+                                                        }
+                                                        final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                        controller.multiStopListNew.insert(newIndex, item);
+                                                      },
+                                                    ),
+                                                    ButtonThem.buildButton(
+                                                      context,
+                                                      title: 'Search Destination'.tr,
+                                                      onPress: () async {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        log(controller.departureLatLong.value.toString());
+                                                        if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else {
+                                                          await controller
+                                                              .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                              .then((
+                                                              durationValue,
+                                                              ) async {
+                                                            if (durationValue != null) {
+                                                              await controller.getUserPendingPayment().then((value) async {
+                                                                if (value != null) {
+                                                                  if (value['success'] == "success") {
+                                                                    if (value['data']['amount'] != 0) {
+                                                                      _pendingPaymentDialog(context);
+                                                                    } else {
+                                                                      if (Constant.distanceUnit == "KM") {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                      } else {
+                                                                        controller.distance.value =
+                                                                            durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                      }
+
+                                                                      controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                      // Get.back();
+                                                                      controller.confirmWidgetVisible.value = false;
+                                                                      var dataMulti = controller.multiStopListNew
+                                                                          .where((stop) =>
+                                                                      stop.latitude.isNotEmpty &&
+                                                                          stop.longitude.isNotEmpty &&
+                                                                          stop.editingController.text.isNotEmpty)
+                                                                          .toList();
+
+                                                                      controller.multiStopListNew = dataMulti;
+                                                                      controller.multiStopList = List.from(dataMulti);
+                                                                      setState(() {});
+
+                                                                      await controller
+                                                                          .getDriverDetails(
+                                                                          Constant.taxiVehicleCategoryId,
+                                                                          '${controller.departureLatLong.value.latitude}',
+                                                                          '${controller.departureLatLong.value.longitude}')
+                                                                          .then((value) {
+                                                                        if (value != null) {
+                                                                          if (value.success == "Success") {
+                                                                            if (value.data?.isNotEmpty == true) {
+                                                                              tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                  driverData: value.data?.first);
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      });
+                                                                    }
+                                                                  } else {
+                                                                    if (Constant.distanceUnit == "KM") {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                    } else {
+                                                                      controller.distance.value =
+                                                                          durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                    }
+                                                                    controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                                    controller.confirmWidgetVisible.value = false;
+                                                                    var dataMulti = controller.multiStopListNew
+                                                                        .where((stop) =>
+                                                                    stop.latitude.isNotEmpty &&
+                                                                        stop.longitude.isNotEmpty &&
+                                                                        stop.editingController.text.isNotEmpty)
+                                                                        .toList();
+
+                                                                    controller.multiStopListNew = dataMulti;
+                                                                    controller.multiStopList = List.from(dataMulti);
+                                                                    setState(() {});
+                                                                    await controller
+                                                                        .getDriverDetails(
+                                                                        Constant.taxiVehicleCategoryId,
+                                                                        '${controller.departureLatLong.value.latitude}',
+                                                                        '${controller.departureLatLong.value.longitude}')
+                                                                        .then((value) {
+                                                                      if (value != null) {
+                                                                        if (value.success == "Success") {
+                                                                          if (value.data?.isNotEmpty == true) {
+                                                                            tripOptionBottomSheet(context, themeChange.getThem(), controller, 'taxi',
+                                                                                driverData: value.data?.first);
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    });
+                                                                  }
+                                                                }
+                                                              });
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: SingleChildScrollView(
+                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                Text(
+                                                  "Enter Destination".tr,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: AppThemeData.semiBold,
+                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Column(
+                                                  children: [
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.departureController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () async {
+                                                          LocationPermission permission = await Geolocator.checkPermission();
+                                                          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                            permission = await Geolocator.requestPermission();
+                                                          }
+
+                                                          Position position = await Geolocator.getCurrentPosition(
+                                                            desiredAccuracy: LocationAccuracy.high,
+                                                          );
+
+                                                          List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                            position.latitude,
+                                                            position.longitude,
+                                                          );
+                                                          Placemark place = placemarks.first;
+
+                                                          String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                          controller.departureController.text = address;
+                                                          controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.departureController,
+                                                      hintText: 'Pick Up Location'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.destinationController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.destinationController,
+                                                      hintText: 'Where you want to go?'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ReorderableListView(
+                                                      shrinkWrap: true,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      children: <Widget>[
+                                                        for (int index = 0; index < controller.multiStopListNew.length; index += 1)
+                                                          Container(
+                                                            key: ValueKey(controller.multiStopListNew[index]),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: TextFieldWidget(
+                                                                        onTap: () async {
+                                                                          await Constant().placeSelectAPI(context).then((value) {
+                                                                            if (value != null) {
+                                                                              controller.multiStopListNew[index].editingController.text =
+                                                                                  value.result.formattedAddress ?? '';
+                                                                              controller.multiStopListNew[index].latitude =
+                                                                                  value.result.geometry!.location.lat.toString();
+                                                                              controller.multiStopListNew[index].longitude =
+                                                                                  value.result.geometry!.location.lng.toString();
+                                                                              controller.setStopMarker(
+                                                                                  LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng),
+                                                                                  index);
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                        isReadOnly: true,
+                                                                        suffix: InkWell(
+                                                                          onTap: () {
+                                                                            controller.removeStops(index);
+                                                                            controller.markers.remove("Stop $index");
+                                                                            controller.getDirections();
+                                                                          },
+                                                                          child: Icon(Icons.close,
+                                                                              size: 20,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark),
+                                                                        ),
+                                                                        prefix: IconButton(
+                                                                          onPressed: () {},
+                                                                          icon: Text(
+                                                                            String.fromCharCode(index + 65),
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontFamily: AppThemeData.regular,
+                                                                              color: themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey500,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        hintText: "Where do you want to stop?".tr,
+                                                                        controller: controller.multiStopListNew[index].editingController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                      ],
+                                                      onReorder: (int oldIndex, int newIndex) {
+                                                        if (oldIndex < newIndex) {
+                                                          newIndex -= 1;
+                                                        }
+                                                        final AddStopModel item = controller.multiStopListNew.removeAt(oldIndex);
+                                                        controller.multiStopListNew.insert(newIndex, item);
+                                                      },
+                                                    ),
+                                                    TextFieldWidget(
+                                                      textColor: AppThemeData.warning200,
+                                                      hintColor: AppThemeData.warning200,
+                                                      isReadOnly: true,
+                                                      onTap: () {
+                                                        controller.addStops();
+                                                        setState(() {});
+                                                      },
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: Container(height: 14, width: 14, color: AppThemeData.warning200),
+                                                      ),
+                                                      controller: TextEditingController(text: 'Add Stop'.tr),
+                                                      hintText: 'Add Stop'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ButtonThem.buildButton(
+                                                      context,
+                                                      title: 'Search Destination'.tr,
+                                                      onPress: () async {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        log(controller.departureLatLong.value.toString());
+                                                        if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else {
+                                                          await controller
+                                                              .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                              .then((durationValue) async {
+                                                            if (durationValue != null) {
+                                                              await controller.getUserPendingPayment().then((value) async {
+                                                                double pendingAmount = 0.0;
+
+                                                                if (value != null &&
+                                                                    value['success'] == "success" &&
+                                                                    value['data'] is List &&
+                                                                    value['data'].isNotEmpty) {
+                                                                  // Sum all pending amounts
+                                                                  for (var item in value['data']) {
+                                                                    double amt = double.tryParse(item['amount'].toString()) ?? 0.0;
+                                                                    pendingAmount += amt;
+                                                                  }
+                                                                }
+
+                                                                if (pendingAmount > 0.0) {
+                                                                  /// Show pending dialog if amount found > 0
+                                                                  _pendingPaymentDialog(context);
+                                                                } else {
+                                                                  if (Constant.distanceUnit == "KM") {
+                                                                    controller.distance.value =
+                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                                  } else {
+                                                                    controller.distance.value =
+                                                                        durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                                  }
+
+                                                                  controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+
+                                                                  controller.confirmWidgetVisible.value = false;
+
+                                                                  var dataMulti = controller.multiStopListNew
+                                                                      .where((stop) =>
+                                                                  stop.latitude.isNotEmpty &&
+                                                                      stop.longitude.isNotEmpty &&
+                                                                      stop.editingController.text.isNotEmpty)
+                                                                      .toList();
+
+                                                                  controller.multiStopListNew = dataMulti;
+                                                                  controller.multiStopList = List.from(dataMulti);
+
+                                                                  setState(() {});
+                                                                  tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                                }
+                                                              });
+                                                            }
+                                                          });
+                                                        }
+                                                        // else {
+                                                        //   await controller
+                                                        //       .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                        //       .then((
+                                                        //     durationValue,
+                                                        //   ) async {
+                                                        //     if (durationValue != null) {
+                                                        //       await controller.getUserPendingPayment().then((value) async {
+                                                        //         if (value != null) {
+                                                        //           if (value['success'] == "success") {
+                                                        //             if (value['data']['amount'] != 0) {
+                                                        //               _pendingPaymentDialog(context);
+                                                        //             } else {
+                                                        //               if (Constant.distanceUnit == "KM") {
+                                                        //                 controller.distance.value =
+                                                        //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                        //               } else {
+                                                        //                 controller.distance.value =
+                                                        //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                        //               }
+                                                        //
+                                                        //               controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                        //               // Get.back();
+                                                        //               controller.confirmWidgetVisible.value = false;
+                                                        //               var dataMulti = controller.multiStopListNew
+                                                        //                   .where((stop) =>
+                                                        //                       stop.latitude.isNotEmpty &&
+                                                        //                       stop.longitude.isNotEmpty &&
+                                                        //                       stop.editingController.text.isNotEmpty)
+                                                        //                   .toList();
+                                                        //
+                                                        //               controller.multiStopListNew = dataMulti;
+                                                        //               controller.multiStopList = List.from(dataMulti);
+                                                        //               setState(() {});
+                                                        //               tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                        //             }
+                                                        //           } else {
+                                                        //             if (Constant.distanceUnit == "KM") {
+                                                        //               controller.distance.value =
+                                                        //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                        //             } else {
+                                                        //               controller.distance.value =
+                                                        //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                        //             }
+                                                        //             controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                        //             controller.confirmWidgetVisible.value = false;
+                                                        //             var dataMulti = controller.multiStopListNew
+                                                        //                 .where((stop) =>
+                                                        //                     stop.latitude.isNotEmpty &&
+                                                        //                     stop.longitude.isNotEmpty &&
+                                                        //                     stop.editingController.text.isNotEmpty)
+                                                        //                 .toList();
+                                                        //
+                                                        //             controller.multiStopListNew = dataMulti;
+                                                        //             controller.multiStopList = List.from(dataMulti);
+                                                        //             setState(() {});
+                                                        //             tripOptionBottomSheet(context, themeChange.getThem(), controller, 'other');
+                                                        //           }
+                                                        //         }
+                                                        //       });
+                                                        //     }
+                                                        //   });
+                                                        // }
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: SingleChildScrollView(
+                                            padding: EdgeInsets.symmetric(horizontal: Constant.homeScreenType == 'OlaHome' ? 0 : 16),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                Text(
+                                                  "Enter Destination".tr,
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: AppThemeData.semiBold,
+                                                    color: themeChange.getThem() ? AppThemeData.grey900Dark : AppThemeData.grey900,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Column(
+                                                  children: [
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.departureController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDepartureMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () async {
+                                                          LocationPermission permission = await Geolocator.checkPermission();
+                                                          if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+                                                            permission = await Geolocator.requestPermission();
+                                                          }
+
+                                                          Position position = await Geolocator.getCurrentPosition(
+                                                            desiredAccuracy: LocationAccuracy.high,
+                                                          );
+
+                                                          List<Placemark> placemarks = await placemarkFromCoordinates(
+                                                            position.latitude,
+                                                            position.longitude,
+                                                          );
+                                                          Placemark place = placemarks.first;
+
+                                                          String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+
+                                                          controller.departureController.text = address;
+                                                          controller.setDepartureMarker(LatLng(position.latitude, position.longitude));
+                                                        },
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.departureController,
+                                                      hintText: 'Pick Up Location'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      onTap: () async {
+                                                        await Constant().placeSelectAPI(context).then((value) {
+                                                          if (value != null) {
+                                                            controller.destinationController.text = value.result.formattedAddress.toString();
+                                                            controller
+                                                                .setDestinationMarker(LatLng(value.result.geometry!.location.lat, value.result.geometry!.location.lng));
+                                                          }
+                                                        });
+                                                      },
+                                                      isReadOnly: true,
+                                                      prefix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_location.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                      controller: controller.destinationController,
+                                                      hintText: 'Where you want to go?'.tr,
+                                                      suffix: IconButton(
+                                                        onPressed: () {},
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/ic_right_arrow.svg',
+                                                          colorFilter: ColorFilter.mode(
+                                                              themeChange.getThem() ? AppThemeData.grey300Dark : AppThemeData.grey500Dark, BlendMode.srcIn),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextFieldWidget(
+                                                      isReadOnly: true,
+                                                      controller: controller.dateController,
+                                                      hintText: "Select Date".tr,
+                                                      onTap: () async {
+                                                        DateTime? pickedDate = await showDatePicker(
+                                                          context: context,
+                                                          initialDate: DateTime.now(),
+                                                          firstDate: DateTime.now(),
+                                                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                                                        );
+
+                                                        if (pickedDate != null) {
+                                                          controller.dateController.text = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                                                          controller.selectedDate.value = pickedDate;
+                                                        }
+                                                      },
+                                                      prefix: const Icon(Icons.calendar_month),
+                                                    ),
+                                                    const SizedBox(height: 12),
+                                                    TextFieldWidget(
+                                                      isReadOnly: true,
+                                                      controller: controller.timeController,
+                                                      hintText: "Select Time".tr,
+                                                      onTap: () async {
+                                                        TimeOfDay? pickedTime = await showTimePicker(
+                                                          context: context,
+                                                          initialTime: TimeOfDay.now(),
+                                                        );
+
+                                                        if (pickedTime != null) {
+                                                          controller.timeController.text = pickedTime.format(context);
+                                                          controller.selectedTime.value = pickedTime;
+                                                        }
+                                                      },
+                                                      prefix: const Icon(Icons.access_time),
+                                                    ),
+                                                    ButtonThem.buildButton(
+                                                      context,
+                                                      title: 'Search Destination'.tr,
+                                                      onPress: () async {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        log(controller.departureLatLong.value.toString());
+                                                        if (controller.departureLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else if (controller.destinationLatLong.value == LatLng(0.0, 0.0)) {
+                                                          ShowToastDialog.showToast("Please Enter PickUp Adreess".tr);
+                                                        } else {
+                                                          try {
+                                                            var durationValue = await controller.getDurationDistance(
+                                                                controller.departureLatLong.value, controller.destinationLatLong.value);
+
+                                                            log("getDurationDistance :: $durationValue");
+
+                                                            if (durationValue == null) return;
+
+                                                            var pendingValue = await controller.getUserPendingPayment();
+
+                                                            bool hasPendingPayment = false;
+
+                                                            if (pendingValue != null && pendingValue['success'] == "success" && pendingValue['data'] is List) {
+                                                              List pendingList = pendingValue['data'];
+
+                                                              hasPendingPayment = pendingList.any((item) {
+                                                                double amt = double.tryParse(item['amount'].toString()) ?? 0.0;
+                                                                return amt > 0;
+                                                              });
+                                                            }
+
+                                                            if (hasPendingPayment) {
+                                                              log("⚠ Pending Payment Found!");
+                                                              // _pendingPaymentDialog(context);
+                                                              return;
+                                                            }
+
+                                                            /// Distance Calculation
+                                                            if (Constant.distanceUnit == "KM") {
+                                                              controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1000.0;
+                                                            } else {
+                                                              controller.distance.value = durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                            }
+
+                                                            controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+
+                                                            controller.confirmWidgetVisible.value = false;
+
+                                                            var dataMulti = controller.multiStopListNew
+                                                                .where((stop) =>
+                                                            stop.latitude.isNotEmpty && stop.longitude.isNotEmpty && stop.editingController.text.isNotEmpty)
+                                                                .toList();
+
+                                                            controller.multiStopListNew = dataMulti;
+                                                            controller.multiStopList = List.from(dataMulti);
+
+                                                            setState(() {});
+
+                                                            log("⏳ Checking driver availability...");
+
+                                                            var driverValue = await controller.getDriverDetails(
+                                                              Constant.taxiVehicleCategoryId,
+                                                              '${controller.departureLatLong.value.latitude}',
+                                                              '${controller.departureLatLong.value.longitude}',
+                                                            );
+
+                                                            if (driverValue != null && driverValue.success == "Success" && driverValue.data?.isNotEmpty == true) {
+                                                              tripOptionBottomSheet(
+                                                                context,
+                                                                themeChange.getThem(),
+                                                                controller,
+                                                                'schedule_ride',
+                                                                driverData: driverValue.data!.first,
+                                                                selectedDate: controller.selectedDate.value,
+                                                                selectedTime: controller.selectedTime.value,
+                                                              );
+                                                            } else {
+                                                              log("❌ No driver found!");
+                                                            }
+                                                          } catch (e, s) {
+                                                            log("🔥 Error: $e");
+                                                            log("Stack: $s");
+                                                          }
+                                                        }
+                                                        // else {
+                                                        //   await controller
+                                                        //       .getDurationDistance(controller.departureLatLong.value, controller.destinationLatLong.value)
+                                                        //       .then((
+                                                        //     durationValue,
+                                                        //   ) async {
+                                                        //     log("getDurationDistance :: 11 :: $durationValue");
+                                                        //     if (durationValue != null) {
+                                                        //       await controller.getUserPendingPayment().then((value) async {
+                                                        //         if (value != null) {
+                                                        //           if (value['success'] == "success") {
+                                                        //             if (value['data']['amount'] != 0) {
+                                                        //               // _pendingPaymentDialog(context);
+                                                        //             } else {
+                                                        //               if (Constant.distanceUnit == "KM") {
+                                                        //                 controller.distance.value =
+                                                        //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                        //               } else {
+                                                        //                 controller.distance.value =
+                                                        //                     durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                        //               }
+                                                        //
+                                                        //               controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                        //               // Get.back();
+                                                        //               controller.confirmWidgetVisible.value = false;
+                                                        //               var dataMulti = controller.multiStopListNew
+                                                        //                   .where((stop) =>
+                                                        //                       stop.latitude.isNotEmpty &&
+                                                        //                       stop.longitude.isNotEmpty &&
+                                                        //                       stop.editingController.text.isNotEmpty)
+                                                        //                   .toList();
+                                                        //
+                                                        //               controller.multiStopListNew = dataMulti;
+                                                        //               controller.multiStopList = List.from(dataMulti);
+                                                        //               setState(() {});
+                                                        //               log("getDurationDistance :: 33 :: $value}");
+                                                        //               await controller
+                                                        //                   .getDriverDetails(
+                                                        //                       Constant.taxiVehicleCategoryId,
+                                                        //                       '${controller.departureLatLong.value.latitude}',
+                                                        //                       '${controller.departureLatLong.value.longitude}')
+                                                        //                   .then((value) {
+                                                        //                 log("getDurationDistance :: 33 :: $value}");
+                                                        //                 if (value != null) {
+                                                        //                   if (value.success == "Success") {
+                                                        //                     if (value.data?.isNotEmpty == true) {
+                                                        //                       tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                        //                           driverData: value.data?.first,
+                                                        //                           selectedDate: controller.selectedDate.value,
+                                                        //                           selectedTime: controller.selectedTime.value);
+                                                        //                     }
+                                                        //                   }
+                                                        //                 }
+                                                        //               });
+                                                        //             }
+                                                        //           } else {
+                                                        //             if (Constant.distanceUnit == "KM") {
+                                                        //               controller.distance.value =
+                                                        //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1000.00;
+                                                        //             } else {
+                                                        //               controller.distance.value =
+                                                        //                   durationValue['rows'].first['elements'].first['distance']['value'] / 1609.34;
+                                                        //             }
+                                                        //             controller.duration.value = durationValue['rows'].first['elements'].first['duration']['text'];
+                                                        //             controller.confirmWidgetVisible.value = false;
+                                                        //             var dataMulti = controller.multiStopListNew
+                                                        //                 .where((stop) =>
+                                                        //                     stop.latitude.isNotEmpty &&
+                                                        //                     stop.longitude.isNotEmpty &&
+                                                        //                     stop.editingController.text.isNotEmpty)
+                                                        //                 .toList();
+                                                        //
+                                                        //             controller.multiStopListNew = dataMulti;
+                                                        //             controller.multiStopList = List.from(dataMulti);
+                                                        //             setState(() {});
+                                                        //             await controller
+                                                        //                 .getDriverDetails(
+                                                        //                     Constant.taxiVehicleCategoryId,
+                                                        //                     '${controller.departureLatLong.value.latitude}',
+                                                        //                     '${controller.departureLatLong.value.longitude}')
+                                                        //                 .then((value) {
+                                                        //               if (value != null) {
+                                                        //                 if (value.success == "Success") {
+                                                        //                   if (value.data?.isNotEmpty == true) {
+                                                        //                     tripOptionBottomSheet(context, themeChange.getThem(), controller, 'schedule_ride',
+                                                        //                         driverData: value.data?.first,
+                                                        //                         selectedDate: controller.selectedDate.value,
+                                                        //                         selectedTime: controller.selectedTime.value);
+                                                        //                   }
+                                                        //                 }
+                                                        //               }
+                                                        //             });
+                                                        //           }
+                                                        //         }
+                                                        //       });
+                                                        //     }
+                                                        //   });
+                                                        // }
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ListView.builder(
+                                                      padding: EdgeInsets.zero,
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      itemCount: controller.bannerModel.value.data?.length,
+                                                      itemBuilder: (BuildContext context, int i) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.only(bottom: 20),
+                                                          child: Center(
+                                                            child: Stack(
+                                                              alignment: Alignment.bottomLeft,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  filterQuality: FilterQuality.high,
+                                                                  width: Responsive.width(100, context),
+                                                                  height: 180,
+                                                                  imageUrl: controller.bannerModel.value.data![i].image.toString(),
+                                                                  fit: BoxFit.fill,
+                                                                  placeholder: (context, url) => Constant.loader(context),
+                                                                  errorWidget: (context, url, error) => Image.asset("assets/images/appIcon.png", fit: BoxFit.cover),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                                  child: Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].title ?? '',
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(fontSize: 16, fontFamily: AppThemeData.medium, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                      const SizedBox(height: 2),
+                                                                      Text(
+                                                                        controller.bannerModel.value.data?[i].description ?? '',
+                                                                        maxLines: 2,
+                                                                        style:
+                                                                        TextStyle(fontSize: 12, fontFamily: AppThemeData.regular, color: AppThemeData.grey50Dark),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ],
+                ),
+              ),
             ],
           );
         },
@@ -2498,7 +2425,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _scaffoldKey.currentState?.openDrawer();
             },
             icon:
-                SvgPicture.asset("assets/icons/ic_menu_fill.svg", colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn)),
+            SvgPicture.asset("assets/icons/ic_menu_fill.svg", colorFilter: ColorFilter.mode(isDarkMode ? AppThemeData.grey500Dark : AppThemeData.grey300Dark, BlendMode.srcIn)),
           ),
           hintText: 'your_current_location'.tr,
           controller: controller.currentLocationController,
@@ -2849,7 +2776,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     Map<String, dynamic> bodyParams = {
                                       'action': 'book',
-                                      'type': 'schedule_ride',
+                                      'ride_type': 'schedule_ride',
                                       'customer_id': Preferences.getInt(Preferences.userId).toString(),
                                       'start_lat': controller.departureLatLong.value.latitude.toString(),
                                       'start_lng': controller.departureLatLong.value.longitude.toString(),
@@ -3067,8 +2994,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: controller.vehicleData.value.id == vehicleCategoryModel.data![index].id.toString()
                                       ? AppThemeData.secondary50
                                       : themeChange.getThem()
-                                          ? AppThemeData.surface50Dark
-                                          : AppThemeData.surface50,
+                                      ? AppThemeData.surface50Dark
+                                      : AppThemeData.surface50,
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -3096,8 +3023,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData.grey900Dark
-                                                            : AppThemeData.grey900,
+                                                        ? AppThemeData.grey900Dark
+                                                        : AppThemeData.grey900,
                                                     fontFamily: AppThemeData.semiBold,
                                                   ),
                                                 ),
@@ -3109,8 +3036,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData.grey900Dark
-                                                            : AppThemeData.grey900,
+                                                        ? AppThemeData.grey900Dark
+                                                        : AppThemeData.grey900,
                                                     fontFamily: AppThemeData.regular,
                                                   ),
                                                 ),
@@ -3130,7 +3057,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 Text(
                                                   Constant().amountShow(
                                                     amount:
-                                                        "${controller.calculateTripPrice(distance: controller.distance.value, deliveryCharges: double.parse(vehicleCategoryModel.data?[index].deliveryCharges ?? '0.0'), minimumDeliveryCharges: double.parse(vehicleCategoryModel.data?[index].minimumDeliveryCharges ?? '0.0'), minimumDeliveryChargesWithin: double.parse(vehicleCategoryModel.data?[index].minimumDeliveryChargesWithin ?? '0.0'))}",
+                                                    "${controller.calculateTripPrice(distance: controller.distance.value, deliveryCharges: double.parse(vehicleCategoryModel.data?[index].deliveryCharges ?? '0.0'), minimumDeliveryCharges: double.parse(vehicleCategoryModel.data?[index].minimumDeliveryCharges ?? '0.0'), minimumDeliveryChargesWithin: double.parse(vehicleCategoryModel.data?[index].minimumDeliveryChargesWithin ?? '0.0'))}",
                                                   ),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
@@ -3138,8 +3065,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData.grey900Dark
-                                                            : AppThemeData.grey900,
+                                                        ? AppThemeData.grey900Dark
+                                                        : AppThemeData.grey900,
                                                     fontFamily: AppThemeData.semiBold,
                                                   ),
                                                 ),
@@ -3151,8 +3078,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: controller.vehicleData.value.id == vehicleCategoryModel.data?[index].id
                                                         ? AppThemeData.grey900
                                                         : themeChange.getThem()
-                                                            ? AppThemeData.grey900Dark
-                                                            : AppThemeData.grey900,
+                                                        ? AppThemeData.grey900Dark
+                                                        : AppThemeData.grey900,
                                                     fontFamily: AppThemeData.regular,
                                                   ),
                                                 ),
@@ -3219,7 +3146,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             await controller
                                 .getDriverDetails(
-                                    controller.vehicleData.value.id ?? '', '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
+                                controller.vehicleData.value.id ?? '', '${controller.departureLatLong.value.latitude}', '${controller.departureLatLong.value.longitude}')
                                 .then((value) {
                               if (value != null) {
                                 if (value.success == "Success") {
@@ -3269,7 +3196,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return Obx(
-              () => Column(
+                  () => Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
