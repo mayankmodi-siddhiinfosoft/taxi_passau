@@ -238,7 +238,7 @@ class NewRideController extends GetxController with WidgetsBindingObserver {
     try {
       ShowToastDialog.showLoader("Please wait");
       final response = await http.post(Uri.parse(API.setPriceAPI), headers: API.header, body: jsonEncode(bodyParams));
-      showLog("API :: URL :: ${API.feelSafeAtDestination}");
+      showLog("API :: URL :: ${API.setPriceAPI}");
       showLog("API :: Request Body :: ${jsonEncode(bodyParams)}");
       showLog("API :: Request Header :: ${API.header.toString()} ");
       showLog("API :: responseStatus :: ${response.statusCode} ");
